@@ -1,3 +1,81 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+/* 1. RÉGLAGE POUR IPAD (MOBILE) */
+/* On applique l'inversion UNIQUEMENT sur mobile */
+.is-mobile.theme-dark img[src*=".svg"] {
+    filter: invert(1) hue-rotate(180deg) brightness(1.2) !important;
+    -webkit-filter: invert(1) hue-rotate(180deg) brightness(1.2) !important;
+}
+
+/* 2. RÉGLAGE POUR PC (DESKTOP) */
+/* On s'assure que le PC ne subit aucune inversion manuelle */
+/* car il gère déjà très bien les SVG tout seul */
+.is-desktop.theme-dark img[src*=".svg"] {
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+
+/* 2. Mode LECTURE : Couleur subtile sans soulignement */
+.markdown-rendered a.internal-link,
+.markdown-rendered a.internal-link:visited {
+    /* Couleur grise légèrement atténuée par rapport au texte noir */
+    color: var(--text-normal) !important; 
+    text-decoration: none !important;
+    border-bottom: none !important;
+    /* Transition douce pour l'effet au survol */
+    transition: color 0.2s ease;
+}
+
+/* 3. AU SURVOL : On fait ressortir le lien avec une couleur personnalisée */
+.markdown-rendered a.internal-link:hover {
+    color: #3f88c5 !important; /* Remplace ce code par ta couleur (ex: #ff9800 pour orange) */
+    text-decoration: none !important;
+    border-bottom: 1px solid #3f88c5 !important;
+}
+
+/* 4. POPOVERS : On cache les propriétés techniques */
+.popover .metadata-container,
+.markdown-rendered .metadata-container {
+    display: none !important;
+}
+
+/* 5. EXCEPTION ENCARTS : On redonne la couleur et le gras aux liens dans le titre */
+.markdown-rendered .callout-title-inner a.internal-link,
+.callout-title .cm-link,
+.callout-title .cm-hmd-internal-link {
+    color: rgb(var(--callout-color)) !important;
+    font-weight: inherit !important; /* <-- La ligne magique pour le gras */
+}
+
+/* Optionnel : On adapte aussi la couleur du soulignement au survol dans l'encart */
+.markdown-rendered .callout-title-inner a.internal-link:hover {
+    color: rgb(var(--callout-color)) !important;
+    filter: brightness(1.2);
+    border-bottom: 1px solid rgb(var(--callout-color)) !important;
+}
+
+/* Encart personnalisé pour "Exemple" */
+.callout[data-callout="exemple"] {
+    --callout-color: 120, 82, 238; /* Violet */
+    --callout-icon: list; /* Nom de l'icône */
+}
+
+/* Encart bonus pour tes cours "Réseau" ! */
+.callout[data-callout="reseau"] {
+    --callout-color: 0, 150, 255; /* Bleu clair */
+    --callout-icon: network; /* Icône de réseau */
+}
+
+/* Empêche les tableaux de déborder et gère les liens longs */
+.markdown-rendered table {
+    width: 100%;
+    table-layout: auto;
+}
+
+.markdown-rendered td, 
+.markdown-rendered th {
+    white-space: normal; /* Force le retour à la ligne */
+    word-break: break-word; /* Coupe les liens trop longs si nécessaire */
+}
