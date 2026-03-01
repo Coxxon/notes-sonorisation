@@ -25,7 +25,7 @@ article a.internal:hover, article a:hover, table a:hover {
     color: #3f88c5 !important;
     text-decoration: underline !important;
     text-decoration-color: rgba(63, 136, 197, 0.3) !important;
-    background-color: rgba(150, 150, 150, 0.07) !important;
+    background-color: rgba(150, 150, 150, 0.08) !important;
 }
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
@@ -62,6 +62,6 @@ h4 { font-size: 1.6rem !important; }
 h5 { font-size: 1.4rem !important; }
 h6 { font-size: 1.2rem !important; }
 
-/* 9. FIX EXPLORATEUR */
+/* 8. FIX EXPLORATEUR */
 .explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
 #explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }

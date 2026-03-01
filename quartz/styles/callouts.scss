@@ -200,5 +200,8 @@
 
   .callout-title-inner {
     font-weight: $semiBoldWeight;
+    & > p, & > p strong {
+      color: inherit !important;
+    }
   }
 }
