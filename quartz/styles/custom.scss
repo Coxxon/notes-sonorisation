@@ -45,11 +45,11 @@ td, th { white-space: normal; word-break: break-word; }
 .popover .metadata-container, .popover .content-meta { display: none !important; }
 
 /* 7. TABLE DES MATIÈRES & EXPLORATEUR (POLICE RAJDHANI) */
-#toc-content, .explorer {
+#toc-content, .explorer, .toc {
     font-family: 'Rajdhani', sans-serif !important;
 }
 
-#toc-content a {
+#toc-content a, .toc li a {
     font-family: 'Rajdhani', sans-serif !important;
     font-size: 0.9rem !important;
     line-height: 1.2 !important;
@@ -63,7 +63,7 @@ td, th { white-space: normal; word-break: break-word; }
 .recent-li { margin-bottom: 0.4rem !important; }
 
 .recent-li span a {
-    font-family: 'Rajdhani', sans-serif !important; /* Harmonisation police */
+    font-family: 'Rajdhani', sans-serif !important;
     font-size: 0.95rem !important;
     color: var(--dark) !important;
     text-decoration: none !important;
@@ -75,36 +75,33 @@ td, th { white-space: normal; word-break: break-word; }
     color: var(--secondary) !important;
 }
 
-/* 9. HARMONISATION DES TITRES DE COMPOSANTS (Explorateur, Fondamentaux, TOC, Graphe) */
+/* 9. HARMONISATION TOTALE DES TITRES DE COMPOSANTS */
+/* On cible les titres H3 ET les boutons de l'Explorateur/TOC */
 #explorer-header, 
 .toc-header, 
 .recent-notes > h3, 
 .backlinks > h3, 
 .graph > h3 {
     font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.4rem !important; /* Taille unifiée */
-    text-transform: uppercase !important; /* Tout en majuscule */
+    font-size: 1.4rem !important; 
+    text-transform: uppercase !important; 
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
-    color: #ffffff !important; /* Tout en blanc */
+    color: #ffffff !important; /* Force le blanc */
+    background: none !important; /* Enlève le fond gris des boutons */
+    border: none !important;
+    padding: 0 !important;
     margin-bottom: 0.75rem !important;
-    
-    /* Correction du texte coupé au repli */
     display: flex !important;
     align-items: center !important;
-    min-height: 2rem !important; 
+    min-height: 2.5rem !important; /* Évite la coupure du texte */
     overflow: visible !important;
+    width: 100%;
+    text-align: left;
 }
-
-/* On retire la couleur spécifique de l'explorateur pour suivre l'unification blanche */
-#explorer-header { color: #ffffff !important; }
 
 /* 10. TAILLE DES TITRES DE RÉDACTION */
-.article-title {
-  font-size: 2.8rem !important;
-  margin-bottom: 1.5rem;
-}
-
+.article-title { font-size: 2.8rem !important; margin-bottom: 1.5rem; }
 h1 { font-size: 3rem !important; }
 h2 { font-size: 2.4rem !important; margin-top: 2rem; }
 h3 { font-size: 2rem !important; }
@@ -112,21 +109,30 @@ h4 { font-size: 1.7rem !important; }
 
 /* 11. AJUSTEMENTS PRÉCIS DE L'EXPLORATEUR */
 .explorer {
-  button {
+  button:not(#explorer-header) { /* Les boutons de dossiers uniquement */
     font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.2rem !important; /* Dossiers */
-    font-weight: 600;
+    font-size: 1.2rem !important; 
+    font-weight: 500;
     color: #ffffff;
+    background: none !important;
   }
   
   li > a {
     font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1rem !important; /* Fichiers */
+    font-size: 1rem !important; 
+    font-weight: 500;
     color: var(--dark);
   }
 }
 
-/* Empêche le titre "EXPLORATEUR" de se faire tronquer par le bouton flèche */
-.explorer-header h3 {
+/* Correction finale pour les flèches et la troncature */
+.explorer-header h3, .toc-header {
     white-space: nowrap !important;
+    overflow: visible !important;
+}
+
+/* Force la flèche de l'explorateur à rester blanche pour s'accorder au titre */
+#explorer-header svg {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
 }
