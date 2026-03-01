@@ -294,7 +294,7 @@ Il s'agit d'une protection descendante, on l'active sur les ports des switches e
 
 **Empêche les boucles provoquées par une liaison unidirectionnelle.**  
 Si un seul brin de fibre est coupé, l'un des switches ne reçoit plus de [[BPDU (Bridge Protocol Data Unit)|BPDU]] sur ce [[Segment|lien]] et pourrait ouvrir son port, créant une boucle avec la moitié de [[Segment|lien]] restante.  
-Un port avec cette option activée passe en état `Loop-Inconsistent` et empêche le port de devenir [[Designated Port (DP)|Designated Port]].
+Un port avec cette option activée passe en état Loop-Inconsistent et empêche le port de devenir [[Designated Port (DP)|Designated Port]].
 
 >[!CHECK] À activer sur les trunks.
 
