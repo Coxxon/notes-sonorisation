@@ -66,3 +66,91 @@ h6 { font-size: 1.2rem !important; }
 .explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
 #explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }
 
+/* ==========================================================================
+   OPTIMISATION MOBILE (PORTRAIT & PAYSAGE)
+   ========================================================================== */
+
+/* 1. FORCER LE MODE MOBILE EN HORIZONTAL */
+/* On cible les téléphones en paysage (souvent entre 600px et 950px) */
+@media screen and (max-width: 1000px) {
+    .page > .left {
+        display: none !important; /* Cache la barre latérale fixe */
+    }
+
+    /* On force l'affichage du bouton hamburger */
+    .header .mobile-only {
+        display: block !important;
+    }
+    
+    .page > .center {
+        width: 100% !important; /* Le contenu prend toute la place */
+    }
+}
+
+/* 2. RÉORGANISATION DU HEADER MOBILE */
+@media screen and (max-width: 1000px) {
+    header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important; /* Aligne tout à gauche par défaut */
+        height: 60px;
+        padding: 0 1rem !important;
+    }
+
+    /* Le bouton Hamburger (tout à gauche) */
+    header .mobile-only {
+        order: 1 !important;
+        margin-right: 10px !important;
+    }
+
+    /* La Recherche (entre Hamburger et Titre) */
+    header .search {
+        order: 2 !important;
+        flex-grow: 0 !important;
+        margin-right: auto !important; /* Pousse le titre vers le centre */
+    }
+
+    /* Le Titre SYNTAX (Centré absolument) */
+    header .page-title {
+        order: 3 !important;
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin: 0 !important;
+        font-family: 'Rajdhani', sans-serif !important;
+        z-index: 10;
+    }
+
+    /* Darkmode (tout à droite) */
+    header .darkmode {
+        order: 4 !important;
+        margin-left: auto !important;
+    }
+}
+
+/* 3. NETTOYAGE DU MENU COULISSANT (HAMBURGER) */
+/* Supprime le texte "Explorateur" et ajuste l'ordre dans le menu */
+.mobile-only .explorer h3, 
+.mobile-only .explorer button {
+    display: none !important; /* Enlève le titre "Explorateur" */
+}
+
+/* Style des composants à l'intérieur du menu hamburger */
+.mobile-only {
+    .recent-notes {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--lightgray);
+        padding-bottom: 1rem;
+    }
+    
+    .explorer {
+        margin-top: 1rem;
+    }
+}
+
+/* On s'assure que SYNTAX reste bien centré même si la barre de recherche s'étire */
+@media screen and (max-width: 500px) {
+    header .search .search-button > p {
+        display: none; /* Cache le texte "Search" sur petit écran pour gagner de la place */
+    }
+}
