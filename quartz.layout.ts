@@ -28,30 +28,27 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [],
   left: [
-    // Sur Desktop, on garde le titre et les contrôles à gauche
+    // Uniquement sur Desktop en mode vertical (petit écran)
     Component.DesktopOnly(Component.PageTitle()),
     Component.DesktopOnly(
       Component.Flex({
         components: [
-          {
-            Component: Component.Search(),
-            grow: true,
-          },
+          { Component: Component.Search(), grow: true },
           { Component: Component.Darkmode() },
           { Component: Component.ReaderMode() },
         ],
       })
     ),
-    // Ces deux composants sont maintenant dans le menu hamburger sur mobile
-    // mais restent dans la sidebar sur desktop
-    Component.DesktopOnly(Component.RecentNotes({
+    Component.HorizontalOnly(
+      Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
-      filter: (f: any) => f.frontmatter?.tags?.includes("fondamentaux") === true,
-      sort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
+        filter: (f) => f.frontmatter?.tags?.includes("fondamentaux"),
+        sort: (f1, f2) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       showTags: false,
-    })),
-    Component.DesktopOnly(Component.Explorer()),
+      })
+    ),
+    Component.HorizontalOnly(Component.Explorer()),
   ],
   right: [
     Component.Graph({

@@ -245,6 +245,7 @@ export default ((userOpts?: Partial<Options>) => {
       max-width: none !important;
       flex-grow: 0 !important;
       margin: 0 !important;
+      display: flex !important;
     }
 
     header .search .search-button {
@@ -267,10 +268,20 @@ export default ((userOpts?: Partial<Options>) => {
       height: 18px !important;
       min-width: 18px !important;
       margin: 0 !important;
+      display: block !important;
     }
 
     header .search .search-button p {
       display: none !important; /* Masquer le texte "Search" sur mobile */
+    }
+
+    /* FORCER l'affichage de la recherche sur mobile */
+    @media (max-width: 767px) {
+      header .search {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
     }
 
     /* Overlay sombre quand le menu est ouvert */
@@ -512,32 +523,40 @@ export default ((userOpts?: Partial<Options>) => {
     /* Corrections globales pour les SVG - PLUS SPÉCIFIQUES */
     svg {
       transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
+      background: transparent !important;
     }
 
     /* Éviter les fonds blancs sur les SVG en mode sombre */
     @media (prefers-color-scheme: dark) {
+      /* CORRECTION AGRESSIVE pour tous les SVG */
+      svg {
+        background: transparent !important;
+        fill: none !important;
+        stroke: var(--light) !important;
+      }
+
       /* Correction spécifique pour le composant Search */
       header .search .search-button svg .search-path {
         stroke: var(--light) !important;
         fill: none !important;
+        background: transparent !important;
       }
       
       header .search .search-button:hover svg .search-path {
         stroke: var(--secondary) !important;
+        fill: none !important;
       }
 
-      /* SVG généraux - NE PAS AJOUTER DE FOND */
-      svg {
-        background: transparent !important;
-      }
-
-      /* Forcer les couleurs sans ajouter de fond */
-      svg:not([fill="none"]):not(.lucide-menu):not(.mobile-menu-bullet):not(.folder-icon) {
-        fill: var(--light);
+      /* SVG avec fill spécifique */
+      svg[fill]:not([fill="none"]):not(.lucide-menu):not(.mobile-menu-bullet):not(.folder-icon) {
+        fill: var(--light) !important;
+        stroke: var(--light) !important;
       }
       
-      svg:not([stroke="none"]):not(.lucide-menu):not(.mobile-menu-bullet):not(.folder-icon) {
-        stroke: var(--light);
+      /* SVG avec stroke spécifique */
+      svg[stroke]:not([stroke="none"]):not(.lucide-menu):not(.mobile-menu-bullet):not(.folder-icon) {
+        stroke: var(--light) !important;
+        fill: none !important;
       }
 
       /* Exceptions pour les SVG qui doivent garder leurs couleurs */
@@ -546,18 +565,20 @@ export default ((userOpts?: Partial<Options>) => {
       svg.folder-icon {
         stroke: var(--secondary) !important;
         fill: none !important;
+        background: transparent !important;
       }
 
       /* Correction pour tous les SVG dans le menu mobile */
       .mobile-menu-content svg {
         background: transparent !important;
-        stroke: var(--light);
+        stroke: var(--light) !important;
         fill: none !important;
       }
 
       .mobile-menu-content svg.mobile-menu-bullet,
       .mobile-menu-content svg.folder-icon {
         stroke: var(--secondary) !important;
+        fill: none !important;
       }
 
       /* Éviter les fonds blancs sur les images SVG */
@@ -569,16 +590,57 @@ export default ((userOpts?: Partial<Options>) => {
       /* Corrections pour les SVG dans les boutons */
       button svg {
         background: transparent !important;
-        stroke: var(--light);
+        stroke: var(--light) !important;
+        fill: none !important;
       }
 
       button:hover svg {
-        stroke: var(--secondary);
+        stroke: var(--secondary) !important;
       }
 
       /* Exceptions spécifiques */
       .mobile-menu-toggle:hover svg {
         stroke: var(--secondary) !important;
+      }
+
+      /* Correction pour les icônes Darkmode et ReaderMode */
+      .darkmode svg,
+      .reader-mode svg {
+        background: transparent !important;
+        stroke: var(--light) !important;
+        fill: var(--light) !important;
+      }
+
+      .darkmode:hover svg,
+      .reader-mode:hover svg {
+        stroke: var(--secondary) !important;
+        fill: var(--secondary) !important;
+      }
+
+      /* Correction pour tous les SVG qui pourraient avoir des fonds blancs */
+      * svg {
+        background: transparent !important;
+      }
+    }
+
+    /* Corrections pour le mode light */
+    @media (prefers-color-scheme: light) {
+      /* Assurer que les SVG sont visibles en mode light */
+      svg {
+        background: transparent !important;
+      }
+
+      .darkmode svg,
+      .reader-mode svg {
+        background: transparent !important;
+        stroke: var(--dark) !important;
+        fill: var(--dark) !important;
+      }
+
+      .darkmode:hover svg,
+      .reader-mode:hover svg {
+        stroke: var(--secondary) !important;
+        fill: var(--secondary) !important;
       }
     }
   `
