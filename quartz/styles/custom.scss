@@ -129,10 +129,18 @@ h6 { font-size: 1.2rem !important; }
 
   header .mobile-menu {
     order: 1; /* Premier élément */
+    flex: 0 0 auto;
+  }
+
+  header .page-title {
+    order: 2; /* Deuxième élément (centre) */
+    flex: 1 !important;
+    text-align: center !important;
+    margin: 0 8px !important; /* Espace pour la loupe */
   }
 
   header .search {
-    order: 2; /* Deuxième élément */
+    order: 3; /* Troisième élément (droite du titre) */
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -140,16 +148,12 @@ h6 { font-size: 1.2rem !important; }
     max-width: none !important;
     flex-grow: 0 !important;
     margin: 0 !important;
-  }
-
-  header .page-title {
-    order: 3; /* Troisième élément (centre) */
-    flex: 1 !important;
-    text-align: center !important;
+    flex: 0 0 auto;
   }
 
   header .darkmode {
     order: 4; /* Dernier élément */
+    flex: 0 0 auto;
   }
 
   header .search .search-button {
