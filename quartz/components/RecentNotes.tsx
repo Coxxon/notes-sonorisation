@@ -144,7 +144,7 @@ export default ((userOpts?: Partial<Options>) => {
   .recent-container:hover .cyber-bullet {
     transform: scale(1.15) rotate(15deg);
     color: #00f3ff !important; /* Couleur Néon plus appuyée au survol */
-    filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.5)); /* Ajout d'une lueur propre sur l'icône */
+    filter: drop-shadow(0 0 5px #00f3ff80); /* Ajout d'une lueur propre sur l'icône */
   }
 
   .recent-li .desc a {
@@ -157,7 +157,8 @@ export default ((userOpts?: Partial<Options>) => {
   }
 
   .recent-li .desc a:hover {
-    color: #00f3ff !important;
+    color: #00f3ff80 !important;
+    transition: transform 0.3s ease-out, color 0.3s ease-out;
   }
 
   .see-more {

@@ -226,7 +226,7 @@ Les messages [[BPDU (Bridge Protocol Data Unit)|TCN]] forcent les switches à ra
 ## Convergence Time
 
 Le [[Convergence Time|temps de convergence]] désigne le temps nécessaire pour que les switches mettent à jour leur [[BPDU (Bridge Protocol Data Unit)|BPDU]] et s'adaptent à des changements de [[topologie]].
-#### STP [[Convergence Time]]
+#### STP Convergence Time
 
 En cas de coupure d'un [[segment]] actif, les [[Blocking Port (BP)|Blocking Ports]] passent par plusieurs états avant la promotion de l'un d'entre-eux en [[Root Port (RP)|Root Port]] : 
  

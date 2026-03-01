@@ -31,20 +31,22 @@ PageTitle.css = `
   font-weight: 500;
   display: inline-block;
   letter-spacing: -1px;
-  transition: transform 0.3s ease-out, text-shadow 0.3s ease-out;
+  transition: transform 0.3s ease-out, filter 0.3s ease-out;
   transform-origin: center;
+  /* On s'assure que le rendu est propre */
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .page-title a:hover {
   transform: scale(1.05);
   
-  /* HALO BOOSTÉ : On augmente l'opacité à 0.8 et 0.5 */
-  /* On ajoute une première couche très serrée pour simuler le tube néon */
-  text-shadow: 
-    0 0 4px var(--dark),                           /* Bordure nette des lettres */
-    0 0 12px rgba(var(--dark-rgb), 0.9),           /* Halo intérieur puissant (90%) */
-    0 0 25px rgba(var(--dark-rgb), 0.6),           /* Halo moyen (60%) */
-    0 0 45px rgba(var(--dark-rgb), 0.3);           /* Diffusion lointaine (30%) */
+  /* MÉTHODE INFAILLIBLE : drop-shadow utilise var(--dark) directement */
+  /* On superpose deux ombres pour l'intensité */
+  filter: drop-shadow(0 0 8px var(--dark)) drop-shadow(0 0 20px var(--dark));
+  
+  /* On baisse légèrement l'opacité au survol pour que la lueur "respire" */
+  opacity: 0.9;
 }
 
 .logo-first {
