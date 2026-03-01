@@ -5,14 +5,14 @@
 .is-desktop.theme-dark img[src*=".svg"] { filter: none !important; }
 
 /* 2. LIENS GÉNÉRAUX & TABLEAUX (ÉTAT AU REPOS : FURTIF) */
-/* On neutralise tout : couleur, trait, fond Quartz */
+/* S'applique PARTOUT (corps de texte, tableaux, encarts) */
 article a.internal, article a, table a {
     color: inherit !important;
     text-decoration: none !important;
     border-bottom: none !important;
     background-image: none !important;
     box-shadow: none !important;
-    /* Ton réglage de fond gris "fantôme" (0.04) */
+    /* Fond gris "fantôme" (0.04) */
     background-color: rgba(150, 150, 150, 0.04) !important;
     padding: 0 2px !important;
     border-radius: 3px !important;
@@ -24,7 +24,6 @@ article a.internal, article a, table a {
 table td a, table th a { font-weight: 600 !important; }
 
 /* 3. SURVOL DES LIENS (ÉTAT ACTIF : BLEU + SOULIGNÉ) */
-/* Ne s'active qu'au survol pour ne pas polluer la lecture */
 article a.internal:hover, article a:hover, table a:hover {
     color: #3f88c5 !important;
     text-decoration: underline !important;
@@ -32,13 +31,7 @@ article a.internal:hover, article a:hover, table a:hover {
     background-color: rgba(150, 150, 150, 0.1) !important;
 }
 
-/* 4. EXCEPTION : LIENS DANS LES TITRES (TOUJOURS FURTIFS) */
-.article-title a:hover, h1 a:hover, h2 a:hover, h3 a:hover {
-    color: inherit !important;
-    text-decoration: none !important;
-}
-
-/* 5. TABLEAUX (GRILLE ET ADAPTATION) */
+/* 4. TABLEAUX (GRILLE ET ADAPTATION) */
 table { 
     width: auto !important; 
     max-width: 100% !important; 
@@ -49,69 +42,68 @@ table {
 th, td { border: 1px solid var(--lightgray) !important; padding: 0.6rem 1rem !important; }
 th { background-color: var(--lightgray); font-family: 'Rajdhani', sans-serif; font-weight: 600; }
 
-/* 6. POPOVERS (FENÊTRES FLOTTANTES : RÉDUCTION FORCÉE) */
-/* On cible .article-title ET les h1-h3 pour être sûr de gagner */
+/* 5. POPOVERS (FENÊTRES FLOTTANTES : RÉDUCTION DRASTIQUE) */
+/* On cible .article-title pour forcer le titre de la note à rétrécir */
 .popover {
     .metadata-container, .content-meta { display: none !important; }
-    
-    .article-title, h1 { 
-        font-size: 1.3rem !important; 
-        margin: 0.4rem 0 !important; 
-        line-height: 1.2 !important; 
-    }
-    h2 { font-size: 1.15rem !important; margin: 0.3rem 0 !important; }
-    h3 { font-size: 1.05rem !important; }
-    p, li { font-size: 0.85rem !important; line-height: 1.4 !important; }
+    .article-title, h1 { font-size: 1.6rem !important; margin: 0.3rem 0 !important; line-height: 1.7 !important; }
+    h2 { font-size: 1.3rem !important; margin: 0.2rem 0 !important; }
+    h3 { font-size: 1.2rem !important; }
+    p, li { font-size: 1.rem !important; line-height: 1.5 !important; }
 }
 
-/* 7. STYLE DES TITRES (RAJHDANI) */
+/* 6. STYLE DES TITRES (RAJHDANI) */
 #toc-content, .explorer, .toc, .recent-ul, .article-title, h1, h2, h3, h4 {
     font-family: 'Rajdhani', sans-serif !important;
 }
 
-/* 8. TAILLES DES TITRES RÉDACTION (HORS POPOVER) */
+/* 7. TAILLES DES TITRES RÉDACTION (HORS POPOVER) */
 .article-title { font-size: 2.8rem !important; }
 h1 { font-size: 2.6rem !important; }
 h2 { font-size: 2.2rem !important; }
+h3 { font-size: 1.9rem !important; }
+h4 { font-size: 1.7rem !important; }
+h5 { font-size: 1.5rem !important; }
+h6 { font-size: 1.3rem !important; }
 
-/* 9. ENCARTS PERSONNALISÉS (CALLOUTS) */
+/* 8. ENCARTS PERSONNALISÉS (CALLOUTS) */
 
-/* EXEMPLE (Violet) */
+/* Encart "Exemple" (Violet) */
 body .callout[data-callout="exemple"] {
     --callout-color: 120, 82, 238 !important;
     border: 1px solid rgba(120, 82, 238, 0.3) !important;
     background-color: rgba(120, 82, 238, 0.05) !important;
     
-    /* Couleur du Titre, des liens et du gras forcée en Violet */
-    .callout-title, .callout-title > .callout-icon, a, strong { 
-        color: rgb(120, 82, 238) !important; 
-    }
-
-    .callout-title .callout-icon {
-        background-color: rgb(120, 82, 238) !important;
-        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
-        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
+    .callout-title {
+        color: rgb(120, 82, 238) !important;
+        /* On force le gras DANS le titre à être violet */
+        strong { color: rgb(120, 82, 238) !important; }
+        
+        .callout-icon {
+            background-color: rgb(120, 82, 238) !important;
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
+        }
     }
 }
 
-/* RÉSEAU (Bleu) */
+/* Encart "Réseau" (Bleu) */
 body .callout[data-callout="reseau"] {
     --callout-color: 0, 150, 255 !important;
     border: 1px solid rgba(0, 150, 255, 0.3) !important;
     background-color: rgba(0, 150, 255, 0.05) !important;
 
-    /* Couleur du Titre, des liens et du gras forcée en Bleu */
-    .callout-title, .callout-title > .callout-icon, a, strong { 
-        color: rgb(0, 150, 255) !important; 
-    }
+    .callout-title {
+        color: rgb(0, 150, 255) !important;
+        /* On force le gras DANS le titre à être bleu */
+        strong { color: rgb(0, 150, 255) !important; }
 
-    .callout-title .callout-icon {
-        background-color: rgb(0, 150, 255) !important;
-        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
-        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
+        .callout-icon {
+            background-color: rgb(0, 150, 255) !important;
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
+        }
     }
 }
 
-/* 10. FIX EXPLORATEUR */
+/* 9. FIX EXPLORATEUR */
 .explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
 #explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }
