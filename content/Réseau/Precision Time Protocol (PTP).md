@@ -84,7 +84,7 @@ Cette procédure permet de calculer deux valeurs :
 2.  **L'Offset** qui correspond au décalage entre l'heure des deux horloges.  
 	   Il est calculé avec la formule   $Offset = \dfrac{(t2 - t1) - (t4 - t3)}{2}$
 
-![[PTP Diagrams-PTPv1.drawio.svg|700]]
+![[PTP Diagrams-PTPv1.drawio.svg|850]]
 
 ---
 ## PTPv2 (IEEE 1588-2008)  
@@ -164,26 +164,26 @@ Avec la [[One-Step Method (PTP)|One-Step Method]] :
 ---
 ### Diffusion des messages Sync
 
-![[PTP Diagrams-E2E TC SYNC.drawio.svg|700]]
+![[PTP Diagrams-E2E TC SYNC.drawio.svg|850]]
 
 ---
-![[PTP Diagrams-P2P & E2E BC SYNC.drawio.svg|700]]
+![[PTP Diagrams-P2P & E2E BC SYNC.drawio.svg|850]]
 
 ---
-![[PTP Diagrams-P2P TC SYNC.drawio.svg]]
+![[PTP Diagrams-P2P TC SYNC.drawio.svg|850]]
 
 ### Échanges des messages de délai
 
-![[PTP Diagrams-E2E TC DELAY.drawio.svg]]
+![[PTP Diagrams-E2E TC DELAY.drawio.svg|850]]
 
 ---
-![[PTP Diagrams-E2E BC DELAY.drawio.svg]]
+![[PTP Diagrams-E2E BC DELAY.drawio.svg|850]]
 
 ---
-![[PTP Diagrams-P2P TC DELAY.drawio.svg]]
+![[PTP Diagrams-P2P TC DELAY.drawio.svg|850]]
 
 ---
-![[PTP Diagrams-P2P BC DELAY.drawio.svg]]
+![[PTP Diagrams-P2P BC DELAY.drawio.svg|850]]
 
 ---
 

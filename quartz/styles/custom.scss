@@ -84,6 +84,7 @@
 a, a.internal {
   color: inherit !important; /* Force le lien à prendre la même couleur que le texte normal */
   text-decoration: none !important; /* Force la suppression du soulignement */
+  font-weight: normal !important; /* <-- C'est cette ligne qui enlève le gras */
 }
 
 /* (Optionnel) Ajouter un léger effet au survol pour garder le site ergonomique */
