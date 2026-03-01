@@ -82,28 +82,73 @@ td, th {
     margin-bottom: 0.3rem !important; /* Ajoute un petit espace clair entre chaque point de la liste */
 }
 
-//* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
+/* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
 .recent-notes {
     margin-bottom: 2rem; 
 }
 
-/* On cache la date sous les liens */
+/* 8a. Le titre de la section "FONDAMENTAUX" (On cible UNIQUEMENT le 1er h3) */
+.recent-notes > h3 {
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    color: var(--gray) !important; /* Couleur discrète */
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+/* 8b. Cacher les dates (On cible agressivement tout ce qui s'appelle 'meta') */
+.recent-ul .meta,
+.recent-notes p.meta,
 .recent-notes .meta {
     display: none !important;
 }
 
-/* 9. STYLE DU TITRE DU SITE (SYNTAX) - EFFET LOGO */
-.page-title a {
-    text-transform: uppercase !important; /* Force tout le mot en majuscules */
-    font-size: 2.2rem !important; /* Taille des lettres qui suivent */
-    font-weight: 900 !important; /* Police très grasse pour l'impact */
-    letter-spacing: 0.02em !important;
+/* Enlever les puces de liste */
+.recent-ul {
+    list-style: none !important;
+    padding-left: 0 !important;
 }
 
-/* La magie opère ici : on cible uniquement la 1ère lettre */
+/* 8c. Réparer les liens des cours (Taille normale, couleur neutre, pas de majuscules) */
+.recent-ul li h3,
+.recent-notes ul li h3 {
+    text-transform: none !important; /* Annule l'effet majuscule indésirable */
+    font-size: 0.95rem !important;   /* Taille réduite */
+    margin-bottom: 0.5rem !important;
+}
+
+.recent-ul li a,
+.recent-notes ul li a {
+    color: var(--dark) !important; /* Force la couleur neutre (blanc/gris clair) */
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+
+/* Uniquement au survol, on met ta couleur d'accentuation */
+.recent-ul li a:hover,
+.recent-notes ul li a:hover {
+    color: var(--tertiary) !important; 
+}
+
+/* --------------------------------------------------------- */
+
+/* 9. STYLE DU TITRE DU SITE (SYNTAX) - EFFET LOGO */
+.page-title a {
+    display: inline-block !important; /* LA LIGNE MAGIQUE pour que la 1ère lettre s'agrandisse */
+    text-transform: uppercase !important;
+    font-size: 2.4rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.02em !important;
+    color: var(--dark) !important; /* Force la couleur neutre au lieu de l'accentuation */
+}
+
+/* Le fameux grand 'S' */
 .page-title a::first-letter {
-    font-size: 2.8rem !important; /* Taille nettement plus grande pour le 'S' */
-    /* Optionnel : tu pourrais même lui donner ta couleur d'accentuation ! 
-       Décommente la ligne ci-dessous si tu veux essayer : */
-    /* color: var(--tertiary) !important; */
+    font-size: 3rem !important; 
+}
+
+/* Désactiver tout changement au survol du Logo */
+.page-title a:hover {
+    color: var(--dark) !important; 
+    text-decoration: none !important; 
 }
