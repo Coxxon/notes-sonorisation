@@ -170,6 +170,8 @@ h6 { font-size: 1.2rem !important; }
     white-space: nowrap !important;
     width: auto !important;
     min-width: 44px !important;
+    visibility: visible !important; /* Forcer la visibilité */
+    opacity: 1 !important; /* Forcer l'opacité */
   }
 
   .search .search-button svg {
