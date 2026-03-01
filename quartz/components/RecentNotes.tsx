@@ -132,19 +132,20 @@ export default ((userOpts?: Partial<Options>) => {
   }
 
   .cyber-bullet {
-    color: var(--secondary);
+    color: var(--secondary); /* Utilise la couleur d'accent du thème */
     margin-right: 12px;
     flex-shrink: 0;
     margin-top: 5px;
     transform-origin: center;
-    will-change: transform, color; /* Optimisation pour fluidité totale */
-    transition: transform 0.3s ease-out, color 0.3s ease-out;
+    will-change: transform, color;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
   }
 
   .recent-container:hover .cyber-bullet {
     transform: scale(1.15) rotate(15deg);
-    color: #00f3ff !important; /* Couleur Néon plus appuyée au survol */
-    filter: drop-shadow(0 0 5px #00f3ff80); /* Ajout d'une lueur propre sur l'icône */
+    /* Couleur de l'icône au survol : utilise la variable tertiaire qui est adaptive */
+    color: var(--tertiary) !important; 
+    filter: drop-shadow(0 0 4px var(--tertiary));
   }
 
   .recent-li .desc a {
@@ -153,12 +154,14 @@ export default ((userOpts?: Partial<Options>) => {
     font-size: 1rem !important;
     color: var(--dark) !important;
     text-decoration: none !important;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
   }
 
   .recent-li .desc a:hover {
-    color: #96faff !important;
-    transition: transform 0.3s ease-out, color 0.3s ease-out;
+    /* La couleur de texte au survol utilise l'accent secondaire du thème */
+    /* C'est la meilleure façon d'être adaptatif propre */
+    color: var(--secondary) !important;
   }
 
   .see-more {
@@ -166,6 +169,12 @@ export default ((userOpts?: Partial<Options>) => {
     font-size: 0.9rem;
     opacity: 0.7;
     text-decoration: none;
+    color: var(--dark);
+  }
+
+  .see-more:hover {
+    color: var(--secondary);
+    opacity: 1;
   }
   `
   return RecentNotes
