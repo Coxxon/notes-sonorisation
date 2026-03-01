@@ -5,9 +5,9 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
-    // Sur mobile, on met la recherche ici pour qu'elle s'affiche à côté du hamburger
-    Component.MobileOnly(Component.Search()),
-    Component.MobileOnly(Component.Darkmode()),
+    Component.MobileOnly(Component.Search()), // Loupe à gauche
+    Component.PageTitle(),                    // SYNTAX au centre (géré par CSS)
+    Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
   ],
   afterBody: [],
   footer: Component.Footer({
@@ -21,10 +21,11 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [],
   left: [
-    Component.PageTitle(),
+    // Sur Desktop, PageTitle s'affiche ici. Sur mobile, il est déjà dans le header.
+    Component.DesktopOnly(Component.PageTitle()), 
     Component.MobileOnly(Component.Spacer()),
     
-    // Sur Desktop, on garde la barre de recherche et les modes à gauche
+    // Bloc de recherche et modes uniquement pour le Desktop à gauche
     Component.DesktopOnly(
       Component.Flex({
         components: [
@@ -38,8 +39,8 @@ export const defaultContentPageLayout: PageLayout = {
       })
     ),
 
-    // Menu Hamburger / Sidebar : Fondamentaux + Explorer
-    // Ces composants seront visibles dans le hamburger sur mobile
+    // Menu Hamburger : Fondamentaux + Explorer
+    // Ces composants sont dans 'left', donc Quartz les met dans le hamburger sur mobile
     Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
@@ -62,7 +63,7 @@ export const defaultContentPageLayout: PageLayout = {
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
   left: [
-    Component.PageTitle(),
+    Component.DesktopOnly(Component.PageTitle()),
     Component.MobileOnly(Component.Spacer()),
     Component.DesktopOnly(
       Component.Flex({
