@@ -161,39 +161,25 @@
   align-items: flex-start;
   gap: 5px;
   padding: 1rem 0;
-  color: var(--color) !important; /* Force la couleur sur le titre */
+  color: var(--color) !important;
 
-  --icon-size: 18px;
-
-  /* CIBLAGE PROFOND POUR LE TEXTE ET LE GRAS */
-  & .callout-title-inner,
-  & .callout-title-inner p,
-  & .callout-title-inner p strong,
-  & .callout-title-inner p b {
-    color: var(--color) !important; /* Force la couleur sur TOUS les éléments du titre */
+  /* Force le texte et le gras à ne pas être jaunes */
+  & .callout-title-inner p, 
+  & .callout-title-inner p strong {
+    color: var(--color) !important;
     margin: 0;
   }
 
-  & .fold-callout-icon {
-    transition: transform 0.15s ease;
-    opacity: 0.8;
-    cursor: pointer;
-    --callout-icon: var(--callout-icon-fold);
-  }
-
-  .callout-icon,
-  & .fold-callout-icon {
-    width: var(--icon-size);
-    height: var(--icon-size);
-    flex: 0 0 var(--icon-size);
-    background-size: var(--icon-size) var(--icon-size);
-    background-position: center;
-    background-color: var(--color);
+  .callout-icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    /* On force l'icône à utiliser EXACTEMENT la couleur définie dans l'encart */
+    background-color: var(--color) !important; 
     mask-image: var(--callout-icon);
-    mask-size: var(--icon-size) var(--icon-size);
+    mask-size: 18px 18px;
     mask-position: center;
     mask-repeat: no-repeat;
-    padding: 0.2rem 0;
   }
 
   .callout-title-inner {
