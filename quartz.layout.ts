@@ -5,8 +5,14 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
-    Component.MobileOnly(Component.Explorer()), // Hamburger
     Component.MobileOnly(Component.Search()),   // Loupe à gauche
+    Component.MobileOnly(Component.MobileMenu({ // Menu hamburger unifié avec FONDAMENTAUX + Explorer
+      recentNotesTitle: "Fondamentaux",
+      recentNotesLimit: 10,
+      recentNotesFilter: (f: any) => f.frontmatter?.tags?.includes("fondamentaux") === true,
+      recentNotesSort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
+      recentNotesShowTags: false,
+    })),
     Component.PageTitle(),                      // SYNTAX (centré par SCSS)
     Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
   ],
@@ -36,16 +42,16 @@ export const defaultContentPageLayout: PageLayout = {
         ],
       })
     ),
-    // Ces deux composants seront dans la sidebar sur PC 
-    // ET dans le menu Hamburger sur mobile
-    Component.RecentNotes({
+    // Ces deux composants sont maintenant dans le menu hamburger sur mobile
+    // mais restent dans la sidebar sur desktop
+    Component.DesktopOnly(Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
-      filter: (f) => f.frontmatter?.tags?.includes("fondamentaux") === true,
-      sort: (f1, f2) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
+      filter: (f: any) => f.frontmatter?.tags?.includes("fondamentaux") === true,
+      sort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       showTags: false,
-    }),
-    Component.Explorer(),
+    })),
+    Component.DesktopOnly(Component.Explorer()),
   ],
   right: [
     Component.Graph({
@@ -72,7 +78,7 @@ export const defaultListPageLayout: PageLayout = {
         ],
       })
     ),
-    Component.Explorer(),
+    Component.DesktopOnly(Component.Explorer()),
   ],
   right: [],
 }
