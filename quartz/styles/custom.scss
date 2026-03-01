@@ -82,19 +82,28 @@ td, th {
     margin-bottom: 0.3rem !important; /* Ajoute un petit espace clair entre chaque point de la liste */
 }
 
-/* 8. MISE EN VALEUR DES COURS FONDAMENTAUX */
+//* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
 .recent-notes {
-    margin-bottom: 2rem; /* Laisse un bel espace avant l'Explorateur */
+    margin-bottom: 2rem; 
 }
 
-.recent-notes h3 {
-    color: var(--secondary); /* Met le titre dans la couleur d'accentuation */
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
+/* On cache la date sous les liens */
+.recent-notes .meta {
+    display: none !important;
 }
 
-.recent-notes ul li a {
-    font-size: 1.1rem !important; /* Grossit le texte des liens */
-    font-weight: 600 !important; /* Met les liens en semi-gras */
+/* 9. STYLE DU TITRE DU SITE (SYNTAX) - EFFET LOGO */
+.page-title a {
+    text-transform: uppercase !important; /* Force tout le mot en majuscules */
+    font-size: 2.2rem !important; /* Taille des lettres qui suivent */
+    font-weight: 900 !important; /* Police très grasse pour l'impact */
+    letter-spacing: 0.02em !important;
+}
+
+/* La magie opère ici : on cible uniquement la 1ère lettre */
+.page-title a::first-letter {
+    font-size: 2.8rem !important; /* Taille nettement plus grande pour le 'S' */
+    /* Optionnel : tu pourrais même lui donner ta couleur d'accentuation ! 
+       Décommente la ligne ci-dessous si tu veux essayer : */
+    /* color: var(--tertiary) !important; */
 }
