@@ -28,7 +28,7 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [],
   left: [
-    // Uniquement sur Desktop en mode vertical (petit écran)
+    // Sur Desktop, on garde tout comme avant
     Component.DesktopOnly(Component.PageTitle()),
     Component.DesktopOnly(
       Component.Flex({
@@ -39,16 +39,15 @@ export const defaultContentPageLayout: PageLayout = {
         ],
       })
     ),
-    Component.HorizontalOnly(
-      Component.RecentNotes({
+    // Ces composants restent sur desktop comme avant
+    Component.DesktopOnly(Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
-        filter: (f) => f.frontmatter?.tags?.includes("fondamentaux"),
-        sort: (f1, f2) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
+      filter: (f) => f.frontmatter?.tags?.includes("fondamentaux"),
+      sort: (f1, f2) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       showTags: false,
-      })
-    ),
-    Component.HorizontalOnly(Component.Explorer()),
+    })),
+    Component.DesktopOnly(Component.Explorer()),
   ],
   right: [
     Component.Graph({

@@ -117,17 +117,125 @@ h6 { font-size: 1.2rem !important; }
    FIX SVG & ICONES (FINI LES COULEURS NÉGATIVES)
    ========================================================================== */
 
-/* Au lieu d'inverser tout (ce qui change les couleurs), 
-   on va seulement rendre les traits blancs sur fond sombre */
-[saved-theme="dark"] img[src*=".svg"] {
-    /* brightness(0) invert(1) transforme n'importe quelle couleur en blanc pur */
+/* Correction pour les SVG en mode sombre - PAS DE FOND BLANC */
+[saved-theme="dark"] {
+  /* Pour les images SVG */
+  img[src*=".svg"] {
     filter: brightness(0) invert(1) !important;
+  }
+  
+  /* Pour les SVG inline */
+  svg {
+    background: transparent !important;
+  }
+  
+  svg:not([fill="none"]) {
+    fill: var(--light) !important;
+  }
+  
+  svg:not([stroke="none"]) {
+    stroke: var(--light) !important;
+  }
+  
+  /* Exceptions pour les icônes qui doivent garder leurs couleurs */
+  svg.lucide-menu,
+  .mobile-menu-bullet,
+  .folder-icon {
+    stroke: var(--secondary) !important;
+    fill: none !important;
+  }
+  
+  /* Correction pour les icônes darkmode et reader */
+  .darkmode svg,
+  .reader-mode svg {
+    stroke: var(--light) !important;
+    fill: var(--light) !important;
+  }
+  
+  /* Correction pour la loupe de recherche */
+  .search-button svg .search-path {
+    stroke: var(--light) !important;
+    fill: none !important;
+  }
 }
 
-/* Si tu as des SVG complexes avec de la couleur, utilise plutôt ceci : */
-/* filter: contrast(0.5) brightness(1.5); */
-
-/* Fix pour l'icône du hamburger qui peut être invisible */
-.mobile-only .explorer button#explorer svg {
+/* Mode clair - assurer que les SVG sont visibles */
+[saved-theme="light"] {
+  svg {
+    background: transparent !important;
+  }
+  
+  .darkmode svg,
+  .reader-mode svg {
     stroke: var(--dark) !important;
+    fill: var(--dark) !important;
+  }
+  
+  /* Fix pour l'icône du hamburger */
+  .mobile-only .explorer button#explorer svg {
+    stroke: var(--dark) !important;
+  }
+}
+
+/* Corrections globales pour tous les thèmes */
+svg {
+  background: transparent !important;
+  transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
+}
+
+/* Éviter les fonds blancs sur tous les SVG */
+* svg {
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   FIX LOUPE RECHERCHE MOBILE
+   ========================================================================== */
+
+/* Forcer l'affichage de la recherche sur mobile vertical */
+@media (max-width: 767px) {
+  header .search {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-width: auto !important;
+    max-width: none !important;
+    flex-grow: 0 !important;
+    margin: 0 !important;
+  }
+
+  header .search .search-button {
+    background-color: transparent !important;
+    border: 1px solid var(--lightgray) !important;
+    border-radius: 6px !important;
+    height: 2.5rem !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: 44px !important;
+  }
+
+  header .search .search-button svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  header .search .search-button p {
+    display: none !important; /* Masquer le texte "Search" sur mobile */
+  }
+}
+
+/* Mode horizontal - afficher le texte "Search" */
+@media (min-width: 768px) {
+  header .search .search-button p {
+    display: inline !important;
+    margin-left: 8px !important;
+  }
 }
