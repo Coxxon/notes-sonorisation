@@ -28,19 +28,19 @@ PageTitle.css = `
 .page-title a {
   color: #ffffff !important; /* Texte blanc par défaut */
   text-decoration: none !important;
-  font-weight: 700;
+  font-weight: 500;
   display: inline-block;
   letter-spacing: -1px;
   /* Pas de lueur par défaut */
   text-shadow: 0 0 0px rgba(255, 255, 255, 0);
   /* Transition douce de 0.3 secondes sur toutes les propriétés (dont text-shadow) */
-  transition: all 0.35s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .page-title a:hover {
   color: #ffffff !important; /* Reste blanc au survol */
   /* Lueur blanche progressive (text-shadow) */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .logo-first {
@@ -51,7 +51,7 @@ PageTitle.css = `
 }
 
 .logo-rest {
-  font-size: 3rem;
+  font-size: 2.9rem;
   letter-spacing: 2px;
   opacity: 0.9;
 }
