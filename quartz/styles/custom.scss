@@ -127,36 +127,32 @@ h6 { font-size: 1.2rem !important; }
     gap: 8px !important;
   }
 
-  header .mobile-menu {
-    order: 1; /* Premier élément */
-    flex: 0 0 auto;
+  .mobile-menu { 
+    order: 1; 
+    flex: 0 0 auto; 
   }
 
-  header .page-title {
-    order: 2; /* Deuxième élément (centre) */
-    flex: 1 !important;
-    text-align: center !important;
-    margin: 0 8px !important; /* Espace pour la loupe */
+  .page-title { 
+    order: 2; 
+    flex: 1; 
+    text-align: center !important; 
+    margin: 0 16px 8px !important; /* Plus d'espace à droite */
   }
 
-  header .search {
-    order: 3; /* Troisième élément (droite du titre) */
+  .search { 
+    order: 3; 
+    flex: 0 0 auto; 
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
-    min-width: auto !important;
-    max-width: none !important;
-    flex-grow: 0 !important;
-    margin: 0 !important;
-    flex: 0 0 auto;
   }
 
-  header .darkmode {
-    order: 4; /* Dernier élément */
-    flex: 0 0 auto;
+  .darkmode { 
+    order: 4; 
+    flex: 0 0 auto; 
   }
 
-  header .search .search-button {
+  .search .search-button {
     background-color: transparent !important;
     border: 1px solid var(--lightgray) !important;
     border-radius: 6px !important;
@@ -171,7 +167,7 @@ h6 { font-size: 1.2rem !important; }
     min-width: 44px !important;
   }
 
-  header .search .search-button svg {
+  .search .search-button svg {
     width: 18px !important;
     height: 18px !important;
     min-width: 18px !important;
@@ -179,14 +175,14 @@ h6 { font-size: 1.2rem !important; }
     display: block !important;
   }
 
-  header .search .search-button p {
+  .search .search-button p {
     display: none !important; /* Masquer le texte "Search" sur mobile */
   }
 }
 
 /* Mode horizontal - afficher le texte "Search" */
 @media (min-width: 768px) {
-  header .search .search-button p {
+  .search .search-button p {
     display: inline !important;
     margin-left: 8px !important;
   }
