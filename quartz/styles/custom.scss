@@ -18,7 +18,6 @@ article a.internal, article a, table a {
     transition: all 0.2s ease;
 }
 
-/* Force le gras pour les liens dans les tableaux au repos */
 table td a, table th a { font-weight: 600 !important; }
 
 /* 3. SURVOL DES LIENS (ÉTAT ACTIF : BLEU + SOULIGNÉ) */
@@ -41,9 +40,9 @@ th, td { border: 1px solid var(--lightgray) !important; padding: 0.6rem 1rem !im
 th { background-color: var(--lightgray); font-family: 'Rajdhani', sans-serif; font-weight: 600; }
 
 /* 5. POPOVERS (FENÊTRES FLOTTANTES : TAILLES DÉFINIES) */
-.popover {
+/* On utilise 'body .popover' pour être sûr de gagner la priorité sur les titres de rédaction */
+body .popover {
     .metadata-container, .content-meta { display: none !important; }
-    /* Ciblage de .article-title car c'est lui qui bloquait la réduction du titre principal */
     .article-title, h1 { font-size: 1.6rem !important; margin: 0.3rem 0 !important; line-height: 1.7 !important; }
     h2 { font-size: 1.3rem !important; margin: 0.2rem 0 !important; }
     h3 { font-size: 1.2rem !important; }
@@ -56,56 +55,49 @@ th { background-color: var(--lightgray); font-family: 'Rajdhani', sans-serif; fo
 }
 
 /* 7. TAILLES DES TITRES RÉDACTION (HORS POPOVER) */
-.article-title { font-size: 2.8rem !important; }
-h1 { font-size: 2.6rem !important; }
-h2 { font-size: 2.2rem !important; }
-h3 { font-size: 1.9rem !important; }
-h4 { font-size: 1.7rem !important; }
-h5 { font-size: 1.5rem !important; }
-h6 { font-size: 1.3rem !important; }
+.article-title { font-size: 2.6rem !important; }
+h1 { font-size: 2.2rem !important; }
+h2 { font-size: 2rem !important; }
+h3 { font-size: 1.8rem !important; }
+h4 { font-size: 1.6rem !important; }
+h5 { font-size: 1.4rem !important; }
+h6 { font-size: 1.2rem !important; }
 
 /* 8. ENCARTS PERSONNALISÉS (CALLOUTS) */
 
 /* Encart "Exemple" (Violet 120, 82, 238) */
-body .callout[data-callout="exemple"] {
+.callout[data-callout="exemple"] {
     --callout-color: 120, 82, 238 !important;
     border: 1px solid rgba(120, 82, 238, 0.3) !important;
     background-color: rgba(120, 82, 238, 0.05) !important;
     
-    .callout-title {
+    /* On force la couleur de TOUT le titre (texte simple + gras) */
+    & > .callout-title, 
+    & > .callout-title * {
         color: rgb(120, 82, 238) !important;
-        /* Gras dans le titre en violet */
-        strong { color: rgb(120, 82, 238) !important; }
-        
-        .callout-icon {
-            background-color: rgb(120, 82, 238) !important;
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
-        }
     }
-    /* Liens dans le corps : couleur du texte (furtif) au repos */
+    
+    .callout-title .callout-icon {
+        background-color: rgb(120, 82, 238) !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
+    }
     .callout-content a { color: inherit !important; }
 }
 
 /* Encart "Réseau" (Bleu 0, 150, 255) */
-body .callout[data-callout="reseau"] {
+.callout[data-callout="reseau"] {
     --callout-color: 0, 150, 255 !important;
     border: 1px solid rgba(0, 150, 255, 0.3) !important;
     background-color: rgba(0, 150, 255, 0.05) !important;
 
-    .callout-title {
+    /* On force la couleur de TOUT le titre (texte simple + gras) */
+    & > .callout-title, 
+    & > .callout-title * {
         color: rgb(0, 150, 255) !important;
-        /* Gras dans le titre en bleu */
-        strong { color: rgb(0, 150, 255) !important; }
-
-        .callout-icon {
-            background-color: rgb(0, 150, 255) !important;
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
-        }
     }
-    /* Liens dans le corps : couleur du texte (furtif) au repos */
-    .callout-content a { color: inherit !important; }
-}
 
-/* 9. FIX EXPLORATEUR */
-.explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
-#explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }
+    .callout-title .callout-icon {
+        background-color: rgb(0, 150, 255) !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E
