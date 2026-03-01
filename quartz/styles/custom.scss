@@ -25,7 +25,7 @@ article a.internal:hover, article a:hover, table a:hover {
     color: #3f88c5 !important;
     text-decoration: underline !important;
     text-decoration-color: rgba(63, 136, 197, 0.3) !important;
-    background-color: rgba(150, 150, 150, 0.08) !important;
+    background-color: rgba(150, 150, 150, 0.07) !important;
 }
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
@@ -61,50 +61,6 @@ h3 { font-size: 1.8rem !important; }
 h4 { font-size: 1.6rem !important; }
 h5 { font-size: 1.4rem !important; }
 h6 { font-size: 1.2rem !important; }
-
-/* 8. ENCARTS PERSONNALISÉS (CALLOUTS) */
-
-/* On force le gras à hériter de la couleur de son parent titre */
-.callout-title strong, .callout-title b {
-    color: inherit !important;
-}
-
-/* Encart "Exemple" (Violet 120, 82, 238) */
-/* Utilisation de "body" pour une priorité maximale */
-body .callout[data-callout="exemple"] {
-    --callout-color: 120, 82, 238 !important;
-    border: 1px solid rgba(120, 82, 238, 0.3) !important;
-    background-color: rgba(120, 82, 238, 0.05) !important;
-    
-    .callout-title {
-        color: rgb(120, 82, 238) !important;
-        
-        .callout-icon {
-            background-color: rgb(120, 82, 238) !important;
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E") !important;
-        }
-    }
-    .callout-content a { color: inherit !important; }
-}
-
-/* Encart "Réseau" (Bleu 0, 150, 255) */
-body .callout[data-callout="reseau"] {
-    --callout-color: 0, 150, 255 !important;
-    border: 1px solid rgba(0, 150, 255, 0.3) !important;
-    background-color: rgba(0, 150, 255, 0.05) !important;
-
-    .callout-title {
-        color: rgb(0, 150, 255) !important;
-
-        .callout-icon {
-            background-color: rgb(0, 150, 255) !important;
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1-1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E") !important;
-        }
-    }
-    .callout-content a { color: inherit !important; }
-}
 
 /* 9. FIX EXPLORATEUR */
 .explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
