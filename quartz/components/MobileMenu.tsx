@@ -95,6 +95,9 @@ export default ((userOpts?: Partial<Options>) => {
           <span class="mobile-menu-label">Menu</span>
         </button>
         
+        {/* Overlay sombre */}
+        <div class="mobile-menu-overlay" id={`${id}-overlay`}></div>
+        
         <div id={id} class="mobile-menu-content" aria-expanded={false} role="group">
           {/* Section FONDAMENTAUX */}
           <div class="mobile-menu-section">
@@ -228,40 +231,63 @@ export default ((userOpts?: Partial<Options>) => {
     .mobile-menu-toggle svg {
       color: var(--dark);
       transition: color 0.2s ease;
+      stroke: var(--dark); /* Force la couleur du stroke pour les SVG */
     }
 
     .mobile-menu-toggle:hover svg {
       color: var(--secondary);
+      stroke: var(--secondary);
+    }
+
+    /* Overlay sombre quand le menu est ouvert */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      display: block;
+      opacity: 1;
     }
 
     .mobile-menu-content {
-      position: absolute;
-      top: 100%;
-      right: 0; /* Aligné à droite du bouton */
+      position: fixed;
+      top: 0;
+      left: -300px; /* Commence hors de l'écran à gauche */
+      width: 280px;
+      height: 100vh;
       z-index: 1000;
       background: var(--light);
-      border: 1px solid var(--lightgray);
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      min-width: 280px;
-      max-width: 90vw;
-      max-height: 80vh;
+      border-right: 1px solid var(--lightgray);
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
       overflow-y: auto;
-      display: none;
-      margin-top: 8px;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
     }
 
     .mobile-menu-content[aria-expanded="true"] {
-      display: block;
+      left: 0; /* Glisse vers la droite */
     }
 
     .mobile-menu-section {
       padding: 1rem;
       border-bottom: 1px solid var(--lightgray);
+      flex-shrink: 0;
     }
 
     .mobile-menu-section:last-child {
       border-bottom: none;
+      flex: 1;
+      overflow-y: auto;
     }
 
     .mobile-menu-section-title {
@@ -296,6 +322,7 @@ export default ((userOpts?: Partial<Options>) => {
 
     .mobile-menu-bullet {
       color: var(--secondary);
+      stroke: var(--secondary); /* Force la couleur du stroke */
       margin-right: 8px;
       flex-shrink: 0;
       margin-top: 3px;
@@ -356,6 +383,7 @@ export default ((userOpts?: Partial<Options>) => {
     .folder-icon {
       margin-right: 8px;
       color: var(--secondary);
+      stroke: var(--secondary); /* Force la couleur du stroke */
     }
 
     /* Mode horizontal - plus d'espace disponible */
@@ -366,6 +394,31 @@ export default ((userOpts?: Partial<Options>) => {
       
       .mobile-menu-label {
         display: inline; /* Affiche le libellé "Menu" en horizontal */
+      }
+
+      /* En mode horizontal, on garde le comportement de menu déroulant */
+      .mobile-menu-content {
+        position: absolute;
+        top: 100%;
+        left: auto;
+        right: 0;
+        width: 280px;
+        height: auto;
+        max-height: 80vh;
+        border: 1px solid var(--lightgray);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 8px;
+        transition: none;
+      }
+
+      .mobile-menu-content[aria-expanded="true"] {
+        left: auto;
+        right: 0;
+      }
+
+      .mobile-menu-overlay {
+        display: none !important; /* Pas d'overlay en mode horizontal */
       }
     }
 
@@ -378,7 +431,7 @@ export default ((userOpts?: Partial<Options>) => {
 
       .mobile-menu-content {
         background: var(--dark);
-        border-color: var(--darkgray);
+        border-right-color: var(--darkgray);
       }
 
       .mobile-menu-section-title {
@@ -399,6 +452,24 @@ export default ((userOpts?: Partial<Options>) => {
 
       .mobile-menu-toggle svg {
         color: var(--light);
+        stroke: var(--light);
+      }
+
+      .mobile-menu-bullet {
+        color: var(--secondary);
+        stroke: var(--secondary);
+      }
+
+      .folder-icon {
+        color: var(--secondary);
+        stroke: var(--secondary);
+      }
+
+      /* Correction pour le mode horizontal en dark */
+      @media (min-width: 768px) {
+        .mobile-menu-content {
+          border-color: var(--darkgray);
+        }
       }
     }
 
@@ -406,12 +477,29 @@ export default ((userOpts?: Partial<Options>) => {
     @media (orientation: landscape) and (max-height: 600px) {
       .mobile-menu-content {
         max-height: 60vh;
-        position: fixed;
-        top: auto;
-        bottom: 100%;
-        right: 0;
-        margin-top: 0;
-        margin-bottom: 8px;
+      }
+    }
+
+    /* Styles globaux pour tous les SVG dans le site */
+    svg {
+      transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
+    }
+
+    /* Force les couleurs des SVG en mode sombre */
+    @media (prefers-color-scheme: dark) {
+      svg:not([fill="none"]) {
+        fill: var(--light);
+      }
+      
+      svg:not([stroke="none"]) {
+        stroke: var(--light);
+      }
+
+      /* Exceptions pour les SVG qui doivent garder leurs couleurs */
+      svg.lucide-menu,
+      svg.mobile-menu-bullet,
+      svg.folder-icon {
+        stroke: var(--secondary);
       }
     }
   `
@@ -422,14 +510,32 @@ export default ((userOpts?: Partial<Options>) => {
     document.addEventListener('click', function(e) {
       const toggle = e.target.closest('.mobile-menu-toggle');
       const content = e.target.closest('.mobile-menu-content');
+      const overlay = e.target.closest('.mobile-menu-overlay');
       
       if (toggle) {
         const menuId = toggle.getAttribute('aria-controls');
         const menuContent = document.getElementById(menuId);
+        const menuOverlay = document.getElementById(\`\${menuId}-overlay\`);
         const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
         
-        toggle.setAttribute('aria-expanded', !isExpanded);
-        menuContent.setAttribute('aria-expanded', !isExpanded);
+        // Inverser l'état
+        const newExpanded = !isExpanded;
+        toggle.setAttribute('aria-expanded', newExpanded);
+        menuContent.setAttribute('aria-expanded', newExpanded);
+        
+        // Gérer l'overlay seulement en mode mobile (pas en horizontal)
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          if (newExpanded) {
+            menuOverlay.classList.add('active');
+            // Empêcher le scroll du body quand le menu est ouvert
+            document.body.style.overflow = 'hidden';
+          } else {
+            menuOverlay.classList.remove('active');
+            // Réactiver le scroll du body
+            document.body.style.overflow = '';
+          }
+        }
         
         // Fermer les autres menus
         document.querySelectorAll('.mobile-menu-toggle').forEach(otherToggle => {
@@ -437,21 +543,96 @@ export default ((userOpts?: Partial<Options>) => {
             otherToggle.setAttribute('aria-expanded', 'false');
             const otherId = otherToggle.getAttribute('aria-controls');
             const otherContent = document.getElementById(otherId);
+            const otherOverlay = document.getElementById(\`\${otherId}-overlay\`);
             if (otherContent) {
               otherContent.setAttribute('aria-expanded', 'false');
             }
+            if (otherOverlay) {
+              otherOverlay.classList.remove('active');
+            }
           }
         });
-      } else if (!content) {
+      } else if (!content && !overlay) {
         // Fermer tous les menus si on clique ailleurs
         document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
           toggle.setAttribute('aria-expanded', 'false');
           const menuId = toggle.getAttribute('aria-controls');
           const menuContent = document.getElementById(menuId);
+          const menuOverlay = document.getElementById(\`\${menuId}-overlay\`);
           if (menuContent) {
             menuContent.setAttribute('aria-expanded', 'false');
           }
+          if (menuOverlay) {
+            menuOverlay.classList.remove('active');
+          }
         });
+        // Réactiver le scroll du body
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Gérer le clic sur l'overlay pour fermer le menu
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.mobile-menu-overlay')) {
+        document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
+          toggle.setAttribute('aria-expanded', 'false');
+          const menuId = toggle.getAttribute('aria-controls');
+          const menuContent = document.getElementById(menuId);
+          const menuOverlay = document.getElementById(\`\${menuId}-overlay\`);
+          if (menuContent) {
+            menuContent.setAttribute('aria-expanded', 'false');
+          }
+          if (menuOverlay) {
+            menuOverlay.classList.remove('active');
+          }
+        });
+        // Réactiver le scroll du body
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Gérer le redimensionnement pour basculer entre les modes
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function() {
+        const isMobile = window.innerWidth < 768;
+        
+        // Si on passe en mode desktop, fermer tous les menus et réactiver le scroll
+        if (!isMobile) {
+          document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
+            toggle.setAttribute('aria-expanded', 'false');
+            const menuId = toggle.getAttribute('aria-controls');
+            const menuContent = document.getElementById(menuId);
+            const menuOverlay = document.getElementById(\`\${menuId}-overlay\`);
+            if (menuContent) {
+              menuContent.setAttribute('aria-expanded', 'false');
+            }
+            if (menuOverlay) {
+              menuOverlay.classList.remove('active');
+            }
+          });
+          document.body.style.overflow = '';
+        }
+      }, 150);
+    });
+
+    // Gérer la touche Escape pour fermer le menu
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
+          toggle.setAttribute('aria-expanded', 'false');
+          const menuId = toggle.getAttribute('aria-controls');
+          const menuContent = document.getElementById(menuId);
+          const menuOverlay = document.getElementById(\`\${menuId}-overlay\`);
+          if (menuContent) {
+            menuContent.setAttribute('aria-expanded', 'false');
+          }
+          if (menuOverlay) {
+            menuOverlay.classList.remove('active');
+          }
+        });
+        document.body.style.overflow = '';
       }
     });
     `,
