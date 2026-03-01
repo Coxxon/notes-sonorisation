@@ -23,7 +23,6 @@ PageTitle.css = `
 .page-title {
   margin: 0;
   font-family: 'Rajdhani', sans-serif;
-  perspective: 1000px; /* Prépare l'effet de profondeur */
 }
 
 .page-title a {
@@ -32,19 +31,18 @@ PageTitle.css = `
   font-weight: 500;
   display: inline-block;
   letter-spacing: -1px;
-  /* Transition fluide pour le zoom et l'ombre */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease;
-  transform-origin: left center;
+  transition: transform 0.3s ease-out, text-shadow 0.3s ease-out;
+  transform-origin: center; /* Zoom depuis le centre pour éviter le décalage */
 }
 
 .page-title a:hover {
-  /* Effet de zoom (approche de l'oeil) */
-  transform: scale(1.05) translateZ(20px);
+  transform: scale(1.05); /* Zoom 2D pur, plus stable */
   
-  /* Halo propre : on superpose deux ombres très diffuses pour un effet néon propre sans tache */
+  /* Halo boosté : 3 couches pour un effet néon puissant */
   text-shadow: 
-    0 0 15px var(--dark),
-    0 0 30px rgba(var(--dark-rgb), 0.2);
+    0 0 8px var(--dark),             /* Coeur de la lueur */
+    0 0 20px rgba(var(--dark-rgb), 0.4), /* Halo intermédiaire */
+    0 0 35px rgba(var(--dark-rgb), 0.2); /* Diffusion large */
 }
 
 .logo-first {

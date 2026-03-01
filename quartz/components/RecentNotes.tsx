@@ -45,8 +45,22 @@ export default ((userOpts?: Partial<Options>) => {
             return (
               <li class="recent-li">
                 <div class="recent-container">
-                  {/* Symbole technique injecté */}
-                  <span class="cyber-bullet">◇</span>
+                  {/* Intégration du SVG Diamond */}
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    stroke-width="3" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    class="cyber-bullet"
+                  >
+                    <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/>
+                  </svg>
+
                   <div class="section">
                     <div class="desc">
                       <span>
@@ -93,7 +107,7 @@ export default ((userOpts?: Partial<Options>) => {
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
-    color: var(--dark) !important; /* Adapté au mode clair/sombre */
+    color: var(--dark) !important;
     margin-bottom: 0.75rem !important;
     margin-top: 0 !important;
   }
@@ -114,30 +128,28 @@ export default ((userOpts?: Partial<Options>) => {
   }
 
   .recent-container:hover {
-    transform: translateX(6px); /* Animation de décalage au survol */
+    transform: translateX(6px);
   }
 
   .cyber-bullet {
-    color: var(--secondary); /* Ton bleu d'accentuation */
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1.1rem;
-    margin-right: 8px;
-    font-weight: 700;
-    line-height: 1.4;
-    user-select: none;
+    color: var(--secondary);
+    margin-right: 12px;
+    flex-shrink: 0;
+    margin-top: 4px; /* Alignement vertical avec le texte */
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .recent-container:hover .cyber-bullet {
+    transform: scale(1.2) rotate(15deg);
+    color: var(--tertiary);
   }
 
   .recent-li .desc a {
     font-family: 'Rajdhani', sans-serif !important;
-    font-weight: 600 !important; /* Plus épais que l'explorateur */
+    font-weight: 600 !important;
     font-size: 1rem !important;
     color: var(--dark) !important;
     text-decoration: none !important;
-    transition: color 0.2s ease;
-  }
-
-  .recent-li .desc a:hover {
-    color: var(--secondary) !important;
   }
 
   .see-more {
