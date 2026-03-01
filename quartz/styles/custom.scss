@@ -44,88 +44,44 @@ td, th { white-space: normal; word-break: break-word; }
 /* 6. POPOVERS */
 .popover .metadata-container, .popover .content-meta { display: none !important; }
 
-/* 7. TABLE DES MATIÈRES & EXPLORATEUR (POLICE RAJDHANI) */
-#toc-content, .explorer, .toc {
+/* 7. STYLE DES LISTES DE NAVIGATION (EXPLORATEUR, TOC, RÉCENTES) */
+/* On applique Rajdhani à tout le monde d'un coup */
+.explorer-ul, .toc-content, .recent-ul, .explorer button, .explorer a {
     font-family: 'Rajdhani', sans-serif !important;
 }
 
-#toc-content a, .toc li a {
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 0.9rem !important;
-    line-height: 1.2 !important;
-    display: inline-block !important;
-    margin-bottom: 0.3rem !important;
-}
-
-/* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
-.recent-notes { margin-bottom: 2rem; }
-.recent-ul { list-style: none !important; padding-left: 0 !important; }
-.recent-li { margin-bottom: 0.4rem !important; }
-
-.recent-li span a {
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 0.95rem !important;
-    color: var(--dark) !important;
-    text-decoration: none !important;
+/* Dossiers (Explorateur) */
+.explorer button:not(#explorer-header) {
+    font-size: 1.1rem !important; 
     font-weight: 500 !important;
+    color: #ffffff !important;
     background: none !important;
 }
 
-.recent-li span a:hover {
-    color: var(--secondary) !important;
-}
-
-/* --- STYLE DES LISTES (EXPLORATEUR & TOC) --- */
-.explorer-ul, .toc-content {
-    font-family: 'Rajdhani', sans-serif !important;
-}
-
-.explorer button.folder-button {
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.1rem !important;
-    font-weight: 500 !important;
-    color: #ffffff !important;
-}
-
-.explorer li > a, .toc-content li a {
-    font-family: 'Rajdhani', sans-serif !important;
+/* Fichiers (Explorateur, TOC, Fondamentaux) */
+.explorer li > a, 
+.toc-content li a, 
+.recent-li span a {
     font-size: 0.95rem !important;
     color: var(--dark) !important;
     font-weight: 400 !important;
+    text-decoration: none !important;
 }
 
 /* 10. TAILLE DES TITRES DE RÉDACTION */
 .article-title { font-size: 2.8rem !important; margin-bottom: 1.5rem; }
-h1 { font-size: 3rem !important; }
-h2 { font-size: 2.4rem !important; margin-top: 2rem; }
-h3 { font-size: 2rem !important; }
+h1 { font-size: 2.6rem !important; }
+h2 { font-size: 2.2rem !important; margin-top: 2rem; }
+h3 { font-size: 1.9rem !important; }
 h4 { font-size: 1.7rem !important; }
+h5 { font-size: 1.6rem !important; }
+h6 { font-size: 1.5rem !important; }
 
-/* 11. AJUSTEMENTS PRÉCIS DE L'EXPLORATEUR */
-.explorer {
-  button:not(#explorer-header) { /* Les boutons de dossiers uniquement */
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.2rem !important; 
-    font-weight: 500;
-    color: #ffffff;
-    background: none !important;
-  }
-  
-  li > a {
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1rem !important; 
-    font-weight: 500;
-    color: var(--dark);
-  }
-}
-
-/* Correction finale pour les flèches et la troncature */
+/* 11. FIX FINAL TRONCATURE */
 .explorer-header h3, .toc-header {
     white-space: nowrap !important;
     overflow: visible !important;
 }
-
-/* Force la flèche de l'explorateur à rester blanche pour s'accorder au titre */
 #explorer-header svg {
     fill: #ffffff !important;
     stroke: #ffffff !important;

@@ -102,7 +102,18 @@ export default ((opts?: Partial<GraphOptions>) => {
     )
   }
 
-  Graph.css = style
+Graph.css = style + `
+  .graph > h3 {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.4rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    margin-bottom: 0.75rem !important;
+    margin-top: 0 !important;
+  }
+  `
   Graph.afterDOMLoaded = script
 
   return Graph
