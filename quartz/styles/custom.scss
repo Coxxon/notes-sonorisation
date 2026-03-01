@@ -55,13 +55,14 @@ td, th { white-space: normal; word-break: break-word; }
 /* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
 .recent-notes { margin-bottom: 2rem; }
 
-/* Le titre "FONDAMENTAUX" */
+/* 8a. Le titre de la section "Fondamentaux" */
 .recent-notes > h3 {
-    font-size: 0.8rem !important;
-    text-transform: uppercase !important;
-    color: var(--gray) !important;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    font-size: 1rem !important; /* Taille proche de "Explorateur" */
+    text-transform: none !important; /* Enlève les majuscules forcées */
+    color: var(--secondary) !important; /* Utilise la couleur d'accentuation */
+    font-weight: 600 !important;
+    margin-bottom: 0.75rem;
+    letter-spacing: normal !important;
 }
 
 .recent-ul { list-style: none !important; padding-left: 0 !important; }

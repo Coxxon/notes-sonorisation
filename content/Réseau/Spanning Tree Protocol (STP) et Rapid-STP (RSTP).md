@@ -1,12 +1,13 @@
 ---
+tags:
+  - fondamentaux
+order: 2
 aliases:
   - Spanning Tree Protocol
   - STP
   - Rapid Spanning Tree Protocol
   - RSTP
   - Spanning Tree
-tags:
-  - fondamentaux
 ---
 # Spanning Tree Protocol (STP) et Rapid-STP (RSTP)
 
