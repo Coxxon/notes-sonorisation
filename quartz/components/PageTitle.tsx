@@ -33,20 +33,18 @@ PageTitle.css = `
   letter-spacing: -1px;
   transition: transform 0.3s ease-out, filter 0.3s ease-out;
   transform-origin: center;
-  /* On s'assure que le rendu est propre */
-  backface-visibility: hidden;
+  /* Garantit la netteté absolue du texte */
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .page-title a:hover {
   transform: scale(1.05);
   
-  /* HALO AUX COULEURS D'ACCENTUATION */
-  /* On utilise var(--secondary) pour correspondre aux titres de Fondamentaux */
-  /* On augmente un peu les rayons (4px et 12px) pour que la couleur "rayonne" vraiment */
-  filter: drop-shadow(0 0 2px var(--secondary)) drop-shadow(0 0 6px var(--secondary));
+  /* HALO SOBRE : Une seule couche large pour ne pas "baver" sur les lettres */
+  filter: drop-shadow(0 0 4px var(--secondary));
   
-  opacity: 0.9 !important; /* On garde une opacité pleine pour maximiser l'éclat de la couleur */
+  opacity: 1 !important;
 }
 
 .logo-first {
