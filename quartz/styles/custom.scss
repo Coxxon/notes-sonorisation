@@ -59,7 +59,7 @@ td, th { white-space: normal; word-break: break-word; }
 .recent-notes > h3 {
     font-size: 1rem !important; /* Taille proche de "Explorateur" */
     text-transform: none !important; /* Enlève les majuscules forcées */
-    color: var(--secondary) !important; /* Utilise la couleur d'accentuation */
+    color: var(--dark) !important; /* Utilise la couleur d'accentuation */
     font-weight: 600 !important;
     margin-bottom: 0.75rem;
     letter-spacing: normal !important;

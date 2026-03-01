@@ -23,7 +23,7 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
 PageTitle.css = `
 .page-title { margin: 0; }
 .page-title a { color: var(--dark) !important; text-decoration: none !important; font-weight: 900; display: inline-block; }
-.logo-first { font-size: 3rem; }
-.logo-rest { font-size: 2.4rem; }
+.logo-first { font-size: 4rem; }
+.logo-rest { font-size: 3rem; }
 `
 export default (() => PageTitle) satisfies QuartzComponentConstructor
