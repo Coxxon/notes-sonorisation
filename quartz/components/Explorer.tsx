@@ -160,17 +160,22 @@ export default ((userOpts?: Partial<Options>) => {
   }
 
 Explorer.css = style + `
+  /* On force le conteneur global à laisser respirer le titre */
+  .explorer {
+    overflow: visible !important;
+  }
+
   button.title-button.desktop-explorer {
     background: none !important;
     border: none !important;
-    padding: 0 !important;
+    padding: 8px 0 !important; /* Plus de padding vertical */
     display: flex !important;
     align-items: center !important;
     cursor: pointer !important;
     width: 100% !important;
-    margin-bottom: 0.75rem !important;
-    min-height: 2.5rem !important; /* Force une hauteur minimale pour la police */
-    overflow: visible !important;  /* Empêche la coupure au repli */
+    margin-bottom: 0.5rem !important;
+    min-height: 3.5rem !important; /* Hauteur généreuse pour éviter la troncature */
+    overflow: visible !important;
   }
 
   button.title-button.desktop-explorer h2 {
@@ -179,17 +184,18 @@ Explorer.css = style + `
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
-    color: #ffffff !important;
+    color: var(--dark) !important; /* Adaptation au mode clair/sombre ici aussi */
     margin: 0 !important;
-    line-height: 1.5 !important; /* Donne de l'air aux lettres */
+    line-height: 1 !important;
     overflow: visible !important;
     display: block !important;
+    padding-top: 4px !important; /* Ajustement fin pour centrer la police */
   }
 
   button.title-button.desktop-explorer svg {
-    color: #ffffff !important;
+    color: var(--dark) !important;
     margin-left: 8px !important;
-    flex-shrink: 0; /* Empêche l'icône de s'écraser */
+    flex-shrink: 0 !important;
   }
 `
   Explorer.afterDOMLoaded = concatenateResources(script, overflowListAfterDOMLoaded)

@@ -26,30 +26,29 @@ PageTitle.css = `
 }
 
 .page-title a {
-  color: #ffffff !important;
+  color: var(--dark) !important; /* Utilise la variable système qui s'inverse seule */
   text-decoration: none !important;
-  font-weight: 500; /* Passage à 400 pour un aspect plus fin et élégant */
+  font-weight: 600;
   display: inline-block;
   letter-spacing: -1px;
-  text-shadow: 0 0 0px rgba(255, 255, 255, 0);
   transition: all 0.3s ease-in-out;
 }
 
 .page-title a:hover {
-  color: #ffffff !important;
-  /* Halo très discret entourant les lettres */
-  text-shadow: 0 0 3px rgba(255, 255, 255, 0.4), 0 0 5px rgba(255, 255, 255, 0.2);
+  /* Le halo utilise aussi var(--dark) pour rester visible dans les deux modes */
+  text-shadow: 0 0 8px var(--dark);
+  opacity: 0.8;
 }
 
 .logo-first {
-  font-size: 4rem; /* Ajusté légèrement pour l'équilibre */
+  font-size: 4rem;
   line-height: 1;
   vertical-align: baseline;
   margin-right: -2px;
 }
 
 .logo-rest {
-  font-size: 3rem;
+  font-size: 3.4rem;
   letter-spacing: 2px;
   opacity: 0.9;
 }

@@ -87,7 +87,7 @@ Dans un réseau, le [[Root Bridge]] est le switch qui a le [[Bridge ID (BID)|BID
 
 Le [[Root Port (RP)|Root Port]] correspond - sur un [[Segment|lien]] entre deux switches - au port actif offrant le chemin le plus efficace vers le [[Root Bridge]]. 
 C'est par ce port qu'un switch "écoute" les instructions provenant du [[Root Bridge]].
-Le [[Path Cost|Root Path Cost]] correspond aux [[Réseau/Notes/RSTP/Topologie/Path Cost|Path Costs]] cumulés de tous les [[Segment|segments]] à traverser pour atteindre le [[Root Bridge]].
+Le [[Path Cost|Root Path Cost]] correspond aux [[Path Cost|Path costs]] cumulés de tous les [[Segment|segments]] à traverser pour atteindre le [[Root Bridge]].
 
 - Il y a **un seul [[Root Port (RP)|Root Port]] par switch hors [[Root Bridge]].**
 - **Le [[Root Bridge]] n'a aucun [[Root Port (RP)|Root Port]].**

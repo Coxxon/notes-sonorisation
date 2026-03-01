@@ -77,12 +77,15 @@ h4 { font-size: 1.7rem !important; }
 h5 { font-size: 1.6rem !important; }
 h6 { font-size: 1.5rem !important; }
 
-/* 11. FIX FINAL TRONCATURE */
-.explorer-header h3, .toc-header {
+/* 11. FIX FINAL TRONCATURE & COULEURS */
+.explorer-header h3, .toc-header, .recent-notes > h3 {
     white-space: nowrap !important;
     overflow: visible !important;
+    color: var(--dark) !important; /* Harmonisation avec le thème */
 }
-#explorer-header svg {
-    fill: #ffffff !important;
-    stroke: #ffffff !important;
+
+/* On s'assure que les icônes suivent le texte */
+#explorer-header svg, .toc-header svg {
+    fill: none !important;
+    stroke: var(--dark) !important;
 }
