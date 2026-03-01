@@ -45,7 +45,7 @@ export default ((userOpts?: Partial<Options>) => {
             return (
               <li class="recent-li">
                 <div class="recent-container">
-                  {/* Intégration du SVG Diamond */}
+                  {/* SVG Diamond avec paramètres de rendu optimisés */}
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     width="16" 
@@ -124,24 +124,27 @@ export default ((userOpts?: Partial<Options>) => {
   .recent-container {
     display: flex !important;
     align-items: flex-start !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.2s ease-out;
   }
 
   .recent-container:hover {
-    transform: translateX(6px);
+    transform: translateX(4px);
   }
 
   .cyber-bullet {
     color: var(--secondary);
     margin-right: 12px;
     flex-shrink: 0;
-    margin-top: 4px; /* Alignement vertical avec le texte */
-    transition: transform 0.3s ease, color 0.3s ease;
+    margin-top: 5px;
+    transform-origin: center;
+    will-change: transform, color; /* Optimisation pour fluidité totale */
+    transition: transform 0.3s ease-out, color 0.3s ease-out;
   }
 
   .recent-container:hover .cyber-bullet {
-    transform: scale(1.2) rotate(15deg);
-    color: var(--tertiary);
+    transform: scale(1.15) rotate(15deg);
+    color: #00f3ff !important; /* Couleur Néon plus appuyée au survol */
+    filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.5)); /* Ajout d'une lueur propre sur l'icône */
   }
 
   .recent-li .desc a {
@@ -150,6 +153,11 @@ export default ((userOpts?: Partial<Options>) => {
     font-size: 1rem !important;
     color: var(--dark) !important;
     text-decoration: none !important;
+    transition: color 0.2s ease;
+  }
+
+  .recent-li .desc a:hover {
+    color: #00f3ff !important;
   }
 
   .see-more {

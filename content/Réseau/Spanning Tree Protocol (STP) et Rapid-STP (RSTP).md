@@ -151,7 +151,7 @@ Il existe deux types de messages [[BPDU (Bridge Protocol Data Unit)|BPDU]] :
 1. **Configuration [[BPDU (Bridge Protocol Data Unit)|BPDU]]** : Le message qui est envoyé à la fréquence indiquée par le [[Hello Time]] (2 secondes par défaut). Il permet de maintenir la [[topologie]] en place.  
 2. **[[BPDU (Bridge Protocol Data Unit)|Topology Change Notification]] ([[BPDU (Bridge Protocol Data Unit)|TCN]])** : Signal d'alarme envoyé par un switch lorsqu'il détecte qu'un port tombe ou s'allume. Un [[BPDU (Bridge Protocol Data Unit)|TCN]] est envoyé vers le [[Root Bridge]] pour prévenir de la nécessite de rafraîchir les [[Table d'adresses MAC|tables d'adresses MAC]].
 
-#### Tableau des octets d'une trame Configuration [[BPDU (Bridge Protocol Data Unit)|BPDU]]
+#### Tableau des octets d'une trame Configuration BPDU
 
 | **Champ**                                                     | **Taille** | **Description technique**                                                                                                             |
 | ------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -171,7 +171,7 @@ Il existe deux types de messages [[BPDU (Bridge Protocol Data Unit)|BPDU]] :
 ---
 ### BPDU (STP)
 
-#### Configuration [[BPDU (Bridge Protocol Data Unit)|BPDU]] (STP)
+#### Configuration BPDU (STP)
 
 Toutes les deux secondes, le [[Root Bridge]] envoie en [[multicast]] une trame [[BPDU (Bridge Protocol Data Unit)|BPDU]] qui est relayée par les switches vers les switches suivants.  
 Lorsqu'un switch reçoit un [[BPDU (Bridge Protocol Data Unit)|BPDU]], il le compare à celui qu'il a déjà en mémoire sur le même port. Le switch compare dans l'ordre :
@@ -195,7 +195,7 @@ Les messages [[BPDU (Bridge Protocol Data Unit)|TCN]] forcent les switches à ra
 4. C'est seulement après ces 15s que les anciennes adresses sont effacées et que les nouvelles routes sont apprises.
 
 ---
-### BPDU (Bridge Protocol Data Unit)|BPDU RSTP
+### BPDU (Bridge Protocol Data Unit)
 
 #### Configuration BPDU (RSTP)
 

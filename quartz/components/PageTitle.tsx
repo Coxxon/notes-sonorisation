@@ -32,17 +32,19 @@ PageTitle.css = `
   display: inline-block;
   letter-spacing: -1px;
   transition: transform 0.3s ease-out, text-shadow 0.3s ease-out;
-  transform-origin: center; /* Zoom depuis le centre pour éviter le décalage */
+  transform-origin: center;
 }
 
 .page-title a:hover {
-  transform: scale(1.05); /* Zoom 2D pur, plus stable */
+  transform: scale(1.05);
   
-  /* Halo boosté : 3 couches pour un effet néon puissant */
+  /* HALO BOOSTÉ : On augmente l'opacité à 0.8 et 0.5 */
+  /* On ajoute une première couche très serrée pour simuler le tube néon */
   text-shadow: 
-    0 0 8px var(--dark),             /* Coeur de la lueur */
-    0 0 20px rgba(var(--dark-rgb), 0.4), /* Halo intermédiaire */
-    0 0 35px rgba(var(--dark-rgb), 0.2); /* Diffusion large */
+    0 0 4px var(--dark),                           /* Bordure nette des lettres */
+    0 0 12px rgba(var(--dark-rgb), 0.9),           /* Halo intérieur puissant (90%) */
+    0 0 25px rgba(var(--dark-rgb), 0.6),           /* Halo moyen (60%) */
+    0 0 45px rgba(var(--dark-rgb), 0.3);           /* Diffusion lointaine (30%) */
 }
 
 .logo-first {

@@ -1,6 +1,8 @@
 ---
 tags:
   - définition
+aliases:
+  - broadcast
 ---
 # Broadcast  
 
