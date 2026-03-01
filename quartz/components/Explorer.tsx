@@ -169,6 +169,8 @@ Explorer.css = style + `
     cursor: pointer !important;
     width: 100% !important;
     margin-bottom: 0.75rem !important;
+    min-height: 2.5rem !important; /* Force une hauteur minimale pour la police */
+    overflow: visible !important;  /* Empêche la coupure au repli */
   }
 
   button.title-button.desktop-explorer h2 {
@@ -179,13 +181,17 @@ Explorer.css = style + `
     font-weight: 500 !important;
     color: #ffffff !important;
     margin: 0 !important;
+    line-height: 1.5 !important; /* Donne de l'air aux lettres */
+    overflow: visible !important;
+    display: block !important;
   }
 
   button.title-button.desktop-explorer svg {
     color: #ffffff !important;
     margin-left: 8px !important;
+    flex-shrink: 0; /* Empêche l'icône de s'écraser */
   }
-  `
+`
   Explorer.afterDOMLoaded = concatenateResources(script, overflowListAfterDOMLoaded)
   return Explorer
 }) satisfies QuartzComponentConstructor

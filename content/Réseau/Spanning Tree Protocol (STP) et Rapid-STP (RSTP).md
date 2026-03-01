@@ -47,7 +47,6 @@ Identifiant unique d'un switch dans le réseau.
 **[[Bridge ID (BID)|Bridge ID]] = [[Bridge Priority]] + [[Adresse MAC]]**
 
 La [[Bridge Priority]] est une valeur déterminée par l'administrateur réseau pour chaque switch.
-
 - **Plage :** 0 à 61 440 avec incrémentation de 4 096
 - **Valeur par défaut :** 32 768
 - **Règle :** Plus la valeur est basse, plus le switch est prioritaire
