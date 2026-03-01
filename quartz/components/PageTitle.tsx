@@ -42,7 +42,7 @@ PageTitle.css = `
   transform: scale(1.05);
   
   /* HALO SOBRE : Une seule couche large pour ne pas "baver" sur les lettres */
-  filter: drop-shadow(0 0 4px var(--secondary));
+  filter: drop-shadow(0 0 2px var(--secondary));
   
   opacity: 1 !important;
 }
