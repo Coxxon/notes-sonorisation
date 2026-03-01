@@ -1,8 +1,9 @@
 @use "./base.scss";
 
-/* 1. RÉGLAGES IMAGES (IPAD/PC) */
-.is-mobile.theme-dark img[src*=".svg"] { filter: invert(1) hue-rotate(180deg) brightness(1.2) !important; }
-.is-desktop.theme-dark img[src*=".svg"] { filter: none !important; }
+/* 1. RÉGLAGES IMAGES (IPAD/PC) - FILTRES SVG SUPPRIMÉS */
+/* Les filtres précédents causaient des problèmes d'affichage des SVG */
+/* .is-mobile.theme-dark img[src*=".svg"] { filter: invert(1) hue-rotate(180deg) brightness(1.2) !important; } */
+/* .is-desktop.theme-dark img[src*=".svg"] { filter: none !important; } */
 
 /* 2. LIENS GÉNÉRAUX & TABLEAUX (ÉTAT AU REPOS : FURTIF) */
 article a.internal, article a, table a {
