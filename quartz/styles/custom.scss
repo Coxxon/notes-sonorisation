@@ -65,14 +65,15 @@ h6 { font-size: 1.2rem !important; }
 /* 8. ENCARTS PERSONNALISÉS (CALLOUTS) */
 
 /* Encart "Exemple" (Violet 120, 82, 238) */
-.callout[data-callout="exemple"] {
+article .callout[data-callout="exemple"] {
     --callout-color: 120, 82, 238 !important;
     border: 1px solid rgba(120, 82, 238, 0.3) !important;
     background-color: rgba(120, 82, 238, 0.05) !important;
     
-    /* On force la couleur de TOUT le titre (texte simple + gras) */
+    /* On force la couleur sur le titre, le conteneur interne et le gras */
     .callout-title, 
-    .callout-title strong,
+    .callout-title-inner, 
+    .callout-title strong, 
     .callout-title b {
         color: rgb(120, 82, 238) !important;
     }
@@ -86,14 +87,15 @@ h6 { font-size: 1.2rem !important; }
 }
 
 /* Encart "Réseau" (Bleu 0, 150, 255) */
-.callout[data-callout="reseau"] {
+article .callout[data-callout="reseau"] {
     --callout-color: 0, 150, 255 !important;
     border: 1px solid rgba(0, 150, 255, 0.3) !important;
     background-color: rgba(0, 150, 255, 0.05) !important;
 
-    /* On force la couleur de TOUT le titre (texte simple + gras) */
+    /* On force la couleur sur le titre, le conteneur interne et le gras */
     .callout-title, 
-    .callout-title strong,
+    .callout-title-inner, 
+    .callout-title strong, 
     .callout-title b {
         color: rgb(0, 150, 255) !important;
     }
