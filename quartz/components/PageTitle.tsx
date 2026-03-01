@@ -22,36 +22,34 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
 PageTitle.css = `
 .page-title {
   margin: 0;
-  font-family: 'Rajdhani', sans-serif; /* Assure-toi que Rajdhani est dans quartz.config.ts */
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .page-title a {
-  color: #ffffff !important; /* Texte blanc par défaut */
+  color: #ffffff !important;
   text-decoration: none !important;
-  font-weight: 600;
+  font-weight: 500; /* Passage à 400 pour un aspect plus fin et élégant */
   display: inline-block;
   letter-spacing: -1px;
-  /* Pas de lueur par défaut */
   text-shadow: 0 0 0px rgba(255, 255, 255, 0);
-  /* Transition douce de 0.3 secondes sur toutes les propriétés (dont text-shadow) */
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .page-title a:hover {
-  color: #ffffff !important; /* Reste blanc au survol */
-  /* Lueur blanche progressive (text-shadow) */
-  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 50px rgba(255, 255, 255, 0.5);
+  color: #ffffff !important;
+  /* Halo très discret entourant les lettres */
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.4), 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 .logo-first {
-  font-size: 4rem;
+  font-size: 4rem; /* Ajusté légèrement pour l'équilibre */
   line-height: 1;
   vertical-align: baseline;
   margin-right: -2px;
 }
 
 .logo-rest {
-  font-size: 2.9rem;
+  font-size: 3rem;
   letter-spacing: 2px;
   opacity: 0.9;
 }

@@ -44,9 +44,14 @@ td, th { white-space: normal; word-break: break-word; }
 /* 6. POPOVERS */
 .popover .metadata-container, .popover .content-meta { display: none !important; }
 
-/* 7. TABLE DES MATIÈRES */
-#toc-content { font-size: 0.8rem !important; }
+/* 7. TABLE DES MATIÈRES & EXPLORATEUR (POLICE RAJDHANI) */
+#toc-content, .explorer {
+    font-family: 'Rajdhani', sans-serif !important;
+}
+
 #toc-content a {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 0.9rem !important;
     line-height: 1.2 !important;
     display: inline-block !important;
     margin-bottom: 0.3rem !important;
@@ -54,43 +59,49 @@ td, th { white-space: normal; word-break: break-word; }
 
 /* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
 .recent-notes { margin-bottom: 2rem; }
-
-/* 8a. Le titre de la section "Fondamentaux" */
-.recent-notes > h3 {
-    font-size: 1rem !important; /* Taille proche de "Explorateur" */
-    text-transform: none !important; /* Enlève les majuscules forcées */
-    color: var(--dark) !important; /* Utilise la couleur d'accentuation */
-    font-weight: 600 !important;
-    margin-bottom: 0.75rem;
-    letter-spacing: normal !important;
-}
-
 .recent-ul { list-style: none !important; padding-left: 0 !important; }
 .recent-li { margin-bottom: 0.4rem !important; }
 
-/* Style des liens de cours à gauche */
 .recent-li span a {
+    font-family: 'Rajdhani', sans-serif !important; /* Harmonisation police */
     font-size: 0.95rem !important;
     color: var(--dark) !important;
     text-decoration: none !important;
     font-weight: 500 !important;
-    background: none !important; /* Enlève le surlignage gris */
+    background: none !important;
 }
 
 .recent-li span a:hover {
-    color: var(--secondary) !important; /* Couleur d'accentuation discrète */
+    color: var(--secondary) !important;
 }
 
-/* 9. TITRE DU SITE (Désactiver les effets de survol sur SYNTAX) */
-.page-title a:hover {
-    color: var(--dark) !important;
-    text-decoration: none !important;
+/* 9. HARMONISATION DES TITRES DE COMPOSANTS (Explorateur, Fondamentaux, TOC, Graphe) */
+#explorer-header, 
+.toc-header, 
+.recent-notes > h3, 
+.backlinks > h3, 
+.graph > h3 {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.4rem !important; /* Taille unifiée */
+    text-transform: uppercase !important; /* Tout en majuscule */
+    letter-spacing: 1.5px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important; /* Tout en blanc */
+    margin-bottom: 0.75rem !important;
+    
+    /* Correction du texte coupé au repli */
+    display: flex !important;
+    align-items: center !important;
+    min-height: 2rem !important; 
+    overflow: visible !important;
 }
 
-/* 10. TAILLE DES TITRES*/
-/* --- 1. Titres à l'intérieur des notes (Corps du texte) --- */
+/* On retire la couleur spécifique de l'explorateur pour suivre l'unification blanche */
+#explorer-header { color: #ffffff !important; }
+
+/* 10. TAILLE DES TITRES DE RÉDACTION */
 .article-title {
-  font-size: 2.8rem !important; /* Le titre tout en haut de la page */
+  font-size: 2.8rem !important;
   margin-bottom: 1.5rem;
 }
 
@@ -99,31 +110,23 @@ h2 { font-size: 2.4rem !important; margin-top: 2rem; }
 h3 { font-size: 2rem !important; }
 h4 { font-size: 1.7rem !important; }
 
-/* --- 2. Titres des composants (Explorateur, Table des matières, etc.) --- */
-/* Cela cible les titres "Explorateur", "Fondamentaux", "Backlinks" */
-#explorer-header, 
-.toc-header, 
-.backlinks > h3, 
-.graph > h3 {
-  font-family: 'Rajdhani', sans-serif !important; /* On peut réutiliser Rajdhani pour le côté technique */
-  font-size: 2rem !important;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: var(--secondary); /* Donne une couleur d'accentuation pour les distinguer du texte */
-}
-
-/* --- 3. Ajustement de l'Explorateur (les dossiers/fichiers) --- */
+/* 11. AJUSTEMENTS PRÉCIS DE L'EXPLORATEUR */
 .explorer {
   button {
     font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.3rem !important; /* Taille des noms de dossiers */
+    font-size: 1.2rem !important; /* Dossiers */
     font-weight: 600;
+    color: #ffffff;
   }
   
   li > a {
     font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1rem !important; /* Taille des noms de fichiers */
+    font-size: 1rem !important; /* Fichiers */
+    color: var(--dark);
   }
+}
+
+/* Empêche le titre "EXPLORATEUR" de se faire tronquer par le bouton flèche */
+.explorer-header h3 {
+    white-space: nowrap !important;
 }
