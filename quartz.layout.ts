@@ -5,15 +5,15 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
-    Component.MobileOnly(Component.Explorer()), // Génère le Hamburger à gauche
-    Component.MobileOnly(Component.Search()),   // Loupe à côté du hamburger
-    Component.PageTitle(),                      // SYNTAX au centre (centrage forcé par CSS)
+    Component.MobileOnly(Component.Explorer()), // Hamburger
+    Component.MobileOnly(Component.Search()),   // Loupe à gauche
+    Component.PageTitle(),                      // SYNTAX (centré par SCSS)
     Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
   ],
   afterBody: [],
   footer: Component.Footer({
     links: {
-      "Me contacter par Email": "mailto:tonmail",
+      "Me contacter par Email": "mailto:mail",
     },
   }),
 }
@@ -22,10 +22,8 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [],
   left: [
-    Component.DesktopOnly(Component.PageTitle()), 
-    Component.MobileOnly(Component.Spacer()),
-    
-    // Bloc Desktop à gauche
+    // Sur Desktop, on garde le titre et les contrôles à gauche
+    Component.DesktopOnly(Component.PageTitle()),
     Component.DesktopOnly(
       Component.Flex({
         components: [
@@ -38,9 +36,8 @@ export const defaultContentPageLayout: PageLayout = {
         ],
       })
     ),
-
-    // Ces composants seront affichés dans la sidebar sur PC 
-    // ET à l'intérieur du menu Hamburger sur mobile
+    // Ces deux composants seront dans la sidebar sur PC 
+    // ET dans le menu Hamburger sur mobile
     Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
@@ -64,7 +61,6 @@ export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
   left: [
     Component.DesktopOnly(Component.PageTitle()),
-    Component.MobileOnly(Component.Spacer()),
     Component.DesktopOnly(
       Component.Flex({
         components: [

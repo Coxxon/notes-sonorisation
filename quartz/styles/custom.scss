@@ -66,13 +66,12 @@ h6 { font-size: 1.2rem !important; }
 .explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
 #explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }
 
-/* 9. OPTIMISATION MOBILE & TABLETTE (PAYSAGE INCLUS) */
-@media screen and (max-width: 1300px) {
-    /* On cache les sidebars fixes pour ne garder que le contenu et le header mobile */
-    .page > .left, .page > .right {
-        display: none !important;
-    }
+/* ==========================================================================
+   FIX HEADER & NAVIGATION MOBILE
+   ========================================================================== */
 
+@media screen and (max-width: 1300px) {
+    /* 1. Nettoyage du Header pour éviter les superpositions */
     header {
         display: flex !important;
         flex-direction: row !important;
@@ -81,65 +80,54 @@ h6 { font-size: 1.2rem !important; }
         height: 60px !important;
         padding: 0 1rem !important;
         background-color: var(--light);
-        position: sticky;
-        top: 0;
         z-index: 1000;
     }
 
-    /* Centrage absolu du titre SYNTAX */
+    /* Masquer les titres parasites qui "flottent" dans le header */
+    header .explorer h3, 
+    header .explorer button#explorer span,
+    header .recent-notes,
+    header .search { 
+        display: none !important; 
+    }
+
+    /* Centrage de SYNTAX */
     header .page-title {
         position: absolute !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         margin: 0 !important;
-        z-index: 1;
-        font-size: 1.4rem !important;
     }
 
-    /* Organisation des icônes à gauche */
-    header .explorer { 
-        order: 1 !important; 
-        margin: 0 !important;
+    /* 2. Fix du menu coulissant (Sidebar mobile) */
+    /* On s'assure que tout est lisible à l'intérieur */
+    .page > .left.open {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 2rem 1.5rem !important;
     }
-    
-    /* On cache le texte "Explorateur" à côté de l'icône hamburger */
-    header .explorer button#explorer span {
+
+    /* 3. Masquage de la sidebar fixe en mode paysage */
+    .page > .left:not(.open) {
         display: none !important;
     }
-
-    header .search { 
-        order: 2 !important; 
-        margin-left: 5px !important; 
-    }
-
-    header .darkmode { 
-        order: 3 !important; 
-        margin-left: auto !important; 
-    }
-
-    /* On s'assure que le contenu prend toute la largeur */
-    .page > .center {
-        width: 100% !important;
-        padding: 1rem !important;
-    }
 }
 
-/* 10. NETTOYAGE INTÉRIEUR DU MENU HAMBURGER */
-/* Quand le menu est ouvert, on s'assure que les titres s'affichent correctement */
-.mobile-only .explorer h3, 
-.mobile-only .recent-notes h3 {
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.2rem !important;
-    margin-top: 1.5rem !important;
-    display: block !important; /* Réapparaît dans le menu */
-}
+/* ==========================================================================
+   FIX SVG & ICONES (FINI LES COULEURS NÉGATIVES)
+   ========================================================================== */
 
-/* Cache les doublons inutiles dans le header */
-header .recent-notes {
-    display: none !important;
-}
-
-/* 11. FIX SVG EN MODE SOMBRE (MOBILITÉ) */
+/* Au lieu d'inverser tout (ce qui change les couleurs), 
+   on va seulement rendre les traits blancs sur fond sombre */
 [saved-theme="dark"] img[src*=".svg"] {
-    filter: invert(1) brightness(1.5) !important;
+    /* brightness(0) invert(1) transforme n'importe quelle couleur en blanc pur */
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Si tu as des SVG complexes avec de la couleur, utilise plutôt ceci : */
+/* filter: contrast(0.5) brightness(1.5); */
+
+/* Fix pour l'icône du hamburger qui peut être invisible */
+.mobile-only .explorer button#explorer svg {
+    stroke: var(--dark) !important;
 }
