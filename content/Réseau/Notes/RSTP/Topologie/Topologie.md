@@ -5,6 +5,7 @@ aliases:
   - topologies physiques
   - topologie logique
   - topologies logiques
+  - topologie
 tags:
   - définition
 ---

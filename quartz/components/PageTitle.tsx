@@ -41,12 +41,12 @@ PageTitle.css = `
 .page-title a:hover {
   transform: scale(1.05);
   
-  /* MÉTHODE INFAILLIBLE : drop-shadow utilise var(--dark) directement */
-  /* On superpose deux ombres pour l'intensité */
-  filter: drop-shadow(0 0 8px var(--dark)) drop-shadow(0 0 20px var(--dark));
+  /* HALO AUX COULEURS D'ACCENTUATION */
+  /* On utilise var(--secondary) pour correspondre aux titres de Fondamentaux */
+  /* On augmente un peu les rayons (4px et 12px) pour que la couleur "rayonne" vraiment */
+  filter: drop-shadow(0 0 2px var(--secondary)) drop-shadow(0 0 6px var(--secondary));
   
-  /* On baisse légèrement l'opacité au survol pour que la lueur "respire" */
-  opacity: 0.9;
+  opacity: 0.9 !important; /* On garde une opacité pleine pour maximiser l'éclat de la couleur */
 }
 
 .logo-first {

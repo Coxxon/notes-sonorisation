@@ -10,6 +10,7 @@ aliases:
   - Config BPDU
   - Config BPDUs
 ---
+# BPDU (Bridge Protocol Data Unit)
 **Trame de communication échangée entre les switches.**  
 Permet d'informer le réseau de qui est [[Root Bridge]] et de prévenir des changements de [[topologie]] afin de mettre en œuvre les mécanismes de redondance.
 

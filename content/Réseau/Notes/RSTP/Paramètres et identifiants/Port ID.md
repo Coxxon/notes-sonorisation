@@ -1,4 +1,10 @@
-Identifiant technique **du port**.
+---
+tags:
+  - définition
+---
+
+# Port ID
+**Identifiant technique du port.**
 
 **Port ID = [[Port Priority]] + numéro de port**
 

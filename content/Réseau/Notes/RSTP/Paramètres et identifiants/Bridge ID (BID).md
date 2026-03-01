@@ -3,7 +3,9 @@ aliases:
   - BID
   - Bridge ID
 ---
-Identifiant unique d'un switch dans le réseau.  
+# Bridge ID (BID)  
+
+**Identifiant unique d'un switch dans le réseau.**  
 
 **Bridge ID = [[Bridge Priority]] (0 - 61 440) + [[Adresse MAC]]**
 
