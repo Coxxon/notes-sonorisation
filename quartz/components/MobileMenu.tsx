@@ -386,7 +386,7 @@ export default ((userOpts?: Partial<Options>) => {
       stroke: var(--secondary); /* Force la couleur du stroke */
     }
 
-    /* Mode horizontal - plus d'espace disponible */
+    /* Mode horizontal - utilise le même menu coulissant que le mode vertical */
     @media (min-width: 768px) {
       .mobile-menu-toggle {
         padding: 8px 16px;
@@ -396,29 +396,18 @@ export default ((userOpts?: Partial<Options>) => {
         display: inline; /* Affiche le libellé "Menu" en horizontal */
       }
 
-      /* En mode horizontal, on garde le comportement de menu déroulant */
+      /* En mode horizontal, on garde le menu coulissant mais avec plus de largeur */
       .mobile-menu-content {
-        position: absolute;
-        top: 100%;
-        left: auto;
-        right: 0;
-        width: 280px;
-        height: auto;
-        max-height: 80vh;
-        border: 1px solid var(--lightgray);
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        margin-top: 8px;
-        transition: none;
+        width: 350px; /* Plus large en horizontal */
+        left: -350px; /* Commence plus loin à gauche */
       }
 
       .mobile-menu-content[aria-expanded="true"] {
-        left: auto;
-        right: 0;
+        left: 0; /* Glisse vers la droite */
       }
 
       .mobile-menu-overlay {
-        display: none !important; /* Pas d'overlay en mode horizontal */
+        display: block !important; /* On garde l'overlay en horizontal aussi */
       }
     }
 
@@ -487,6 +476,16 @@ export default ((userOpts?: Partial<Options>) => {
 
     /* Force les couleurs des SVG en mode sombre */
     @media (prefers-color-scheme: dark) {
+      /* Correction pour le composant Search */
+      .search-button svg .search-path {
+        stroke: var(--light) !important;
+      }
+      
+      .search-button:hover svg .search-path {
+        stroke: var(--secondary) !important;
+      }
+
+      /* SVG généraux */
       svg:not([fill="none"]) {
         fill: var(--light);
       }
@@ -499,7 +498,34 @@ export default ((userOpts?: Partial<Options>) => {
       svg.lucide-menu,
       svg.mobile-menu-bullet,
       svg.folder-icon {
+        stroke: var(--secondary) !important;
+      }
+
+      /* Correction pour tous les SVG dans le menu mobile */
+      .mobile-menu-content svg {
+        stroke: var(--light);
+      }
+
+      .mobile-menu-content svg.mobile-menu-bullet,
+      .mobile-menu-content svg.folder-icon {
+        stroke: var(--secondary) !important;
+      }
+    }
+
+    /* Corrections additionnelles pour le mode sombre */
+    @media (prefers-color-scheme: dark) {
+      /* Assurer que les SVG dans les boutons ont les bonnes couleurs */
+      button svg {
+        stroke: var(--light);
+      }
+
+      button:hover svg {
         stroke: var(--secondary);
+      }
+
+      /* Exceptions spécifiques */
+      .mobile-menu-toggle:hover svg {
+        stroke: var(--secondary) !important;
       }
     }
   `
@@ -525,16 +551,14 @@ export default ((userOpts?: Partial<Options>) => {
         
         // Gérer l'overlay seulement en mode mobile (pas en horizontal)
         const isMobile = window.innerWidth < 768;
-        if (isMobile) {
-          if (newExpanded) {
-            menuOverlay.classList.add('active');
-            // Empêcher le scroll du body quand le menu est ouvert
-            document.body.style.overflow = 'hidden';
-          } else {
-            menuOverlay.classList.remove('active');
-            // Réactiver le scroll du body
-            document.body.style.overflow = '';
-          }
+        if (newExpanded) {
+          menuOverlay.classList.add('active');
+          // Empêcher le scroll du body quand le menu est ouvert
+          document.body.style.overflow = 'hidden';
+        } else {
+          menuOverlay.classList.remove('active');
+          // Réactiver le scroll du body
+          document.body.style.overflow = '';
         }
         
         // Fermer les autres menus
