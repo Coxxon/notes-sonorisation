@@ -25,7 +25,7 @@ article a.internal:hover, article a:hover, table a:hover {
     color: #3f88c5 !important;
     text-decoration: underline !important;
     text-decoration-color: rgba(63, 136, 197, 0.3) !important;
-    background-color: rgba(150, 150, 150, 0.1) !important;
+    background-color: rgba(150, 150, 150, 0.08) !important;
 }
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
@@ -40,7 +40,6 @@ th, td { border: 1px solid var(--lightgray) !important; padding: 0.6rem 1rem !im
 th { background-color: var(--lightgray); font-family: 'Rajdhani', sans-serif; font-weight: 600; }
 
 /* 5. POPOVERS (FENÊTRES FLOTTANTES : TAILLES DÉFINIES) */
-/* On utilise 'body .popover' pour être sûr de gagner la priorité sur les titres de rédaction */
 body .popover {
     .metadata-container, .content-meta { display: none !important; }
     .article-title, h1 { font-size: 1.6rem !important; margin: 0.3rem 0 !important; line-height: 1.7 !important; }
@@ -72,8 +71,9 @@ h6 { font-size: 1.2rem !important; }
     background-color: rgba(120, 82, 238, 0.05) !important;
     
     /* On force la couleur de TOUT le titre (texte simple + gras) */
-    & > .callout-title, 
-    & > .callout-title * {
+    .callout-title, 
+    .callout-title strong,
+    .callout-title b {
         color: rgb(120, 82, 238) !important;
     }
     
@@ -92,8 +92,9 @@ h6 { font-size: 1.2rem !important; }
     background-color: rgba(0, 150, 255, 0.05) !important;
 
     /* On force la couleur de TOUT le titre (texte simple + gras) */
-    & > .callout-title, 
-    & > .callout-title * {
+    .callout-title, 
+    .callout-title strong,
+    .callout-title b {
         color: rgb(0, 150, 255) !important;
     }
 
