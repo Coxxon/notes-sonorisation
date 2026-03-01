@@ -37,6 +37,12 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
+    Component.RecentNotes({
+      title: "Fondamentaux",
+      limit: 10, // Le nombre maximum de cours à afficher
+      filter: (f) => f.frontmatter?.tags?.includes("fondamentaux") === true,
+      showTags: false, // On cache les tags sous le lien pour faire plus propre
+    }),
     Component.Explorer(),
   ],
   right: [

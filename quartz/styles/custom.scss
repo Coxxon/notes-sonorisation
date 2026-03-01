@@ -12,19 +12,19 @@
     -webkit-filter: none !important;
 }
 
-/* 3. STYLE GLOBAL DES LIENS (QUARTZ) */
-a, a.internal {
-    color: inherit !important;      /* Couleur identique au texte */
-    text-decoration: none !important; /* Pas de soulignement */
-    font-weight: normal !important;  /* Pas de gras */
-    transition: color 0.2s ease, opacity 0.2s ease;
+/* 3. CORRECTION DES LIENS (COULEUR ET TRANSITION) */
+/* On cible précisément les liens à l'intérieur des notes */
+article a {
+    color: inherit !important;
+    text-decoration: none !important;
+    font-weight: normal !important;
+    /* On force la transition douce à s'appliquer */
+    transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out !important;
 }
 
-/* Couleur personnalisée au survol (Cursor hover) */
-a:hover, a.internal:hover {
-    color: #3f88c5 !important;       /* Ta couleur bleue de tout à l'heure */
-    opacity: 1 !important;           /* On s'assure qu'il est bien opaque */
-    text-decoration: underline !important; /* Soulignement subtil au survol */
+article a:hover {
+    color: #3f88c5 !important; /* Ton bleu personnalisé */
+    text-decoration: underline !important;
 }
 
 /* 4. STYLE DES ENCARTS (CALLOUTS) */
@@ -69,4 +69,32 @@ td, th {
 .popover .metadata-container, 
 .popover .content-meta {
     display: none !important;
+}
+
+/* 7. REGLAGE DE LA TABLE DES MATIÈRES */
+#toc-content {
+    font-size: 0.8rem !important; /* Réduit la taille globale du texte (par défaut c'est souvent 0.9 ou 1) */
+}
+
+#toc-content a {
+    line-height: 1.2 !important; /* Resserre les textes qui tiennent sur 2 lignes */
+    display: inline-block !important; 
+    margin-bottom: 0.3rem !important; /* Ajoute un petit espace clair entre chaque point de la liste */
+}
+
+/* 8. MISE EN VALEUR DES COURS FONDAMENTAUX */
+.recent-notes {
+    margin-bottom: 2rem; /* Laisse un bel espace avant l'Explorateur */
+}
+
+.recent-notes h3 {
+    color: var(--secondary); /* Met le titre dans la couleur d'accentuation */
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
+
+.recent-notes ul li a {
+    font-size: 1.1rem !important; /* Grossit le texte des liens */
+    font-weight: 600 !important; /* Met les liens en semi-gras */
 }
