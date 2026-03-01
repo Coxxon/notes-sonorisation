@@ -239,6 +239,40 @@ export default ((userOpts?: Partial<Options>) => {
       stroke: var(--secondary);
     }
 
+    /* Correction pour le composant Search dans le header mobile */
+    header .search {
+      min-width: auto !important;
+      max-width: none !important;
+      flex-grow: 0 !important;
+      margin: 0 !important;
+    }
+
+    header .search .search-button {
+      background-color: transparent !important;
+      border: 1px solid var(--lightgray) !important;
+      border-radius: 6px !important;
+      height: 2.5rem !important;
+      padding: 0 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      white-space: nowrap !important;
+      width: auto !important;
+      min-width: 44px !important;
+    }
+
+    header .search .search-button svg {
+      width: 18px !important;
+      height: 18px !important;
+      min-width: 18px !important;
+      margin: 0 !important;
+    }
+
+    header .search .search-button p {
+      display: none !important; /* Masquer le texte "Search" sur mobile */
+    }
+
     /* Overlay sombre quand le menu est ouvert */
     .mobile-menu-overlay {
       position: fixed;
@@ -409,6 +443,12 @@ export default ((userOpts?: Partial<Options>) => {
       .mobile-menu-overlay {
         display: block !important; /* On garde l'overlay en horizontal aussi */
       }
+
+      /* Afficher le texte "Search" en horizontal */
+      header .search .search-button p {
+        display: inline !important;
+        margin-left: 8px !important;
+      }
     }
 
     /* Mode sombre */
@@ -469,28 +509,34 @@ export default ((userOpts?: Partial<Options>) => {
       }
     }
 
-    /* Styles globaux pour tous les SVG dans le site */
+    /* Corrections globales pour les SVG - PLUS SPÉCIFIQUES */
     svg {
       transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
     }
 
-    /* Force les couleurs des SVG en mode sombre */
+    /* Éviter les fonds blancs sur les SVG en mode sombre */
     @media (prefers-color-scheme: dark) {
-      /* Correction pour le composant Search */
-      .search-button svg .search-path {
+      /* Correction spécifique pour le composant Search */
+      header .search .search-button svg .search-path {
         stroke: var(--light) !important;
+        fill: none !important;
       }
       
-      .search-button:hover svg .search-path {
+      header .search .search-button:hover svg .search-path {
         stroke: var(--secondary) !important;
       }
 
-      /* SVG généraux */
-      svg:not([fill="none"]) {
+      /* SVG généraux - NE PAS AJOUTER DE FOND */
+      svg {
+        background: transparent !important;
+      }
+
+      /* Forcer les couleurs sans ajouter de fond */
+      svg:not([fill="none"]):not(.lucide-menu):not(.mobile-menu-bullet):not(.folder-icon) {
         fill: var(--light);
       }
       
-      svg:not([stroke="none"]) {
+      svg:not([stroke="none"]):not(.lucide-menu):not(.mobile-menu-bullet):not(.folder-icon) {
         stroke: var(--light);
       }
 
@@ -499,23 +545,30 @@ export default ((userOpts?: Partial<Options>) => {
       svg.mobile-menu-bullet,
       svg.folder-icon {
         stroke: var(--secondary) !important;
+        fill: none !important;
       }
 
       /* Correction pour tous les SVG dans le menu mobile */
       .mobile-menu-content svg {
+        background: transparent !important;
         stroke: var(--light);
+        fill: none !important;
       }
 
       .mobile-menu-content svg.mobile-menu-bullet,
       .mobile-menu-content svg.folder-icon {
         stroke: var(--secondary) !important;
       }
-    }
 
-    /* Corrections additionnelles pour le mode sombre */
-    @media (prefers-color-scheme: dark) {
-      /* Assurer que les SVG dans les boutons ont les bonnes couleurs */
+      /* Éviter les fonds blancs sur les images SVG */
+      img[src$=".svg"] {
+        background: transparent !important;
+        filter: brightness(0) invert(1) !important;
+      }
+
+      /* Corrections pour les SVG dans les boutons */
       button svg {
+        background: transparent !important;
         stroke: var(--light);
       }
 

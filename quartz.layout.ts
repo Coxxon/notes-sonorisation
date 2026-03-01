@@ -13,7 +13,7 @@ export const sharedPageComponents: SharedLayout = {
       recentNotesShowTags: false,
     })),
     Component.MobileOnly(Component.Search()),   // Recherche à droite du menu hamburger
-    Component.PageTitle(),                      // SYNTAX au centre
+    Component.MobileOnly(Component.PageTitle()), // SYNTAX au centre (uniquement mobile)
     Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
   ],
   afterBody: [],
