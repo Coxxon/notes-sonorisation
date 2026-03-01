@@ -5,16 +5,16 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [
-    Component.MobileOnly(Component.Search()),   // Loupe à gauche
-    Component.MobileOnly(Component.MobileMenu({ // Menu hamburger unifié avec FONDAMENTAUX + Explorer
+    Component.PageTitle(),                      // SYNTAX à gauche
+    Component.MobileOnly(Component.Search()),   // Recherche au centre
+    Component.MobileOnly(Component.MobileMenu({ // Menu hamburger avec icône
       recentNotesTitle: "Fondamentaux",
       recentNotesLimit: 10,
       recentNotesFilter: (f: any) => f.frontmatter?.tags?.includes("fondamentaux") === true,
       recentNotesSort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       recentNotesShowTags: false,
     })),
-    Component.PageTitle(),                      // SYNTAX (centré par SCSS)
-    Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
+    Component.MobileOnly(Component.Darkmode()), // Darkmode tout à droite
   ],
   afterBody: [],
   footer: Component.Footer({

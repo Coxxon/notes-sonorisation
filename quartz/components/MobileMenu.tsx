@@ -75,21 +75,24 @@ export default ((userOpts?: Partial<Options>) => {
           data-mobile={true}
           aria-controls={id}
           aria-expanded={false}
+          title="Menu"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
             class="lucide-menu"
+            fill="none"
           >
             <line x1="4" x2="20" y1="12" y2="12" />
             <line x1="4" x2="20" y1="6" y2="6" />
             <line x1="4" x2="20" y1="18" y2="18" />
           </svg>
+          <span class="mobile-menu-label">Menu</span>
         </button>
         
         <div id={id} class="mobile-menu-content" aria-expanded={false} role="group">
@@ -192,24 +195,49 @@ export default ((userOpts?: Partial<Options>) => {
 
     .mobile-menu-toggle {
       background: none;
-      border: none;
-      padding: 8px;
+      border: 1px solid var(--lightgray);
+      padding: 6px 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 4px;
-      transition: background-color 0.2s ease;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      gap: 6px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--dark);
+      white-space: nowrap;
     }
 
     .mobile-menu-toggle:hover {
       background-color: var(--lightgray);
+      border-color: var(--secondary);
+      transform: translateY(-1px);
+    }
+
+    .mobile-menu-toggle:active {
+      transform: translateY(0);
+    }
+
+    .mobile-menu-label {
+      display: none; /* Masqué par défaut, visible en mode horizontal */
+    }
+
+    .mobile-menu-toggle svg {
+      color: var(--dark);
+      transition: color 0.2s ease;
+    }
+
+    .mobile-menu-toggle:hover svg {
+      color: var(--secondary);
     }
 
     .mobile-menu-content {
       position: absolute;
       top: 100%;
-      left: 0;
+      right: 0; /* Aligné à droite du bouton */
       z-index: 1000;
       background: var(--light);
       border: 1px solid var(--lightgray);
@@ -330,8 +358,24 @@ export default ((userOpts?: Partial<Options>) => {
       color: var(--secondary);
     }
 
+    /* Mode horizontal - plus d'espace disponible */
+    @media (min-width: 768px) {
+      .mobile-menu-toggle {
+        padding: 8px 16px;
+      }
+      
+      .mobile-menu-label {
+        display: inline; /* Affiche le libellé "Menu" en horizontal */
+      }
+    }
+
     /* Mode sombre */
     @media (prefers-color-scheme: dark) {
+      .mobile-menu-toggle {
+        border-color: var(--darkgray);
+        color: var(--light);
+      }
+
       .mobile-menu-content {
         background: var(--dark);
         border-color: var(--darkgray);
@@ -351,6 +395,23 @@ export default ((userOpts?: Partial<Options>) => {
 
       .folder-button {
         color: var(--light);
+      }
+
+      .mobile-menu-toggle svg {
+        color: var(--light);
+      }
+    }
+
+    /* Amélioration pour mobile en mode paysage */
+    @media (orientation: landscape) and (max-height: 600px) {
+      .mobile-menu-content {
+        max-height: 60vh;
+        position: fixed;
+        top: auto;
+        bottom: 100%;
+        right: 0;
+        margin-top: 0;
+        margin-bottom: 8px;
       }
     }
   `
