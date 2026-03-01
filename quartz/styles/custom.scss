@@ -12,143 +12,76 @@
     -webkit-filter: none !important;
 }
 
-/* 3. CORRECTION DES LIENS (COULEUR ET TRANSITION) */
-/* On cible précisément les liens à l'intérieur des notes */
+/* 3. CORRECTION DES LIENS (ARTICLES) */
 article a {
     color: inherit !important;
     text-decoration: none !important;
     font-weight: normal !important;
-    /* On force la transition douce à s'appliquer */
     transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out !important;
 }
 
 article a:hover {
-    color: #3f88c5 !important; /* Ton bleu personnalisé */
+    color: #3f88c5 !important;
     text-decoration: underline !important;
 }
 
 /* 4. STYLE DES ENCARTS (CALLOUTS) */
-/* On s'assure que le corps de l'encart n'est pas trop fin */
-.callout-content {
-    font-weight: 400 !important; 
-}
-
-/* On garde le titre de l'encart en gras et à la bonne couleur */
+.callout-content { font-weight: 400 !important; }
 .callout-title {
     font-weight: 700 !important;
-    
-    /* Si le titre contient un lien, on lui redonne son aspect "titre" */
     a, a.internal {
         color: rgb(var(--callout-color)) !important;
         font-weight: inherit !important;
     }
 }
+.callout[data-callout="exemple"] { --callout-color: 120, 82, 238; }
+.callout[data-callout="reseau"] { --callout-color: 0, 150, 255; }
 
-/* Encarts personnalisés */
-.callout[data-callout="exemple"] {
-    --callout-color: 120, 82, 238; 
-}
+/* 5. TABLEAUX */
+table { width: 100%; table-layout: auto; }
+td, th { white-space: normal; word-break: break-word; }
 
-.callout[data-callout="reseau"] {
-    --callout-color: 0, 150, 255; 
-}
+/* 6. POPOVERS */
+.popover .metadata-container, .popover .content-meta { display: none !important; }
 
-/* 5. TABLEAUX ET MISE EN PAGE */
-table {
-    width: 100%;
-    table-layout: auto;
-}
-
-td, th {
-    white-space: normal;
-    word-break: break-word;
-}
-
-/* 6. POPOVERS (FENÊTRES FLOTTANTES) */
-/* Cache les métadonnées inutiles dans les aperçus */
-.popover .metadata-container, 
-.popover .content-meta {
-    display: none !important;
-}
-
-/* 7. REGLAGE DE LA TABLE DES MATIÈRES */
-#toc-content {
-    font-size: 0.8rem !important; /* Réduit la taille globale du texte (par défaut c'est souvent 0.9 ou 1) */
-}
-
+/* 7. TABLE DES MATIÈRES */
+#toc-content { font-size: 0.8rem !important; }
 #toc-content a {
-    line-height: 1.2 !important; /* Resserre les textes qui tiennent sur 2 lignes */
-    display: inline-block !important; 
-    margin-bottom: 0.3rem !important; /* Ajoute un petit espace clair entre chaque point de la liste */
+    line-height: 1.2 !important;
+    display: inline-block !important;
+    margin-bottom: 0.3rem !important;
 }
 
 /* 8. STYLE DES COURS FONDAMENTAUX (BARRE LATÉRALE) */
-.recent-notes {
-    margin-bottom: 2rem; 
-}
+.recent-notes { margin-bottom: 2rem; }
 
-/* 8a. Le titre de la section "FONDAMENTAUX" (On cible UNIQUEMENT le 1er h3) */
+/* Le titre "FONDAMENTAUX" */
 .recent-notes > h3 {
     font-size: 0.8rem !important;
     text-transform: uppercase !important;
-    color: var(--gray) !important; /* Couleur discrète */
+    color: var(--gray) !important;
     letter-spacing: 0.05em;
     margin-bottom: 0.5rem;
 }
 
-/* 8b. Cacher les dates (On cible agressivement tout ce qui s'appelle 'meta') */
-.recent-ul .meta,
-.recent-notes p.meta,
-.recent-notes .meta {
-    display: none !important;
-}
+.recent-ul { list-style: none !important; padding-left: 0 !important; }
+.recent-li { margin-bottom: 0.4rem !important; }
 
-/* Enlever les puces de liste */
-.recent-ul {
-    list-style: none !important;
-    padding-left: 0 !important;
-}
-
-/* 8c. Réparer les liens des cours (Taille normale, couleur neutre, pas de majuscules) */
-.recent-ul li h3,
-.recent-notes ul li h3 {
-    text-transform: none !important; /* Annule l'effet majuscule indésirable */
-    font-size: 0.95rem !important;   /* Taille réduite */
-    margin-bottom: 0.5rem !important;
-}
-
-.recent-ul li a,
-.recent-notes ul li a {
-    color: var(--dark) !important; /* Force la couleur neutre (blanc/gris clair) */
-    font-weight: 500 !important;
+/* Style des liens de cours à gauche */
+.recent-li span a {
+    font-size: 0.95rem !important;
+    color: var(--dark) !important;
     text-decoration: none !important;
+    font-weight: 500 !important;
+    background: none !important; /* Enlève le surlignage gris */
 }
 
-/* Uniquement au survol, on met ta couleur d'accentuation */
-.recent-ul li a:hover,
-.recent-notes ul li a:hover {
-    color: var(--tertiary) !important; 
+.recent-li span a:hover {
+    color: var(--secondary) !important; /* Couleur d'accentuation discrète */
 }
 
-/* --------------------------------------------------------- */
-
-/* 9. STYLE DU TITRE DU SITE (SYNTAX) - EFFET LOGO */
-.page-title a {
-    display: inline-block !important; /* LA LIGNE MAGIQUE pour que la 1ère lettre s'agrandisse */
-    text-transform: uppercase !important;
-    font-size: 2.4rem !important;
-    font-weight: 900 !important;
-    letter-spacing: 0.02em !important;
-    color: var(--dark) !important; /* Force la couleur neutre au lieu de l'accentuation */
-}
-
-/* Le fameux grand 'S' */
-.page-title a::first-letter {
-    font-size: 3rem !important; 
-}
-
-/* Désactiver tout changement au survol du Logo */
+/* 9. TITRE DU SITE (Désactiver les effets de survol sur SYNTAX) */
 .page-title a:hover {
-    color: var(--dark) !important; 
-    text-decoration: none !important; 
+    color: var(--dark) !important;
+    text-decoration: none !important;
 }

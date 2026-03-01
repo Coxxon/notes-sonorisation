@@ -1,24 +1,29 @@
 import { pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
-import { i18n } from "../i18n"
 
 const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
-  const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
+  const title = cfg?.pageTitle ?? "Untitled"
   const baseDir = pathToRoot(fileData.slug!)
+  
+  // Force le titre en majuscules et sépare le S
+  const firstLetter = title.charAt(0).toUpperCase()
+  const restOfTitle = title.slice(1).toUpperCase()
+
   return (
     <h2 class={classNames(displayClass, "page-title")}>
-      <a href={baseDir}>{title}</a>
+      <a href={baseDir}>
+        <span class="logo-first">{firstLetter}</span>
+        <span class="logo-rest">{restOfTitle}</span>
+      </a>
     </h2>
   )
 }
 
 PageTitle.css = `
-.page-title {
-  font-size: 1.75rem;
-  margin: 0;
-  font-family: var(--titleFont);
-}
+.page-title { margin: 0; }
+.page-title a { color: var(--dark) !important; text-decoration: none !important; font-weight: 900; display: inline-block; }
+.logo-first { font-size: 3rem; }
+.logo-rest { font-size: 2.4rem; }
 `
-
 export default (() => PageTitle) satisfies QuartzComponentConstructor
