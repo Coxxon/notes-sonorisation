@@ -114,87 +114,24 @@ h6 { font-size: 1.2rem !important; }
 }
 
 /* ==========================================================================
-   FIX SVG & ICONES (FINI LES COULEURS NÉGATIVES)
-   ========================================================================== */
-
-/* Correction pour les SVG en mode sombre - PAS DE FOND BLANC */
-[saved-theme="dark"] {
-  /* Pour les images SVG */
-  img[src*=".svg"] {
-    filter: brightness(0) invert(1) !important;
-  }
-  
-  /* Pour les SVG inline */
-  svg {
-    background: transparent !important;
-  }
-  
-  svg:not([fill="none"]) {
-    fill: var(--light) !important;
-  }
-  
-  svg:not([stroke="none"]) {
-    stroke: var(--light) !important;
-  }
-  
-  /* Exceptions pour les icônes qui doivent garder leurs couleurs */
-  svg.lucide-menu,
-  .mobile-menu-bullet,
-  .folder-icon {
-    stroke: var(--secondary) !important;
-    fill: none !important;
-  }
-  
-  /* Correction pour les icônes darkmode et reader */
-  .darkmode svg,
-  .reader-mode svg {
-    stroke: var(--light) !important;
-    fill: var(--light) !important;
-  }
-  
-  /* Correction pour la loupe de recherche */
-  .search-button svg .search-path {
-    stroke: var(--light) !important;
-    fill: none !important;
-  }
-}
-
-/* Mode clair - assurer que les SVG sont visibles */
-[saved-theme="light"] {
-  svg {
-    background: transparent !important;
-  }
-  
-  .darkmode svg,
-  .reader-mode svg {
-    stroke: var(--dark) !important;
-    fill: var(--dark) !important;
-  }
-  
-  /* Fix pour l'icône du hamburger */
-  .mobile-only .explorer button#explorer svg {
-    stroke: var(--dark) !important;
-  }
-}
-
-/* Corrections globales pour tous les thèmes */
-svg {
-  background: transparent !important;
-  transition: color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
-}
-
-/* Éviter les fonds blancs sur tous les SVG */
-* svg {
-  background: transparent !important;
-}
-
-/* ==========================================================================
    FIX LOUPE RECHERCHE MOBILE
    ========================================================================== */
 
 /* Forcer l'affichage de la recherche sur mobile vertical */
 @media (max-width: 767px) {
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+  }
+
+  header .mobile-menu {
+    order: 1; /* Premier élément */
+  }
+
   header .search {
+    order: 2; /* Deuxième élément */
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -202,6 +139,16 @@ svg {
     max-width: none !important;
     flex-grow: 0 !important;
     margin: 0 !important;
+  }
+
+  header .page-title {
+    order: 3; /* Troisième élément (centre) */
+    flex: 1 !important;
+    text-align: center !important;
+  }
+
+  header .darkmode {
+    order: 4; /* Dernier élément */
   }
 
   header .search .search-button {
