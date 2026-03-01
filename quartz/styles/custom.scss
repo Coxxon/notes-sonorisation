@@ -79,3 +79,14 @@
     white-space: normal; /* Force le retour à la ligne */
     word-break: break-word; /* Coupe les liens trop longs si nécessaire */
 }
+
+/* Supprimer la couleur et le soulignement des liens (façon Obsidian) */
+a, a.internal {
+  color: inherit !important; /* Force le lien à prendre la même couleur que le texte normal */
+  text-decoration: none !important; /* Force la suppression du soulignement */
+}
+
+/* (Optionnel) Ajouter un léger effet au survol pour garder le site ergonomique */
+a:hover, a.internal:hover {
+  opacity: 0.7; /* Rend le texte très légèrement transparent quand la souris passe dessus */
+}
