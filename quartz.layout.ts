@@ -43,8 +43,8 @@ export const defaultContentPageLayout: PageLayout = {
     Component.DesktopOnly(Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
-      filter: (f: any) => f.frontmatter?.tags?.includes("fondamentaux"),
-      sort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
+      filter: (f) => f.frontmatter?.tags?.includes("fondamentaux"),
+      sort: (f1, f2) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       showTags: false,
     })),
     Component.DesktopOnly(Component.Explorer()),

@@ -134,7 +134,7 @@ h6 { font-size: 1.2rem !important; }
 
   header .page-title {
     order: 2; /* Deuxième élément (centre) */
-    flex: 0 0 auto !important; /* Ne prend pas toute la place */
+    flex: 1 !important;
     text-align: center !important;
     margin: 0 8px !important; /* Espace pour la loupe */
   }
