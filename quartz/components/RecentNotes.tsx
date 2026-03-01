@@ -157,7 +157,7 @@ export default ((userOpts?: Partial<Options>) => {
   }
 
   .recent-li .desc a:hover {
-    color: #00f3ff80 !important;
+    color: #96faff !important;
     transition: transform 0.3s ease-out, color 0.3s ease-out;
   }
 
