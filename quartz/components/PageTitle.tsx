@@ -28,7 +28,7 @@ PageTitle.css = `
 .page-title a {
   color: #ffffff !important; /* Texte blanc par défaut */
   text-decoration: none !important;
-  font-weight: 500;
+  font-weight: 600;
   display: inline-block;
   letter-spacing: -1px;
   /* Pas de lueur par défaut */
@@ -40,7 +40,7 @@ PageTitle.css = `
 .page-title a:hover {
   color: #ffffff !important; /* Reste blanc au survol */
   /* Lueur blanche progressive (text-shadow) */
-  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 50px rgba(255, 255, 255, 0.5);
 }
 
 .logo-first {

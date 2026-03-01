@@ -86,3 +86,42 @@ td, th { white-space: normal; word-break: break-word; }
     color: var(--dark) !important;
     text-decoration: none !important;
 }
+
+/* 10. TAILLE DES TITRES*/
+/* --- 1. Titres à l'intérieur des notes (Corps du texte) --- */
+.article-title {
+  font-size: 2.8rem !important; /* Le titre tout en haut de la page */
+  margin-bottom: 1.5rem;
+}
+
+h1 { font-size: 2.4rem !important; }
+h2 { font-size: 2rem !important; margin-top: 2rem; }
+h3 { font-size: 1.6rem !important; }
+h4 { font-size: 1.3rem !important; }
+
+/* --- 2. Titres des composants (Explorateur, Table des matières, etc.) --- */
+/* Cela cible les titres "Explorateur", "Fondamentaux", "Backlinks" */
+#explorer-header, 
+.toc-header, 
+.backlinks > h3, 
+.graph > h3 {
+  font-family: 'Rajdhani', sans-serif !important; /* On peut réutiliser Rajdhani pour le côté technique */
+  font-size: 1.4rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--secondary); /* Donne une couleur d'accentuation pour les distinguer du texte */
+}
+
+/* --- 3. Ajustement de l'Explorateur (les dossiers/fichiers) --- */
+.explorer {
+  button {
+    font-size: 1.1rem !important; /* Taille des noms de dossiers */
+    font-weight: 600;
+  }
+  
+  li > a {
+    font-size: 1rem !important; /* Taille des noms de fichiers */
+  }
+}
