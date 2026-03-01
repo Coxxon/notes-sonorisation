@@ -13,8 +13,8 @@
     display: grid;
     transition: grid-template-rows 0.1s cubic-bezier(0.02, 0.01, 0.47, 1);
     overflow: hidden;
-    /* FORCE LA COULEUR DU TEXTE DU CORPS POUR ÉVITER L'INCOHÉRENCE */
-    color: var(--dark) !important; 
+    /* Utiliser les variables de thème au lieu de forcer les couleurs */
+    color: var(--text-color, var(--dark)); 
 
     & > :first-child {
       margin-top: 0;
@@ -157,23 +157,23 @@
   }
 }
 
-/* TITLES LOGIC - NETTOYÉ ET FORCÉ */
+/* TITLES LOGIC - NETTOYÉ ET ADAPTÉ AU THÈME */
 .callout-title {
   display: flex;
   align-items: flex-start;
   gap: 5px;
   padding: 1rem 0;
-  color: var(--color) !important; 
+  color: var(--color); /* Utiliser la variable de couleur du callout */
 
   --icon-size: 18px;
 
-  /* CIBLAGE PROFOND POUR LE TEXTE ET LE GRAS */
+  /* Utiliser les variables de thème au lieu de forcer */
   & .callout-title-inner,
   & .callout-title-inner p,
   & .callout-title-inner p strong,
   & .callout-title-inner p b,
   & > .callout-title-inner > p {
-    color: var(--color) !important; 
+    color: var(--color); /* Couleur du callout, pas de !important */
     margin: 0;
   }
 
@@ -184,7 +184,7 @@
     --callout-icon: var(--callout-icon-fold);
   }
 
-  /* CORRECTIF ICÔNE : ON FORCE LE FOND POUR ÉVITER LE JAUNE */
+  /* CORRECTIF ICÔNE : Utiliser les variables de thème au lieu de forcer */
   .callout-icon,
   & .fold-callout-icon {
     width: var(--icon-size);
@@ -192,7 +192,7 @@
     flex: 0 0 var(--icon-size);
     background-size: var(--icon-size) var(--icon-size);
     background-position: center;
-    background-color: var(--color) !important; /* Force la couleur de l'encart sur l'icône */
+    background-color: var(--color); /* Utiliser la couleur du callout */
     mask-image: var(--callout-icon);
     mask-size: var(--icon-size) var(--icon-size);
     mask-position: center;
