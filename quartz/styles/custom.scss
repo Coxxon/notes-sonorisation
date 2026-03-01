@@ -12,35 +12,34 @@
     -webkit-filter: none !important;
 }
 
-/* 3. CORRECTION DES LIENS (ARTICLES HORS TITRES) */
-article a:not(.article-title a):not(h1 a):not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a) {
+/* 3. CORRECTION DES LIENS GENERAUX (ARTICLES) */
+/* On exclut les titres et les tableaux de cette règle pour éviter le bleu/surlignage */
+article a:not(.article-title a):not(h1 a):not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a):not(table a) {
     color: inherit !important;
     text-decoration: none !important;
     font-weight: normal !important;
     transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out !important;
 }
 
-article a:not(.article-title a):not(h1 a):not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a):hover {
+article a:not(.article-title a):not(h1 a):not(h2 a):not(h3 a):not(h4 a):not(h5 a):not(h6 a):not(table a):hover {
     color: #3f88c5 !important;
     text-decoration: underline !important;
 }
 
-/* 4. LIENS DANS LES TITRES (MODE INVISIBLE / STEALTH) */
-.article-title a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+/* 4. LIENS "STEALTH" (TITRES ET TABLEAUX) */
+/* Cache le statut de lien : couleur du texte, pas de soulignement, mais en GRAS */
+.article-title a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, table a {
     color: inherit !important;
     text-decoration: none !important;
-    font-weight: inherit !important;
-    pointer-events: auto; /* Reste cliquable */
+    font-weight: 600 !important; /* Forcé en gras */
+    pointer-events: auto;
 }
 
 /* 5. STYLE DES ENCARTS (CALLOUTS) */
 .callout-content { font-weight: 400 !important; }
 .callout-title {
     font-weight: 700 !important;
-    /* On s'assure que le gras dans le titre prend la couleur du titre et non du blanc */
-    strong {
-        color: inherit !important;
-    }
+    strong { color: inherit !important; }
     a, a.internal {
         color: rgb(var(--callout-color)) !important;
         font-weight: inherit !important;
@@ -49,7 +48,7 @@ article a:not(.article-title a):not(h1 a):not(h2 a):not(h3 a):not(h4 a):not(h5 a
 .callout[data-callout="exemple"] { --callout-color: 120, 82, 238; }
 .callout[data-callout="reseau"] { --callout-color: 0, 150, 255; }
 
-/* 6. TABLEAUX (LIGNES VERTICALES ET LARGEUR AUTO) */
+/* 6. TABLEAUX (GRILLE COMPLÈTE ET LARGEUR AUTO) */
 table { 
     width: auto !important; 
     max-width: 100% !important; 
@@ -81,7 +80,7 @@ th {
     p, li { font-size: 0.9rem !important; line-height: 1.4 !important; }
 }
 
-/* 8. STYLE DES LISTES DE NAVIGATION (RAJHDANI) */
+/* 8. STYLE DES LISTES DE NAVIGATION */
 #toc-content, .explorer, .toc, .recent-ul {
     font-family: 'Rajdhani', sans-serif !important;
 }
@@ -125,12 +124,13 @@ h6 { font-size: 1.5rem !important; }
 /* Encart personnalisé pour "Exemple" */
 .callout[data-callout="exemple"] {
     --callout-color: 120, 82, 238; /* Violet */
-    --callout-icon: list; /* Nom de l'icône */
+    /* On utilise l'icône encodée pour le masque */
+    --callout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E");
 }
 
 /* Encart bonus pour tes cours "Réseau" ! */
 .callout[data-callout="reseau"] {
     --callout-color: 0, 150, 255; /* Bleu clair */
-    --callout-icon: network; /* Icône de réseau */
+    --callout-icon: background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-network-icon lucide-network'%3E%3Crect x='16' y='16' width='6' height='6' rx='1'/%3E%3Crect x='2' y='16' width='6' height='6' rx='1'/%3E%3Crect x='9' y='2' width='6' height='6' rx='1'/%3E%3Cpath d='M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3'/%3E%3Cpath d='M12 12V8'/%3E%3C/svg%3E"); /* Icône de réseau */
 }
 
