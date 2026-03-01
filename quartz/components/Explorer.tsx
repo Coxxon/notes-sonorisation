@@ -159,7 +159,33 @@ export default ((userOpts?: Partial<Options>) => {
     )
   }
 
-  Explorer.css = style
+Explorer.css = style + `
+  button.title-button.desktop-explorer {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  button.title-button.desktop-explorer h2 {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.4rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+  }
+
+  button.title-button.desktop-explorer svg {
+    color: #ffffff !important;
+    margin-left: 8px !important;
+  }
+  `
   Explorer.afterDOMLoaded = concatenateResources(script, overflowListAfterDOMLoaded)
   return Explorer
 }) satisfies QuartzComponentConstructor

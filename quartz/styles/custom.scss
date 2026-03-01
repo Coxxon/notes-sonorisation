@@ -75,29 +75,23 @@ td, th { white-space: normal; word-break: break-word; }
     color: var(--secondary) !important;
 }
 
-/* 9. HARMONISATION TOTALE DES TITRES DE COMPOSANTS */
-/* On cible les titres H3 ET les boutons de l'Explorateur/TOC */
-#explorer-header, 
-.toc-header, 
-.recent-notes > h3, 
-.backlinks > h3, 
-.graph > h3 {
+/* --- STYLE DES LISTES (EXPLORATEUR & TOC) --- */
+.explorer-ul, .toc-content {
     font-family: 'Rajdhani', sans-serif !important;
-    font-size: 1.4rem !important; 
-    text-transform: uppercase !important; 
-    letter-spacing: 1.5px !important;
+}
+
+.explorer button.folder-button {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.1rem !important;
     font-weight: 500 !important;
-    color: #ffffff !important; /* Force le blanc */
-    background: none !important; /* Enlève le fond gris des boutons */
-    border: none !important;
-    padding: 0 !important;
-    margin-bottom: 0.75rem !important;
-    display: flex !important;
-    align-items: center !important;
-    min-height: 2.5rem !important; /* Évite la coupure du texte */
-    overflow: visible !important;
-    width: 100%;
-    text-align: left;
+    color: #ffffff !important;
+}
+
+.explorer li > a, .toc-content li a {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 0.95rem !important;
+    color: var(--dark) !important;
+    font-weight: 400 !important;
 }
 
 /* 10. TAILLE DES TITRES DE RÉDACTION */

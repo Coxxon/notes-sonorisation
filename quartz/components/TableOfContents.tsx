@@ -71,7 +71,33 @@ export default ((opts?: Partial<Options>) => {
     )
   }
 
-  TableOfContents.css = modernStyle
+TableOfContents.css = modernStyle + `
+  .toc-header {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .toc-header h3 {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.4rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+  }
+
+  .toc-header svg {
+    color: #ffffff !important;
+    margin-left: 8px !important;
+  }
+  `
   TableOfContents.afterDOMLoaded = concatenateResources(script, overflowListAfterDOMLoaded)
 
   const LegacyTableOfContents: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
