@@ -66,65 +66,80 @@ h6 { font-size: 1.2rem !important; }
 .explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
 #explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }
 
-/* ==========================================================================
-   NETTOYAGE HEADER MOBILE (FINI LE CHEVAUCHEMENT)
-   ========================================================================== */
+/* 9. OPTIMISATION MOBILE & TABLETTE (PAYSAGE INCLUS) */
+@media screen and (max-width: 1300px) {
+    /* On cache les sidebars fixes pour ne garder que le contenu et le header mobile */
+    .page > .left, .page > .right {
+        display: none !important;
+    }
 
-@media screen and (max-width: 1000px) {
-    /* 1. On force le header à être une ligne propre */
     header {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important; /* Espace entre les icônes */
-        height: 50px !important;
-        padding: 0 10px !important;
+        justify-content: space-between !important;
+        height: 60px !important;
+        padding: 0 1rem !important;
+        background-color: var(--light);
         position: sticky;
         top: 0;
         z-index: 1000;
-        background-color: var(--light);
     }
 
-    /* 2. On cache les textes parasites qui polluent le header */
-    header .explorer h3, 
-    header .explorer button span, 
-    header .recent-notes h3 {
-        display: none !important;
-    }
-
-    /* 3. On centre SYNTAX absolument */
+    /* Centrage absolu du titre SYNTAX */
     header .page-title {
         position: absolute !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         margin: 0 !important;
-        font-size: 1.5rem !important;
         z-index: 1;
+        font-size: 1.4rem !important;
     }
 
-    /* 4. On gère les icônes à gauche (Hamburger + Loupe) */
-    header .explorer { order: 1 !important; margin: 0 !important; }
-    header .search { order: 2 !important; margin-left: 10px !important; }
-
-    /* 5. On gère l'icône à droite (Darkmode) */
-    header .darkmode { order: 3 !important; margin-left: auto !important; }
-
-    /* 6. On cache la barre latérale qui reste ouverte en paysage */
-    .page > .left {
+    /* Organisation des icônes à gauche */
+    header .explorer { 
+        order: 1 !important; 
+        margin: 0 !important;
+    }
+    
+    /* On cache le texte "Explorateur" à côté de l'icône hamburger */
+    header .explorer button#explorer span {
         display: none !important;
     }
+
+    header .search { 
+        order: 2 !important; 
+        margin-left: 5px !important; 
+    }
+
+    header .darkmode { 
+        order: 3 !important; 
+        margin-left: auto !important; 
+    }
+
+    /* On s'assure que le contenu prend toute la largeur */
+    .page > .center {
+        width: 100% !important;
+        padding: 1rem !important;
+    }
 }
 
-/* 7. DANS LE MENU DÉROULANT (Une fois ouvert) */
-.mobile-only .explorer-content {
-    margin-top: 20px;
+/* 10. NETTOYAGE INTÉRIEUR DU MENU HAMBURGER */
+/* Quand le menu est ouvert, on s'assure que les titres s'affichent correctement */
+.mobile-only .explorer h3, 
+.mobile-only .recent-notes h3 {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 1.2rem !important;
+    margin-top: 1.5rem !important;
+    display: block !important; /* Réapparaît dans le menu */
 }
 
-/* Supprimer le titre "Explorateur" à côté de la flèche dans le menu */
-.explorer button#explorer {
-    font-size: 0 !important; /* Cache le texte "Explorateur" */
+/* Cache les doublons inutiles dans le header */
+header .recent-notes {
+    display: none !important;
 }
-.explorer button#explorer svg {
-    width: 24px;
-    height: 24px;
+
+/* 11. FIX SVG EN MODE SOMBRE (MOBILITÉ) */
+[saved-theme="dark"] img[src*=".svg"] {
+    filter: invert(1) brightness(1.5) !important;
 }
