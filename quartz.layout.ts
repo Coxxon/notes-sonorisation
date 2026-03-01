@@ -30,7 +30,7 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     // Sur Desktop, on garde tout comme avant
     Component.DesktopOnly(Component.PageTitle()),
-    Component.DesktopOnly(
+    Component.MobileOnly(
       Component.Flex({
         components: [
           { Component: Component.Search(), grow: true },
