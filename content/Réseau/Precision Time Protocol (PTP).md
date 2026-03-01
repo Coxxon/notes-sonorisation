@@ -1,6 +1,6 @@
 ---
 tags:
-  - définition
+  - fondamentaux
 aliases:
   - Precision Time Protocol
   - PTP
