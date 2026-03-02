@@ -41,17 +41,6 @@ export default ((userOpts?: Partial<SearchOptions>) => {
             />
             <div class="search-layout" data-preview={opts.enablePreview}></div>
           </div>
-          {/* Champ de recherche mobile visible */}
-          <div class="mobile-search-input">
-            <input
-              autocomplete="off"
-              class="search-bar"
-              name="mobile-search"
-              type="text"
-              aria-label={searchPlaceholder}
-              placeholder={searchPlaceholder}
-            />
-          </div>
         </div>
       </div>
     )
