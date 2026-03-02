@@ -24,6 +24,7 @@ export interface D3Config {
 interface GraphOptions {
   localGraph: Partial<D3Config> | undefined
   globalGraph: Partial<D3Config> | undefined
+  collapsed: boolean
 }
 
 const defaultOptions: GraphOptions = {
@@ -57,30 +58,58 @@ const defaultOptions: GraphOptions = {
     focusOnHover: true,
     enableRadial: true,
   },
+  collapsed: true,
 }
 
 export default ((opts?: Partial<GraphOptions>) => {
-  const Graph: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
+  const Graph: QuartzComponent = ({ displayClass, fileData, cfg }: QuartzComponentProps) => {
+    if (fileData.slug === "index") {
+      return <></>
+    }
+
     const localGraph = { ...defaultOptions.localGraph, ...opts?.localGraph }
     const globalGraph = { ...defaultOptions.globalGraph, ...opts?.globalGraph }
+    const isCollapsed = opts?.collapsed ?? defaultOptions.collapsed;
     return (
       <div class={classNames(displayClass, "graph")}>
-        <h3>{i18n(cfg.locale).components.graph.title}</h3>
-        <div class="graph-outer">
-          <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
-          <button class="global-graph-icon" aria-label="Global Graph">
-            <svg
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              x="0px"
-              y="0px"
-              viewBox="0 0 55 55"
-              fill="currentColor"
-              xmlSpace="preserve"
-            >
-              <path
-                d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+        <button
+          type="button"
+          class={isCollapsed ? "collapsed graph-header" : "graph-header"}
+          aria-expanded={!isCollapsed ? "true" : "false"}
+          aria-controls="graph-content"
+        >
+          <h3>{i18n(cfg.locale).components.graph.title}</h3>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="fold"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div id="graph-content" class={isCollapsed ? "collapsed" : ""}>
+          <div class="graph-outer">
+            <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
+            <button class="global-graph-icon" aria-label="Global Graph">
+              <svg
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 55 55"
+                fill="currentColor"
+                xmlSpace="preserve"
+              >
+                <path
+                  d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
                 s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
                 c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
                 C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
@@ -91,30 +120,77 @@ export default ((opts?: Partial<GraphOptions>) => {
                 S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
                 s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
                 s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"
-              />
-            </svg>
-          </button>
-        </div>
-        <div class="global-graph-outer">
-          <div class="global-graph-container" data-cfg={JSON.stringify(globalGraph)}></div>
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="global-graph-outer">
+            <div class="global-graph-container" data-cfg={JSON.stringify(globalGraph)}></div>
+          </div>
         </div>
       </div>
     )
   }
 
-Graph.css = style + `
-  .graph > h3 {
+  Graph.css = style + `
+  .graph-header {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--dark);
+  }
+  
+  .graph-header h3 {
     font-family: 'Rajdhani', sans-serif !important;
     font-size: 1.4rem !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
-    color: #ffffff !important;
-    margin-bottom: 0.75rem !important;
-    margin-top: 0 !important;
+    color: var(--dark) !important;
+    margin: 0 !important;
+  }
+  
+  .graph-header .fold {
+    transition: transform 0.2s ease;
+    opacity: 0.8;
+  }
+  
+  .graph-header.collapsed .fold {
+    transform: rotate(-90deg);
+  }
+  
+  #graph-content {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    max-height: 900px; /* Arbitrary large height to permit natural expansion */
+    opacity: 1;
+    overflow: visible;
+  }
+  
+  #graph-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
   }
   `
-  Graph.afterDOMLoaded = script
+  Graph.afterDOMLoaded = script + `
+    const graphHeader = document.querySelector('.graph-header');
+    if (graphHeader) {
+      graphHeader.addEventListener('click', () => {
+        graphHeader.classList.toggle('collapsed');
+        const content = document.getElementById('graph-content');
+        if (content) {
+          content.classList.toggle('collapsed');
+          graphHeader.setAttribute('aria-expanded', !graphHeader.classList.contains('collapsed'));
+        }
+      });
+    }
+  `
 
   return Graph
 }) satisfies QuartzComponentConstructor

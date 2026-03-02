@@ -5,6 +5,8 @@ import { resolveRelative } from "../util/path"
 import style from "./styles/explorer.scss"
 import { concatenateResources } from "../util/resources"
 
+import Search from "./Search"
+
 // @ts-ignore
 import script from "./scripts/explorer.inline"
 import OverflowListFactory from "./OverflowList"
@@ -59,9 +61,10 @@ const defaultOptions: Options = {
 let numMobileMenus = 0
 export default ((userOpts?: Partial<Options>) => {
   const opts: Options = { ...defaultOptions, ...userOpts }
-  const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory()
+  const { overflowListAfterDOMLoaded } = OverflowListFactory()
 
-  const MobileMenu: QuartzComponent = ({ cfg, displayClass, allFiles, fileData }: QuartzComponentProps) => {
+  const MobileMenu: QuartzComponent = (props: QuartzComponentProps) => {
+    const { cfg, displayClass, allFiles, fileData } = props
     const id = `mobile-menu-${numMobileMenus++}`
 
     // Filtrer et trier les notes récentes (Fondamentaux)
@@ -92,36 +95,40 @@ export default ((userOpts?: Partial<Options>) => {
             <line x1="4" x2="20" y1="6" y2="6" />
             <line x1="4" x2="20" y1="18" y2="18" />
           </svg>
-          <span class="mobile-menu-label">Menu</span>
         </button>
-        
+
         {/* Overlay sombre */}
         <div class="mobile-menu-overlay" id={`${id}-overlay`}></div>
-        
+
         <div id={id} class="mobile-menu-content" aria-expanded={false} role="group">
+          {/* Section Recherche */}
+          <div class="mobile-menu-section mobile-menu-search">
+            {Search()({ ...props, displayClass: "mobile-only" })}
+          </div>
+
           {/* Section FONDAMENTAUX */}
           <div class="mobile-menu-section">
             <h3 class="mobile-menu-section-title">{opts.recentNotesTitle}</h3>
             <ul class="mobile-menu-recent-notes">
               {recentPages.slice(0, opts.recentNotesLimit).map((page) => {
                 const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
-                
+
                 return (
                   <li class="mobile-menu-recent-item">
                     <div class="mobile-menu-recent-container">
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        stroke-width="3" 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round" 
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                         class="mobile-menu-bullet"
                       >
-                        <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/>
+                        <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z" />
                       </svg>
                       <a href={resolveRelative(fileData.slug!, page.slug!)} class="mobile-menu-recent-link">
                         {title}
@@ -133,60 +140,22 @@ export default ((userOpts?: Partial<Options>) => {
             </ul>
           </div>
 
-          {/* Section Explorateur */}
-          <div class="mobile-menu-section">
-            <h3 class="mobile-menu-section-title">Explorateur</h3>
-            <div
-              class="explorer"
-              data-behavior={opts.folderClickBehavior}
-              data-collapsed={opts.folderDefaultState}
-              data-savestate={opts.useSavedState}
-              data-data-fns={JSON.stringify({
-                order: opts.order,
-                sortFn: opts.sortFn.toString(),
-                filterFn: opts.filterFn.toString(),
-                mapFn: opts.mapFn.toString(),
-              })}
-            >
-              <OverflowList class="explorer-ul mobile-explorer-ul" />
+          {/* Section Table des Matières */}
+          {fileData.toc && fileData.toc.length > 0 && (
+            <div class="mobile-menu-section">
+              <h3 class="mobile-menu-section-title">{i18n(cfg.locale).components.tableOfContents.title}</h3>
+              <ul class="mobile-menu-toc mobile-explorer-ul">
+                {fileData.toc.map((tocEntry) => (
+                  <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
+                    <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
+                      {tocEntry.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          )}
         </div>
-
-        {/* Templates pour l'explorateur */}
-        <template id="template-file">
-          <li>
-            <a href="#"></a>
-          </li>
-        </template>
-        <template id="template-folder">
-          <li>
-            <div class="folder-container">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="5 8 14 8"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="folder-icon"
-              >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-              <div>
-                <button class="folder-button">
-                  <span class="folder-title"></span>
-                </button>
-              </div>
-            </div>
-            <div class="folder-outer">
-              <ul class="content"></ul>
-            </div>
-          </li>
-        </template>
       </div>
     )
   }
@@ -239,48 +208,46 @@ export default ((userOpts?: Partial<Options>) => {
       stroke: var(--secondary);
     }
 
-    /* Correction pour le composant Search dans le header mobile */
-    header .search {
-      min-width: auto !important;
-      max-width: none !important;
-      flex-grow: 0 !important;
-      margin: 0 !important;
-      display: flex !important;
+    /* Styles pour la barre de recherche intégrée au menu mobile */
+    .mobile-menu-search {
+      padding: 1rem;
+      border-bottom: 1px solid var(--lightgray);
     }
 
-    header .search .search-button {
-      background-color: transparent !important;
+    .mobile-menu-search .search {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      max-width: none !important;
+      min-width: 100% !important;
+      margin: 0 !important;
+    }
+
+    .mobile-menu-search .search-button {
+      width: 100% !important;
+      justify-content: flex-start !important;
+      padding: 8px 12px !important;
+      height: 2.5rem !important;
+      background-color: var(--light) !important;
       border: 1px solid var(--lightgray) !important;
       border-radius: 6px !important;
-      height: 2.5rem !important;
-      padding: 0 12px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      cursor: pointer !important;
-      white-space: nowrap !important;
-      width: auto !important;
-      min-width: 44px !important;
     }
 
-    header .search .search-button svg {
-      width: 18px !important;
-      height: 18px !important;
-      min-width: 18px !important;
-      margin: 0 !important;
-      display: block !important;
+    .mobile-menu-search .search-button p {
+      display: inline !important;
+      margin-left: 8px !important;
+      color: var(--gray) !important;
     }
 
-    header .search .search-button p {
-      display: none !important; /* Masquer le texte "Search" sur mobile */
+    /* Correction pour éviter d'afficher d'autres éléments Search dans le header */
+    header .search {
+      display: none !important;
     }
 
-    /* FORCER l'affichage de la recherche sur mobile */
-    @media (max-width: 767px) {
-      header .search {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
+    /* FORCER l'affichage de la recherche sur mobile UNIQUEMENT DANS LE MENU */
+    @media (max-width: 1024px) {
+      header > .search {
+        display: none !important;
       }
     }
 
@@ -295,7 +262,7 @@ export default ((userOpts?: Partial<Options>) => {
       z-index: 999;
       display: none;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     .mobile-menu-overlay.active {
@@ -314,7 +281,7 @@ export default ((userOpts?: Partial<Options>) => {
       border-right: 1px solid var(--lightgray);
       box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
       overflow-y: auto;
-      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       display: flex;
       flex-direction: column;
     }
@@ -431,35 +398,13 @@ export default ((userOpts?: Partial<Options>) => {
       stroke: var(--secondary); /* Force la couleur du stroke */
     }
 
-    /* Mode horizontal - utilise le même menu coulissant que le mode vertical */
-    @media (min-width: 768px) {
+    /* Mode horizontal / Desktop (> 1024px) */
+    @media (min-width: 1025px) {
       .mobile-menu-toggle {
-        padding: 8px 16px;
-      }
-      
-      .mobile-menu-label {
-        display: inline; /* Affiche le libellé "Menu" en horizontal */
+        display: none !important; /* On cache le hamburger sur Desktop */
       }
 
-      /* En mode horizontal, on garde le menu coulissant mais avec plus de largeur */
-      .mobile-menu-content {
-        width: 350px; /* Plus large en horizontal */
-        left: -350px; /* Commence plus loin à gauche */
-      }
-
-      .mobile-menu-content[aria-expanded="true"] {
-        left: 0; /* Glisse vers la droite */
-      }
-
-      .mobile-menu-overlay {
-        display: block !important; /* On garde l'overlay en horizontal aussi */
-      }
-
-      /* Afficher le texte "Search" en horizontal */
-      header .search .search-button p {
-        display: inline !important;
-        margin-left: 8px !important;
-      }
+      /* Ne plus afficher le texte "Search" en horizontal car la recherche n'est plus dans le header */
     }
 
     /* Amélioration pour mobile en mode paysage */
@@ -489,15 +434,13 @@ export default ((userOpts?: Partial<Options>) => {
         toggle.setAttribute('aria-expanded', newExpanded);
         menuContent.setAttribute('aria-expanded', newExpanded);
         
-        // Gérer l'overlay seulement en mode mobile (pas en horizontal)
-        const isMobile = window.innerWidth < 768;
+        // Gérer l'overlay en appliquant la transition CSS fluide
+        const isMobile = window.innerWidth <= 1024;
         if (newExpanded) {
           menuOverlay.classList.add('active');
-          // Empêcher le scroll du body quand le menu est ouvert
           document.body.style.overflow = 'hidden';
         } else {
           menuOverlay.classList.remove('active');
-          // Réactiver le scroll du body
           document.body.style.overflow = '';
         }
         
@@ -560,9 +503,9 @@ export default ((userOpts?: Partial<Options>) => {
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(function() {
-        const isMobile = window.innerWidth < 768;
+        const isMobile = window.innerWidth <= 1024;
         
-        // Si on passe en mode desktop, fermer tous les menus et réactiver le scroll
+        // Si on passe en mode desktop (au-dessus du breakpoint)
         if (!isMobile) {
           document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
             toggle.setAttribute('aria-expanded', 'false');
@@ -599,6 +542,56 @@ export default ((userOpts?: Partial<Options>) => {
         document.body.style.overflow = '';
       }
     });
+
+    // --- Ajout de la navigation tactile (Swipe Left / Swipe Right) ---
+    let touchstartX = 0;
+    let touchendX = 0;
+    const swipeThreshold = 30; // Distance minimum pour considérer un swipe plus réactive
+
+    document.addEventListener('touchstart', e => {
+      touchstartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+      touchendX = e.changedTouches[0].screenX;
+      handleSwipeGesture();
+    });
+
+    function handleSwipeGesture() {
+      // Ignorer si l'écran est un desktop (>1024)
+      if (window.innerWidth > 1024) return;
+      
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      if (!toggle) return;
+      
+      const menuId = toggle.getAttribute('aria-controls');
+      const menuContent = document.getElementById(menuId);
+      const menuOverlay = document.getElementById(\`\${menuId}-overlay\`);
+      
+      if (!menuContent) return;
+      
+      const isExpanded = menuContent.getAttribute('aria-expanded') === 'true';
+      const distance = touchendX - touchstartX;
+      
+      // Swipe vers la droite (Menu Ouvrir)
+      if (distance > swipeThreshold && !isExpanded) {
+        // Initier depuis le bord gauche de l'écran (ex: maximum 100px depuis le bord pour être plus permissif)
+        if (touchstartX < 150) { 
+          toggle.setAttribute('aria-expanded', 'true');
+          menuContent.setAttribute('aria-expanded', 'true');
+          if (menuOverlay) menuOverlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+      
+      // Swipe vers la gauche (Menu Fermer)
+      if (distance < -swipeThreshold && isExpanded) {
+        toggle.setAttribute('aria-expanded', 'false');
+        menuContent.setAttribute('aria-expanded', 'false');
+        if (menuOverlay) menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
     `,
     overflowListAfterDOMLoaded
   )

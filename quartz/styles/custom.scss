@@ -6,188 +6,433 @@
 /* .is-desktop.theme-dark img[src*=".svg"] { filter: none !important; } */
 
 /* 2. LIENS GÉNÉRAUX & TABLEAUX (ÉTAT AU REPOS : FURTIF) */
-article a.internal, article a, table a {
-    color: inherit;
-    text-decoration: none;
-    border-bottom: none;
-    background-image: none;
-    box-shadow: none;
-    background-color: rgba(150, 150, 150, 0.1);
-    padding: 0 2px;
-    border-radius: 3px;
-    font-weight: normal;
-    transition: all 0.2s ease;
+article a.internal,
+article a,
+table a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: none;
+  background-image: none;
+  box-shadow: none;
+  background-color: rgba(150, 150, 150, 0.1);
+  padding: 0 2px;
+  border-radius: 3px;
+  font-weight: normal;
+  transition: all 0.2s ease;
 }
 
-table td a, table th a { font-weight: 600; }
+table td a,
+table th a {
+  font-weight: 600;
+}
 
 /* 3. SURVOL DES LIENS (ÉTAT ACTIF : BLEU + SOULIGNÉ) */
-article a.internal:hover, article a:hover, table a:hover {
-    color: #3f88c5;
-    text-decoration: underline;
-    text-decoration-color: rgba(63, 136, 197, 0.3);
-    background-color: rgba(150, 150, 150, 0.08);
+article a.internal:hover,
+article a:hover,
+table a:hover {
+  color: #3f88c5;
+  text-decoration: underline;
+  text-decoration-color: rgba(63, 136, 197, 0.3);
+  background-color: rgba(150, 150, 150, 0.08);
+}
+
+/* 14. ESPACEMENT TITRE PRINCIPAL (MOBILE) */
+.page-title a h1 {
+  @media all and (max-width: 1024px) {
+    margin: 0 !important;
+  }
+}
+
+/* 15. OPTIMISATION DU GRAPHIQUE (LEFT SIDEBAR) */
+.sidebar.left .graph {
+  max-height: 250px;
+  overflow: hidden;
 }
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
-table { 
-    width: auto; 
-    max-width: 100%; 
-    margin: 1.5rem 0;
-    border-collapse: collapse;
-    border: 1px solid var(--lightgray);
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  border: 1px solid var(--lightgray);
 }
-th, td { border: 1px solid var(--lightgray); padding: 0.6rem 1rem; }
-th { background-color: var(--lightgray); font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+
+th,
+td {
+  border: 1px solid var(--lightgray);
+  padding: 0.6rem 1rem;
+}
+
+th {
+  background-color: var(--lightgray);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+}
 
 /* 5. POPOVERS (FENÊTRES FLOTTANTES : TAILLES DÉFINIES) */
 body .popover {
-    .metadata-container, .content-meta { display: none !important; }
-    .article-title, h1 { font-size: 1.6rem !important; margin: 0.3rem 0 !important; line-height: 1.7 !important; }
-    h2 { font-size: 1.3rem !important; margin: 0.2rem 0 !important; }
-    h3 { font-size: 1.2rem !important; }
-    p, li { font-size: 1rem !important; line-height: 1.5 !important; }
+
+  .metadata-container,
+  .content-meta {
+    display: none !important;
+  }
+
+  .article-title,
+  h1 {
+    font-size: 1.6rem !important;
+    margin: 0.3rem 0 !important;
+    line-height: 1.7 !important;
+  }
+
+  h2 {
+    font-size: 1.3rem !important;
+    margin: 0.2rem 0 !important;
+  }
+
+  h3 {
+    font-size: 1.2rem !important;
+  }
+
+  p,
+  li {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
 }
 
 /* 6. STYLE DES TITRES (RAJHDANI) */
-#toc-content, .explorer, .toc, .recent-ul, .article-title, h1, h2, h3, h4 {
-    font-family: 'Rajdhani', sans-serif !important;
+#toc-content,
+.explorer,
+.toc,
+.recent-ul,
+.article-title,
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Rajdhani', sans-serif !important;
 }
 
 /* 7. TAILLES DES TITRES RÉDACTION (HORS POPOVER) */
-.article-title { font-size: 2.6rem !important; }
-h1 { font-size: 2.2rem !important; }
-h2 { font-size: 2rem !important; }
-h3 { font-size: 1.8rem !important; }
-h4 { font-size: 1.6rem !important; }
-h5 { font-size: 1.4rem !important; }
-h6 { font-size: 1.2rem !important; }
+.article-title {
+  font-size: 2.6rem !important;
+}
 
-/* 8. FIX EXPLORATEUR */
-.explorer-header h3, .toc-header { white-space: nowrap !important; overflow: visible !important; }
-#explorer-header svg, .toc-header svg { fill: none !important; stroke: var(--dark) !important; }
+h1 {
+  font-size: 2.2rem !important;
+}
+
+h2 {
+  font-size: 2rem !important;
+}
+
+h3 {
+  font-size: 1.8rem !important;
+}
+
+h4 {
+  font-size: 1.6rem !important;
+}
+
+h5 {
+  font-size: 1.4rem !important;
+}
+
+h6 {
+  font-size: 1.2rem !important;
+}
+
+/* 8. FIX EXPLORATEUR ET TOC */
+.explorer-header h3,
+.toc-header {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  color: var(--dark) !important;
+}
+
+#explorer-header svg,
+.toc-header svg {
+  fill: none !important;
+  stroke: var(--dark) !important;
+}
+
+.toc h3 {
+  color: var(--dark) !important;
+}
 
 /* ==========================================================================
    FIX HEADER & NAVIGATION MOBILE
    ========================================================================== */
 
 @media screen and (max-width: 1300px) {
-    /* 1. Nettoyage du Header pour éviter les superpositions */
-    header {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        height: 60px !important;
-        padding: 0 1rem !important;
-        background-color: var(--light);
-        z-index: 1000;
-    }
 
-    /* Masquer les titres parasites qui "flottent" dans le header */
-    header .explorer h3, 
-    header .explorer button#explorer span,
-    header .recent-notes,
-    header .search { 
-        display: none !important; 
-    }
+  /* 1. Nettoyage du Header pour éviter les superpositions */
+  header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 60px !important;
+    padding: 0 1rem !important;
+    background-color: var(--light);
+    z-index: 1000;
+  }
 
-    /* Centrage de SYNTAX */
-    header .page-title {
-        position: absolute !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        margin: 0 !important;
-    }
+  /* Masquer les titres parasites qui "flottent" dans le header */
+  header .explorer h3,
+  header .explorer button#explorer span,
+  header .recent-notes,
+  header .search {
+    display: none !important;
+  }
 
-    /* 2. Fix du menu coulissant (Sidebar mobile) */
-    /* On s'assure que tout est lisible à l'intérieur */
-    .page > .left.open {
-        display: flex !important;
-        flex-direction: column !important;
-        padding: 2rem 1.5rem !important;
-    }
+  /* Centrage de SYNTAX */
+  header .page-title {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+  }
 
-    /* 3. Masquage de la sidebar fixe en mode paysage */
-    .page > .left:not(.open) {
-        display: none !important;
-    }
+  /* 2. Fix du menu coulissant (Sidebar mobile) */
+  /* On s'assure que tout est lisible à l'intérieur */
+  .page>.left.open {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 2rem 1.5rem !important;
+  }
+
+  /* 3. Masquage de la sidebar fixe en mode paysage */
+  .page>.left:not(.open) {
+    display: none !important;
+  }
 }
 
 /* ==========================================================================
-   FIX LOUPE RECHERCHE MOBILE
+   FIX HEADER 3-ÉLÉMENTS MOBILE
    ========================================================================== */
 
-/* Forcer l'affichage de la recherche sur mobile vertical */
-@media (max-width: 767px) {
+/* Forcer l'affichage 3 éléments alignés sur mobile vertical */
+@media (max-width: 1024px) {
   header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px !important;
+    gap: 0 !important;
   }
 
   header .mobile-menu {
-    order: 1; /* Premier élément */
-    flex: 0 0 auto;
+    order: 1;
+    /* Premier élément (Logo/Hamburger) */
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
   }
 
   header .page-title {
-    order: 2; /* Deuxième élément (centre) */
+    order: 2;
+    /* Deuxième élément (centre) */
     flex: 1 !important;
     text-align: center !important;
-    margin: 0 8px !important; /* Espace pour la loupe */
-  }
-
-  header .search {
-    order: 3; /* Troisième élément (droite du titre) */
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    min-width: auto !important;
-    max-width: none !important;
-    flex-grow: 0 !important;
     margin: 0 !important;
-    flex: 0 0 auto;
+    position: static !important;
+    transform: none !important;
   }
 
   header .darkmode {
-    order: 4; /* Dernier élément */
-    flex: 0 0 auto;
-  }
-
-  header .search .search-button {
-    background-color: transparent !important;
-    border: 1px solid var(--lightgray) !important;
-    border-radius: 6px !important;
-    height: 2.5rem !important;
-    padding: 0 12px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    white-space: nowrap !important;
-    width: auto !important;
-    min-width: 44px !important;
-  }
-
-  header .search .search-button svg {
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 18px !important;
-    margin: 0 !important;
-    display: block !important;
-  }
-
-  header .search .search-button p {
-    display: none !important; /* Masquer le texte "Search" sur mobile */
+    order: 3;
+    /* Dernier élément */
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
-/* Mode horizontal - afficher le texte "Search" */
-@media (min-width: 768px) {
-  header .search .search-button p {
-    display: inline !important;
-    margin-left: 8px !important;
+/* 16. TOC SCROLLBAR (HOVER ONLY) */
+#toc-content {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  &:hover {
+    scrollbar-color: var(--gray) transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--gray);
+    }
+  }
+}
+
+/* 17. STYLE DU TITRE NODE (PAGE TITLE) */
+/* 17. STYLE DU TITRE NODE (PAGE TITLE) */
+.page-title {
+  margin: 0 !important;
+}
+
+.page-title a {
+  font-family: 'Rajdhani', sans-serif !important;
+  font-size: 4rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  transition: font-size 0.3s ease, opacity 0.3s ease;
+  display: inline-block;
+  line-height: 1;
+  /* Eliminates dead vertical space */
+}
+
+/* 18. ANTI-ECRASEMENT ET SCROLL LATÉRAL DES MENUS (SIDEBAR) */
+.left {
+  overflow-y: auto;
+  max-height: 100vh;
+  position: relative;
+  z-index: 10;
+  padding-top: 0 !important;
+  /* Eliminates the scroll-through gap above sticky header */
+  /* Stack context for internal sticky */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  &:hover {
+    scrollbar-color: var(--gray) transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--gray);
+    }
+  }
+}
+
+/* Override the default quartz TOC max height so the left sidebar scrolls entirely instead */
+.toc {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* 21. COMMAND CENTER (STICKY HEADER) & SINGLE SCROLL */
+.left>.flex-component:first-child,
+.left>.desktop-only:first-child {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background-color: var(--light) !important;
+  padding: 2rem 0.5rem 1rem 0.5rem !important;
+  /* Internal padding for the shield */
+  margin-top: 0 !important;
+  /* No negative margin needed anymore */
+  border-bottom: 1px solid transparent;
+  transition: padding 0.3s ease, border-color 0.3s ease;
+}
+
+/* SHRINK EFFECT - Smooth padding reduction */
+.left>.flex-component:first-child.is-scrolled,
+.left>.desktop-only:first-child.is-scrolled {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid var(--lightgray) !important;
+}
+
+.left>.flex-component:first-child.is-scrolled .page-title a,
+.left>.desktop-only:first-child.is-scrolled .page-title a {
+  font-size: 1.5rem !important;
+}
+
+/* Gradient Fade for smooth scrolling - Below the header */
+.left>.flex-component:first-child::after,
+.left>.desktop-only:first-child::after {
+  content: "";
+  position: absolute;
+  bottom: -2rem;
+  /* Place the gradient exactly below the header */
+  left: 0;
+  right: 0;
+  height: 2rem;
+  background: linear-gradient(to bottom, var(--light) 10%, transparent 100%);
+  pointer-events: none;
+}
+
+/* 23. STRICT LEFT SEARCH ALIGNMENT */
+.left .search,
+.left .search-button {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.left .page-title {
+  margin-left: 0 !important;
+}
+
+/* Éradication définitive du scroll au sein de la TOC (Single Scroll) */
+.toc,
+.toc-content,
+.toc-content>ul {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+#toc-content {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* 22. FILTRE INDEX & FIX GRAPH OVERLAP */
+.page:has(article[data-slug="index"]) .left .graph {
+  display: none !important;
+}
+
+/* Empêche le graphique replié de recouvrir les éléments en-dessous */
+#graph-content.collapsed {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Désactive les clics quand réduit */
+}
+
+#graph-content {
+  transition: height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.left .graph,
+.left .recent-notes,
+.left .toc {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10 !important;
+}
+
+/* 19. FORCER LA TAILLE DU GRAPHE DÉPLOYÉ (EVITER LE CANVAS 0px) */
+.graph-outer {
+  min-height: 250px;
+  min-width: 100%;
+}
+
+/* 20. TAILLE DES TITRES DE RECHERCHE MOBILE */
+@media (max-width: 1024px) {
+
+  .search-result h3,
+  .search .result-card h3 {
+    font-size: 1.1rem !important;
   }
 }

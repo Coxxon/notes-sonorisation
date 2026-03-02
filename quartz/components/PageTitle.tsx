@@ -5,16 +5,10 @@ import { classNames } from "../util/lang"
 const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
   const title = cfg?.pageTitle ?? "Untitled"
   const baseDir = pathToRoot(fileData.slug!)
-  
-  const firstLetter = title.charAt(0).toUpperCase()
-  const restOfTitle = title.slice(1).toUpperCase()
 
   return (
     <h2 class={classNames(displayClass, "page-title")}>
-      <a href={baseDir}>
-        <span class="logo-first">{firstLetter}</span>
-        <span class="logo-rest">{restOfTitle}</span>
-      </a>
+      <a href={baseDir}>{title}</a>
     </h2>
   )
 }
@@ -47,17 +41,29 @@ PageTitle.css = `
   opacity: 1 !important;
 }
 
-.logo-first {
-  font-size: 4rem;
-  line-height: 1;
-  vertical-align: baseline;
-  margin-right: -2px;
-}
-
-.logo-rest {
-  font-size: 3.4rem;
-  letter-spacing: 2px;
-  opacity: 0.9;
-}
 `
+
+PageTitle.afterDOMLoaded = `
+  const pageTitle = document.querySelector('.page-title');
+  let dashboard = null;
+  if (pageTitle) {
+    dashboard = pageTitle.closest('.flex-component.desktop-only') || pageTitle.closest('.desktop-only');
+    if (dashboard) {
+      dashboard.id = 'command-center-header';
+    }
+  }
+
+  const leftSidebar = document.querySelector('.left');
+  
+  if (leftSidebar && dashboard) {
+    leftSidebar.addEventListener('scroll', () => {
+      if (leftSidebar.scrollTop > 10) {
+        dashboard.classList.add('is-scrolled');
+      } else {
+        dashboard.classList.remove('is-scrolled');
+      }
+    });
+  }
+`
+
 export default (() => PageTitle) satisfies QuartzComponentConstructor

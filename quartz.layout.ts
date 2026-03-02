@@ -12,7 +12,7 @@ export const sharedPageComponents: SharedLayout = {
       recentNotesSort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       recentNotesShowTags: false,
     })),
-    // Ligne de recherche supprimée ici !
+    // Ligne de recherche retirée d'ici pour aller dans le MobileMenu
     Component.MobileOnly(Component.PageTitle()), // NODE au centre (uniquement mobile)
     Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
   ],
@@ -29,33 +29,42 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [],
   left: [
     // Sur Desktop, on garde tout comme avant
-    Component.DesktopOnly(Component.PageTitle()),
+    // Commande Center (Sticky)
     Component.DesktopOnly(
       Component.Flex({
+        direction: "column",
         components: [
-          { Component: Component.Search(), grow: true },
-          { Component: Component.Darkmode() },
-          { Component: Component.ReaderMode() },
+          { Component: Component.PageTitle(), align: "start" },
+          {
+            Component: Component.Flex({
+              direction: "row",
+              components: [
+                { Component: Component.Search(), grow: true, align: "center", justify: "start" },
+                { Component: Component.Darkmode(), align: "center" },
+                { Component: Component.ReaderMode(), align: "center" },
+              ],
+            }),
+          },
         ],
+      })
+    ),
+    Component.DesktopOnly(
+      Component.Graph({
+        localGraph: { showTags: false },
+        globalGraph: { showTags: false }
       })
     ),
     // Ces composants restent sur desktop comme avant
     Component.DesktopOnly(Component.RecentNotes({
       title: "Fondamentaux",
       limit: 10,
-      filter: (f) => f.frontmatter?.tags?.includes("fondamentaux"),
-      sort: (f1, f2) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
+      filter: (f) => f.frontmatter?.tags?.includes("fondamentaux") === true,
+      sort: (f1, f2) => (Number(f1.frontmatter?.order) ?? 100) - (Number(f2.frontmatter?.order) ?? 100),
       showTags: false,
     })),
-    Component.DesktopOnly(Component.Explorer()),
-  ],
-  right: [
-    Component.Graph({
-      localGraph: { showTags: false },
-      globalGraph: { showTags: false }
-    }),
     Component.DesktopOnly(Component.TableOfContents()),
   ],
+  right: [],
 }
 
 // components for pages that display lists of pages (e.g. tags or folders)
@@ -74,7 +83,6 @@ export const defaultListPageLayout: PageLayout = {
         ],
       })
     ),
-    Component.DesktopOnly(Component.Explorer()),
   ],
   right: [],
 }

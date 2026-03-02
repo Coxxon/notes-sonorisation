@@ -14,6 +14,7 @@ interface Options {
   showTags: boolean
   filter: (f: QuartzPluginData) => boolean
   sort: (f1: QuartzPluginData, f2: QuartzPluginData) => number
+  collapsed: boolean
 }
 
 const defaultOptions = (cfg: GlobalConfiguration): Options => ({
@@ -22,6 +23,7 @@ const defaultOptions = (cfg: GlobalConfiguration): Options => ({
   showTags: true,
   filter: () => true,
   sort: byDateAndAlphabetical(cfg),
+  collapsed: false,
 })
 
 export default ((userOpts?: Partial<Options>) => {
@@ -34,82 +36,132 @@ export default ((userOpts?: Partial<Options>) => {
     const opts = { ...defaultOptions(cfg), ...userOpts }
     const pages = allFiles.filter(opts.filter).sort(opts.sort)
     const remaining = Math.max(0, pages.length - opts.limit)
+    const isCollapsed = opts.collapsed;
     return (
       <div class={classNames(displayClass, "recent-notes")}>
-        <h3>{opts.title ?? i18n(cfg.locale).components.recentNotes.title}</h3>
-        <ul class="recent-ul">
-          {pages.slice(0, opts.limit).map((page) => {
-            const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
-            const tags = page.frontmatter?.tags ?? []
+        <button
+          type="button"
+          class={isCollapsed ? "collapsed recent-header" : "recent-header"}
+          aria-expanded={!isCollapsed ? "true" : "false"}
+          aria-controls="recent-content"
+        >
+          <h3>{opts.title ?? i18n(cfg.locale).components.recentNotes.title}</h3>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="fold"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div id="recent-content" class={isCollapsed ? "collapsed" : ""}>
+          <ul class="recent-ul">
+            {pages.slice(0, opts.limit).map((page) => {
+              const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
+              const tags = page.frontmatter?.tags ?? []
 
-            return (
-              <li class="recent-li">
-                <div class="recent-container">
-                  {/* SVG Diamond avec paramètres de rendu optimisés */}
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    stroke-width="3" 
-                    stroke-linecap="round" 
-                    stroke-linejoin="round" 
-                    class="cyber-bullet"
-                  >
-                    <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"/>
-                  </svg>
+              return (
+                <li class="recent-li">
+                  <div class="recent-container">
+                    {/* SVG Diamond avec paramètres de rendu optimisés */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="cyber-bullet"
+                    >
+                      <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z" />
+                    </svg>
 
-                  <div class="section">
-                    <div class="desc">
-                      <span>
-                        <a href={resolveRelative(fileData.slug!, page.slug!)}>
-                          {title}
-                        </a>
-                      </span>
+                    <div class="section">
+                      <div class="desc">
+                        <span>
+                          <a href={resolveRelative(fileData.slug!, page.slug!)}>
+                            {title}
+                          </a>
+                        </span>
+                      </div>
+                      {opts.showTags && (
+                        <ul class="tags">
+                          {tags.map((tag) => (
+                            <li>
+                              <a
+                                class="internal tag-link"
+                                href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
+                              >
+                                {tag}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                    {opts.showTags && (
-                      <ul class="tags">
-                        {tags.map((tag) => (
-                          <li>
-                            <a
-                              class="internal tag-link"
-                              href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
-                            >
-                              {tag}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
-        {opts.linkToMore && remaining > 0 && (
-          <p>
-            <a href={resolveRelative(fileData.slug!, opts.linkToMore)} class="see-more">
-              {i18n(cfg.locale).components.recentNotes.seeRemainingMore({ remaining })}
-            </a>
-          </p>
-        )}
+                </li>
+              )
+            })}
+          </ul>
+          {opts.linkToMore && remaining > 0 && (
+            <p>
+              <a href={resolveRelative(fileData.slug!, opts.linkToMore)} class="see-more">
+                {i18n(cfg.locale).components.recentNotes.seeRemainingMore({ remaining })}
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     )
   }
 
   RecentNotes.css = style + `
-  .recent-notes > h3 {
+  .recent-header {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--dark);
+    margin-bottom: 0.75rem;
+  }
+  
+  .recent-header h3 {
     font-family: 'Rajdhani', sans-serif !important;
     font-size: 1.4rem !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
     color: var(--dark) !important;
-    margin-bottom: 0.75rem !important;
-    margin-top: 0 !important;
+    margin: 0 !important;
+  }
+
+  .recent-header .fold {
+    transition: transform 0.2s ease;
+    opacity: 0.8;
+  }
+
+  .recent-header.collapsed .fold {
+    transform: rotate(-90deg);
+  }
+
+  #recent-content.collapsed {
+    display: none;
   }
 
   .recent-ul {
@@ -176,6 +228,19 @@ export default ((userOpts?: Partial<Options>) => {
     color: var(--secondary);
     opacity: 1;
   }
+  `
+  RecentNotes.afterDOMLoaded = `
+    const recentHeader = document.querySelector('.recent-header');
+    if (recentHeader) {
+      recentHeader.addEventListener('click', () => {
+        recentHeader.classList.toggle('collapsed');
+        const content = document.getElementById('recent-content');
+        if (content) {
+          content.classList.toggle('collapsed');
+          recentHeader.setAttribute('aria-expanded', !recentHeader.classList.contains('collapsed'));
+        }
+      });
+    }
   `
   return RecentNotes
 }) satisfies QuartzComponentConstructor
