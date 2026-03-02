@@ -33,7 +33,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.DesktopOnly(
       Component.Flex({
         components: [
-          { Component: Component.Search(), grow: true },
           { Component: Component.Darkmode() },
         ],
       })
@@ -65,10 +64,6 @@ export const defaultListPageLayout: PageLayout = {
     Component.DesktopOnly(
       Component.Flex({
         components: [
-          {
-            Component: Component.Search(),
-            grow: true,
-          },
           { Component: Component.Darkmode() },
         ],
       })
