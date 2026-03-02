@@ -12,8 +12,8 @@ export const sharedPageComponents: SharedLayout = {
       recentNotesSort: (f1: any, f2: any) => (f1.frontmatter?.order ?? 100) - (f2.frontmatter?.order ?? 100),
       recentNotesShowTags: false,
     })),
-    Component.MobileOnly(Component.Search()),   // Recherche à droite du menu hamburger
-    Component.MobileOnly(Component.PageTitle()), // SYNTAX au centre (uniquement mobile)
+    // Ligne de recherche supprimée ici !
+    Component.MobileOnly(Component.PageTitle()), // NODE au centre (uniquement mobile)
     Component.MobileOnly(Component.Darkmode()), // Darkmode à droite
   ],
   afterBody: [],
