@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "SYNTAX",
+    pageTitle: "Node",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
