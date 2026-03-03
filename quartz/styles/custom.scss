@@ -335,40 +335,81 @@ h6 {
   position: sticky !important;
   top: 0 !important;
   z-index: 9999 !important;
-  background-color: var(--light) !important;
-  padding: 2rem 0.5rem 1rem 0.5rem !important;
-  /* Internal padding for the shield */
+
+  /* CONTENEUR FANTÔME (Stabilité absolue du layout DOM) */
+  height: 160px !important;
+  background-color: transparent !important;
+  padding: 2rem 0.5rem 1.5rem 0.5rem !important;
   margin-top: 0 !important;
-  /* No negative margin needed anymore */
-  border-bottom: 1px solid transparent;
-  transition: padding 0.3s ease, border-color 0.3s ease;
+  border-bottom: none !important;
+  transition: none !important;
+  /* Piloté en temps réel par Javascript */
+  pointer-events: none;
+  /* Laisse passer les clics dans la zone vide */
 }
 
-/* SHRINK EFFECT - Smooth padding reduction */
-.left>.flex-component:first-child.is-scrolled,
-.left>.desktop-only:first-child.is-scrolled {
-  padding-top: 0.5rem !important;
-  padding-bottom: 0.5rem !important;
-  border-bottom: 1px solid var(--lightgray) !important;
+/* Rendre interactif uniquement le contenu réel */
+.left>.flex-component:first-child>*,
+.left>.desktop-only:first-child>* {
+  pointer-events: auto;
 }
 
-.left>.flex-component:first-child.is-scrolled .page-title a,
-.left>.desktop-only:first-child.is-scrolled .page-title a {
-  font-size: 1.5rem !important;
+/* BOUCLIER VISUEL (S'ajuste dynamiquement via var(--scroll-ratio)) */
+.left>.flex-component:first-child::before,
+.left>.desktop-only:first-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -1rem;
+  right: -1rem;
+  /* Couvre les bords de la sidebar */
+  height: calc(160px - (var(--scroll-ratio, 0) * 80px));
+  background-color: var(--light);
+  z-index: -1;
+  border-bottom: solid 1px rgba(0, 0, 0, calc(var(--scroll-ratio, 0) * 0.08));
 }
 
-/* Gradient Fade for smooth scrolling - Below the header */
+/* DÉGRADÉ INFÉRIEUR FLUIDE */
 .left>.flex-component:first-child::after,
 .left>.desktop-only:first-child::after {
   content: "";
   position: absolute;
-  bottom: -2rem;
-  /* Place the gradient exactly below the header */
-  left: 0;
-  right: 0;
-  height: 2rem;
+  top: calc(160px - (var(--scroll-ratio, 0) * 80px));
+  left: -1rem;
+  right: -1rem;
+  height: 1.5rem;
   background: linear-gradient(to bottom, var(--light) 10%, transparent 100%);
   pointer-events: none;
+  z-index: -1;
+}
+
+/* INTERPOLATION DU TITRE NODE */
+.left>.flex-component:first-child .page-title,
+.left>.desktop-only:first-child .page-title {
+  display: flex;
+  align-items: flex-start;
+  transition: none !important;
+}
+
+.left>.flex-component:first-child .page-title a,
+.left>.desktop-only:first-child .page-title a {
+  /* De 2.2rem à 1.5rem selon le ratio */
+  font-size: calc(2.2rem - (var(--scroll-ratio, 0) * 0.7rem)) !important;
+  transition: filter 0.3s ease-out !important;
+  /* Seulement le halo */
+}
+
+/* REMONTÉE INTERNE (Recherche, Boutons) */
+.left>.flex-component:first-child>div:nth-child(2),
+.left>.desktop-only:first-child>div:nth-child(2) {
+  transform: translateY(calc(var(--scroll-ratio, 0) * -30px));
+  transition: none !important;
+}
+
+/* REMONTÉE DU CONTENU DE LA SIDEBAR (Pour combler le vide du conteneur fantôme) */
+.left>*:not(:first-child) {
+  transform: translateY(calc(var(--scroll-ratio, 0) * -80px));
+  transition: none !important;
 }
 
 /* 23. STRICT LEFT SEARCH ALIGNMENT */
@@ -383,16 +424,15 @@ h6 {
 }
 
 /* Éradication définitive du scroll au sein de la TOC (Single Scroll) */
-.toc,
-.toc-content,
-.toc-content>ul {
+.toc:not(.collapsed),
+.toc-content:not(.collapsed),
+.toc-content:not(.collapsed)>ul {
   max-height: none !important;
   overflow: visible !important;
 }
 
-#toc-content {
-  max-height: none !important;
-  overflow: visible !important;
+.toc-content.collapsed {
+  display: none !important;
 }
 
 /* 22. FILTRE INDEX & FIX GRAPH OVERLAP */
@@ -401,19 +441,7 @@ h6 {
 }
 
 /* Empêche le graphique replié de recouvrir les éléments en-dessous */
-#graph-content.collapsed {
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-  pointer-events: none;
-  /* Désactive les clics quand réduit */
-}
-
-#graph-content {
-  transition: height 0.3s ease, opacity 0.3s ease;
-  overflow: hidden;
-}
-
+/* Handled by .graph-content-container in Graph.tsx */
 .left .graph,
 .left .recent-notes,
 .left .toc {

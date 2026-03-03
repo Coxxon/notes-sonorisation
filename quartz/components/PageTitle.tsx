@@ -25,8 +25,8 @@ PageTitle.css = `
   font-weight: 500;
   display: inline-block;
   letter-spacing: -1px;
-  transition: transform 0.3s ease-out, filter 0.3s ease-out;
-  transform-origin: center;
+  /* Aucune transition sur font-size ou transform liés au scroll ratio pour éviter le lag (1:1 direct mapping) */
+  transition: filter 0.3s ease-out;
   /* Garantit la netteté absolue du texte */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,11 +57,16 @@ PageTitle.afterDOMLoaded = `
   
   if (leftSidebar && dashboard) {
     leftSidebar.addEventListener('scroll', () => {
-      if (leftSidebar.scrollTop > 10) {
-        dashboard.classList.add('is-scrolled');
-      } else {
-        dashboard.classList.remove('is-scrolled');
-      }
+      /* INTERPOLATION FLUIDE : 
+         Calcul d'un ratio t entre 0 et 1 sur les premiers 100px de scroll.
+         En injectant cette variable, le CSS gère anatomiquement la réduction sans layout shift.
+      */
+      const maxScroll = 100;
+      let ratio = leftSidebar.scrollTop / maxScroll;
+      if (ratio > 1) ratio = 1;
+      if (ratio < 0) ratio = 0;
+      
+      dashboard.style.setProperty('--scroll-ratio', ratio.toString());
     });
   }
 `

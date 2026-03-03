@@ -61,6 +61,8 @@ const defaultOptions: GraphOptions = {
   collapsed: true,
 }
 
+let numGraphs = 0
+
 export default ((opts?: Partial<GraphOptions>) => {
   const Graph: QuartzComponent = ({ displayClass, fileData, cfg }: QuartzComponentProps) => {
     if (fileData.slug === "index") {
@@ -70,13 +72,15 @@ export default ((opts?: Partial<GraphOptions>) => {
     const localGraph = { ...defaultOptions.localGraph, ...opts?.localGraph }
     const globalGraph = { ...defaultOptions.globalGraph, ...opts?.globalGraph }
     const isCollapsed = opts?.collapsed ?? defaultOptions.collapsed;
+    const id = `graph-${numGraphs++}`
     return (
       <div class={classNames(displayClass, "graph")}>
         <button
           type="button"
           class={isCollapsed ? "collapsed graph-header" : "graph-header"}
           aria-expanded={!isCollapsed ? "true" : "false"}
-          aria-controls="graph-content"
+          aria-controls={id}
+          data-target={id}
         >
           <h3>{i18n(cfg.locale).components.graph.title}</h3>
           <svg
@@ -94,7 +98,7 @@ export default ((opts?: Partial<GraphOptions>) => {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
-        <div id="graph-content" class={isCollapsed ? "collapsed" : ""}>
+        <div id={id} class={`graph-content-container ${isCollapsed ? "collapsed" : ""}`}>
           <div class="graph-outer">
             <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
             <button class="global-graph-icon" aria-label="Global Graph">
@@ -165,31 +169,39 @@ export default ((opts?: Partial<GraphOptions>) => {
     transform: rotate(-90deg);
   }
   
-  #graph-content {
+  .graph-content-container {
     transition: max-height 0.3s ease, opacity 0.3s ease;
     max-height: 900px; /* Arbitrary large height to permit natural expansion */
     opacity: 1;
     overflow: visible;
   }
   
-  #graph-content.collapsed {
+  .graph-content-container.collapsed {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
   }
   `
   Graph.afterDOMLoaded = script + `
-    const graphHeader = document.querySelector('.graph-header');
-    if (graphHeader) {
-      graphHeader.addEventListener('click', () => {
-        graphHeader.classList.toggle('collapsed');
-        const content = document.getElementById('graph-content');
-        if (content) {
-          content.classList.toggle('collapsed');
-          graphHeader.setAttribute('aria-expanded', !graphHeader.classList.contains('collapsed'));
-        }
+    document.addEventListener('nav', () => {
+      const headers = document.querySelectorAll('.graph-header');
+      headers.forEach(header => {
+        const toggleGraph = (e) => {
+          const btn = e.currentTarget;
+          btn.classList.toggle('collapsed');
+          const contentId = btn.getAttribute('data-target');
+          if (contentId) {
+            const content = document.getElementById(contentId);
+            if (content) {
+              content.classList.toggle('collapsed');
+              btn.setAttribute('aria-expanded', !btn.classList.contains('collapsed'));
+            }
+          }
+        };
+        header.addEventListener('click', toggleGraph);
+        window.addCleanup(() => header.removeEventListener('click', toggleGraph));
       });
-    }
+    });
   `
 
   return Graph

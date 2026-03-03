@@ -6,6 +6,7 @@
   overflow-y: hidden;
   min-height: 1.4rem;
   flex: 0 0.5 auto;
+
   &:has(button.toc-header.collapsed) {
     flex: 0 1 1.4rem;
   }
@@ -38,23 +39,51 @@ button.toc-header {
   }
 }
 
-ul.toc-content.overflow {
+.toc-content ul.overflow {
   list-style: none;
   position: relative;
   margin: 0.5rem 0;
   padding: 0;
   max-height: calc(100% - 2rem);
   overscroll-behavior: contain;
-  list-style: none;
 
-  & > li > a {
-    color: var(--dark);
-    opacity: 0.35;
-    transition:
-      0.5s ease opacity,
-      0.3s ease color;
-    &.in-view {
-      opacity: 0.75;
+  &>li>a {
+    color: var(--gray);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+
+    &:hover {
+      opacity: 0.8 !important;
+      color: var(--tertiary) !important;
+    }
+
+    /* TRIPLE ÉTAT : PROGRESSION ORGANIQUE */
+
+    /* 1. Titres déjà lus (au-dessus) */
+    &.is-past {
+      opacity: 0.6;
+      color: var(--lightgray);
+    }
+
+    /* 2. Titres à venir (en-dessous) */
+    &.is-future {
+      opacity: 0.3;
+      color: var(--gray);
+    }
+
+    /* 3. Titres actuellement affichés à l'écran */
+    &.is-active {
+      color: var(--dark);
+      /* L'opacité dégressive est gérée dynamiquement par le JS en style inline, 
+         mais on s'assure d'une transition douce */
+    }
+
+    /* 4. Le titre EXACTEMENT lu (le plus haut du viewport) */
+    &.active {
+      color: var(--dark) !important;
+      opacity: 1 !important;
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
   }
 

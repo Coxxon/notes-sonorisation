@@ -26,6 +26,8 @@ const defaultOptions = (cfg: GlobalConfiguration): Options => ({
   collapsed: false,
 })
 
+let numRecentNotes = 0
+
 export default ((userOpts?: Partial<Options>) => {
   const RecentNotes: QuartzComponent = ({
     allFiles,
@@ -36,14 +38,16 @@ export default ((userOpts?: Partial<Options>) => {
     const opts = { ...defaultOptions(cfg), ...userOpts }
     const pages = allFiles.filter(opts.filter).sort(opts.sort)
     const remaining = Math.max(0, pages.length - opts.limit)
-    const isCollapsed = opts.collapsed;
+    const isCollapsed = opts.collapsed ?? defaultOptions(cfg).collapsed
+    const id = `recent-content-${numRecentNotes++}`
     return (
       <div class={classNames(displayClass, "recent-notes")}>
         <button
           type="button"
           class={isCollapsed ? "collapsed recent-header" : "recent-header"}
           aria-expanded={!isCollapsed ? "true" : "false"}
-          aria-controls="recent-content"
+          aria-controls={id}
+          data-target={id}
         >
           <h3>{opts.title ?? i18n(cfg.locale).components.recentNotes.title}</h3>
           <svg
@@ -61,7 +65,7 @@ export default ((userOpts?: Partial<Options>) => {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
-        <div id="recent-content" class={isCollapsed ? "collapsed" : ""}>
+        <div id={id} class={`recent-content-container ${isCollapsed ? "collapsed" : ""}`}>
           <ul class="recent-ul">
             {pages.slice(0, opts.limit).map((page) => {
               const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
@@ -160,7 +164,7 @@ export default ((userOpts?: Partial<Options>) => {
     transform: rotate(-90deg);
   }
 
-  #recent-content.collapsed {
+  .recent-content-container.collapsed {
     display: none;
   }
 
@@ -230,17 +234,25 @@ export default ((userOpts?: Partial<Options>) => {
   }
   `
   RecentNotes.afterDOMLoaded = `
-    const recentHeader = document.querySelector('.recent-header');
-    if (recentHeader) {
-      recentHeader.addEventListener('click', () => {
-        recentHeader.classList.toggle('collapsed');
-        const content = document.getElementById('recent-content');
-        if (content) {
-          content.classList.toggle('collapsed');
-          recentHeader.setAttribute('aria-expanded', !recentHeader.classList.contains('collapsed'));
-        }
+    document.addEventListener('nav', () => {
+      const headers = document.querySelectorAll('.recent-header');
+      headers.forEach(header => {
+        const toggleRecent = (e) => {
+          const btn = e.currentTarget;
+          btn.classList.toggle('collapsed');
+          const contentId = btn.getAttribute('data-target');
+          if (contentId) {
+            const content = document.getElementById(contentId);
+            if (content) {
+              content.classList.toggle('collapsed');
+              btn.setAttribute('aria-expanded', !btn.classList.contains('collapsed'));
+            }
+          }
+        };
+        header.addEventListener('click', toggleRecent);
+        window.addCleanup(() => header.removeEventListener('click', toggleRecent));
       });
-    }
+    });
   `
   return RecentNotes
 }) satisfies QuartzComponentConstructor

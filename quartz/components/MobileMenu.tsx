@@ -167,14 +167,16 @@ export default ((userOpts?: Partial<Options>) => {
 
     .mobile-menu-toggle {
       background: none;
-      border: 1px solid var(--lightgray);
-      padding: 6px 12px;
+      border: none;
+      padding: 0; /* Fully naked button padding */
+      margin: 0;
+      margin-left: -1rem; /* Pull the icon leftward by exactly 1rem to offset the header's redundant 1rem padding */
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      transition: all 0.2s ease;
+      justify-content: flex-start;
+      border-radius: 0;
+      transition: color 0.2s ease;
       gap: 6px;
       font-family: 'Rajdhani', sans-serif;
       font-size: 0.9rem;
@@ -184,13 +186,13 @@ export default ((userOpts?: Partial<Options>) => {
     }
 
     .mobile-menu-toggle:hover {
-      background-color: var(--lightgray);
-      border-color: var(--secondary);
-      transform: translateY(-1px);
+      background-color: transparent;
+      transform: none;
     }
 
     .mobile-menu-toggle:active {
-      transform: translateY(0);
+      background-color: transparent;
+      transform: none;
     }
 
     .mobile-menu-label {

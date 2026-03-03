@@ -37,6 +37,7 @@ export default ((opts?: Partial<Options>) => {
           type="button"
           class={fileData.collapseToc ? "collapsed toc-header" : "toc-header"}
           aria-controls={id}
+          data-target={id}
           aria-expanded={!fileData.collapseToc}
         >
           <h3>{i18n(cfg.locale).components.tableOfContents.title}</h3>
@@ -55,23 +56,22 @@ export default ((opts?: Partial<Options>) => {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
-        <OverflowList
-          id={id}
-          class={fileData.collapseToc ? "collapsed toc-content" : "toc-content"}
-        >
-          {fileData.toc.map((tocEntry) => (
-            <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-              <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-                {tocEntry.text}
-              </a>
-            </li>
-          ))}
-        </OverflowList>
+        <div id={id} class={fileData.collapseToc ? "collapsed toc-content" : "toc-content"}>
+          <OverflowList>
+            {fileData.toc.map((tocEntry) => (
+              <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
+                <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
+                  {tocEntry.text}
+                </a>
+              </li>
+            ))}
+          </OverflowList>
+        </div>
       </div>
     )
   }
 
-TableOfContents.css = modernStyle + `
+  TableOfContents.css = modernStyle + `
   .toc-header {
     background: none !important;
     border: none !important;
