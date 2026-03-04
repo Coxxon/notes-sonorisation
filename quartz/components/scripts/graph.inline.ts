@@ -195,11 +195,15 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
   // calculate color
   const color = (d: NodeData) => {
-    const isCurrent = d.id === slug
+    const dId = simplifySlug(d.id as unknown as FullSlug)
+    const normalizedSlug = simplifySlug(fullSlug)
+    const isCurrent = dId === normalizedSlug
+    const isVisited = visited.has(dId) || d.id.startsWith("tags/")
+
     if (isCurrent) {
       return computedStyleMap["--secondary"]
-    } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
-      return computedStyleMap["--lightgray"]
+    } else if (isVisited) {
+      return computedStyleMap["--gray"]
     } else {
       return computedStyleMap["--dark"]
     }
@@ -280,7 +284,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const tweenGroup = new TweenGroup()
 
     const defaultScale = 1 / scale
-    const activeScale = defaultScale * 1.1
+    const activeScale = defaultScale * 2.0
     for (const n of nodeRenderData) {
       const nodeId = n.simulationData.id
 
@@ -321,11 +325,18 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
     const tweenGroup = new TweenGroup()
     for (const n of nodeRenderData) {
-      let alpha = 1
+      const dId = simplifySlug(n.simulationData.id as unknown as FullSlug)
+      const normalizedSlug = simplifySlug(fullSlug)
+      const isVisited = (visited.has(dId) || n.simulationData.id.startsWith("tags/")) && dId !== normalizedSlug
+      let alpha = isVisited ? 0.6 : 1
+
+      if (n.simulationData.id === normalizedSlug) {
+        console.log("Graph debug: current node found", n.simulationData.id, "alpha:", alpha);
+      }
 
       // if we are hovering over a node, we want to highlight the immediate neighbours
       if (hoveredNodeId !== null && focusOnHover) {
-        alpha = n.active ? 1 : 0.2
+        alpha = n.active ? alpha : 0.2
       }
 
       tweenGroup.add(new Tweened<Graphics>(n.gfx, tweenGroup).to({ alpha }, 200))
@@ -549,6 +560,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     requestAnimationFrame(animate)
   }
 
+  renderPixiFromD3()
   requestAnimationFrame(animate)
   return () => {
     stopAnimation = true
