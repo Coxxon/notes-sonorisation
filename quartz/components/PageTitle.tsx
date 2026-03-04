@@ -26,7 +26,7 @@ PageTitle.css = `
   display: inline-block;
   letter-spacing: -1px;
   /* Aucune transition sur font-size ou transform liés au scroll ratio pour éviter le lag (1:1 direct mapping) */
-  transition: filter 0.3s ease-out;
+  transition: filter 0.4s ease-out, transform 0.4s ease;
   /* Garantit la netteté absolue du texte */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,16 +57,17 @@ PageTitle.afterDOMLoaded = `
   
   if (leftSidebar && dashboard) {
     const handleScroll = () => {
-      /* ÉTAT BINAIRE :
-         Au-delà de 60px de défilement, le header adopte la classe 'is-shrunk'.
-         Fini l'interpolation fluide continue. 
-      */
-      const threshold = 60;
+      /* ÉTAT BINAIRE AVEC HYSTÉRÉSIS :
+         Shrink à 60px, un-shrink à 20px pour éviter le flickering.
+         La bande morte [20px-60px] empêche l'oscillation. */
+      const shrinkThreshold = 60;
+      const unshrinkThreshold = 20;
       const currentScroll = Math.max(window.scrollY, leftSidebar.scrollTop);
+      const isShrunk = dashboard.classList.contains('is-shrunk');
       
-      if (currentScroll > threshold) {
+      if (!isShrunk && currentScroll > shrinkThreshold) {
         dashboard.classList.add('is-shrunk');
-      } else {
+      } else if (isShrunk && currentScroll < unshrinkThreshold) {
         dashboard.classList.remove('is-shrunk');
       }
     };

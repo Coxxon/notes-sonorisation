@@ -58,8 +58,8 @@ const observer = new IntersectionObserver((entries) => {
       if (pos === 0) {
         link.classList.add('active') // Le plus haut est pur blanc
       } else {
-        const descendingOpacity = Math.max(0.4, 1 - (pos * 0.2))
-        link.setAttribute('style', `opacity: ${descendingOpacity} !important; font-weight: normal;`)
+        // Blanc légèrement atténué, uniforme pour tous les titres visibles non-primaires
+        link.setAttribute('style', `opacity: 0.75 !important; font-weight: normal;`)
       }
     } else if (idxInView !== -1) {
       // LU / HORS ÉCRAN VERS LE HAUT

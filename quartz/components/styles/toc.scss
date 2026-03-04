@@ -59,31 +59,29 @@ button.toc-header {
 
     /* TRIPLE ÉTAT : PROGRESSION ORGANIQUE */
 
-    /* 1. Titres déjà lus (au-dessus) */
+    /* 1. Titres déjà lus (au-dessus) — gris clair, clairement lus */
     &.is-past {
-      opacity: 0.6;
-      color: var(--lightgray);
+      opacity: 0.5;
+      color: var(--dark);
     }
 
-    /* 2. Titres à venir (en-dessous) */
+    /* 2. Titres à venir (en-dessous) — grisés, pas encore lus */
     &.is-future {
       opacity: 0.3;
       color: var(--gray);
     }
 
-    /* 3. Titres actuellement affichés à l'écran */
+    /* 3. Titres actuellement affichés à l'écran — blanc légèrement atténué */
     &.is-active {
       color: var(--dark);
-      /* L'opacité dégressive est gérée dynamiquement par le JS en style inline, 
-         mais on s'assure d'une transition douce */
+      opacity: 0.75;
     }
 
-    /* 4. Le titre EXACTEMENT lu (le plus haut du viewport) */
+    /* 4. Le titre EXACTEMENT lu (le plus haut du viewport) — blanc pur, sans glow */
     &.active {
       color: var(--dark) !important;
       opacity: 1 !important;
       font-weight: 600;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
   }
 

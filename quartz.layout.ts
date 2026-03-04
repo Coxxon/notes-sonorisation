@@ -38,7 +38,7 @@ export const defaultContentPageLayout: PageLayout = {
           {
             Component: Component.Flex({
               direction: "row",
-              gap: "1.2rem",
+              gap: "1.45rem",
               components: [
                 { Component: Component.Search(), grow: true, align: "center", justify: "start" },
                 { Component: Component.Darkmode(), align: "center" },
@@ -51,7 +51,17 @@ export const defaultContentPageLayout: PageLayout = {
     ),
     Component.DesktopOnly(
       Component.Graph({
-        localGraph: { showTags: false },
+        localGraph: {
+          showTags: false,
+          depth: 1,
+          focusOnHover: true,
+          repelForce: 0.8,
+          centerForce: 0.3,
+          linkDistance: 40,
+          fontSize: 0.5,
+          opacityScale: 1,
+          scale: 1.2,
+        },
         globalGraph: { showTags: false }
       })
     ),

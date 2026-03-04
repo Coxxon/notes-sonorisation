@@ -290,7 +290,7 @@ h6 {
   font-size: 4rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  transition: font-size 0.3s ease, opacity 0.3s ease;
+  transition: font-size 0.3s ease, opacity 0.5s ease, color 0.5s ease, filter 0.5s ease;
   display: inline-block;
   line-height: 1;
   /* Eliminates dead vertical space */
@@ -387,10 +387,14 @@ h6 {
   /* Force l'écart constant avec VUE GRAPHIQUE */
 }
 
-/* Réduction effective du conteneur en mode shrunk pour éliminer le gap fantôme */
+/* Réduction effective du conteneur en mode shrunk pour éliminer le gap fantôme.
+   IMPORTANT : On ne change PAS la hauteur du conteneur pour éviter le flickering
+   de la barre de défilement. La hauteur DOM reste constante ; seul le contenu
+   interne (titre, icônes) et le ::before (bouclier visuel) se réduisent. */
 .left>.desktop-only:first-child.is-shrunk,
 .left>.flex-component:first-child.is-shrunk {
-  height: 115px !important;
+  overflow: visible !important;
+  /* Le contenu dépasse visuellement mais la hauteur DOM reste constante */
 }
 
 /* GRAPHE TOUJOURS VISIBLE — Défilement naturel avec la sidebar */
@@ -444,7 +448,7 @@ h6 {
 
 .left>.desktop-only:first-child.is-shrunk::before,
 .left>.flex-component:first-child.is-shrunk::before {
-  height: 115px;
+  height: 123px;
   border-bottom: solid 1px rgba(0, 0, 0, 0.08);
   /* Légère délimitation en mode réduit */
 }
@@ -466,7 +470,7 @@ h6 {
 
 .left>.desktop-only:first-child.is-shrunk::after,
 .left>.flex-component:first-child.is-shrunk::after {
-  top: 115px;
+  top: 123px;
 }
 
 /* INTERPOLATION DU TITRE NODE */
@@ -480,7 +484,7 @@ h6 {
 .left>.desktop-only:first-child .page-title a {
   font-size: 5.5rem !important;
   line-height: 5.5rem !important;
-  transition: font-size 0.3s ease, line-height 0.3s ease, filter 0.3s ease-out !important;
+  transition: font-size 0.3s ease, line-height 0.3s ease, filter 0.4s ease-out, transform 0.4s ease !important;
 }
 
 .left>.desktop-only:first-child.is-shrunk .page-title a,
@@ -498,13 +502,36 @@ h6 {
   background: transparent !important;
   box-shadow: none !important;
   padding-right: 0 !important;
-  transition: max-width 0.3s ease, min-width 0.3s ease !important;
+  transition: max-width 0.3s ease, min-width 0.3s ease, transform 0.2s ease-in-out !important;
 }
 
-.left>.desktop-only:first-child.is-shrunk .search,
+.left>.desktop-only:first-child.is-shrunk .search {
+  max-width: 40px !important;
+  min-width: 40px !important;
+  width: 40px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
 .left>.desktop-only:first-child.is-shrunk .search-button {
   max-width: 40px !important;
   min-width: 40px !important;
+  width: 40px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  /* Pas de clip pour permettre le scale */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Supprimer la zone morte : le search-container (overlay) ne doit pas prendre de place */
+.left>.desktop-only:first-child.is-shrunk .search-container {
+  display: none !important;
 }
 
 .left>.desktop-only:first-child .search p,
@@ -532,8 +559,15 @@ h6 {
 
 .left>.desktop-only:first-child.is-shrunk>.row,
 .left>.desktop-only:first-child.is-shrunk>.page-title+div {
-  /* Glisse vers le haut pour coller à NODE 2rem */
+  /* Glisse vers le haut pour coller à NODE 3rem */
   transform: translateY(-38px) !important;
+}
+
+/* En mode shrunk, la rangée d'icônes distribue les 3 boutons
+   avec un écart régulier de 1.45rem */
+.left>.desktop-only:first-child.is-shrunk>.row {
+  justify-content: flex-start !important;
+  gap: 1.45rem !important;
 }
 
 /* HARMONISATION DES LARGEURS D'ICÔNES ET RYTHME (SHRINK) */
@@ -543,6 +577,19 @@ h6 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Transition et effet hover sur les 3 icônes : scale progressif */
+.left button.search-button,
+.left button.darkmode,
+.left button.readermode {
+  transition: transform 0.2s ease-in-out !important;
+}
+
+.left button.search-button:hover,
+.left button.darkmode:hover,
+.left button.readermode:hover {
+  transform: scale(1.05) !important;
 }
 
 /* 23. STRICT LEFT SEARCH ALIGNMENT */

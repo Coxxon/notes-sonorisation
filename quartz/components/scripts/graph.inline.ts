@@ -199,9 +199,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     if (isCurrent) {
       return computedStyleMap["--secondary"]
     } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
-      return computedStyleMap["--tertiary"]
+      return computedStyleMap["--lightgray"]
     } else {
-      return computedStyleMap["--gray"]
+      return computedStyleMap["--dark"]
     }
   }
 
@@ -254,12 +254,12 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const tweenGroup = new TweenGroup()
 
     for (const l of linkRenderData) {
-      let alpha = 1
+      let alpha = 0.15
 
       // if we are hovering over a node, we want to highlight the immediate neighbours
       // with full alpha and the rest with default alpha
       if (hoveredNodeId) {
-        alpha = l.active ? 1 : 0.2
+        alpha = l.active ? 0.8 : 0.1
       }
 
       l.color = l.active ? computedStyleMap["--gray"] : computedStyleMap["--lightgray"]
