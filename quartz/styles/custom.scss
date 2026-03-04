@@ -478,15 +478,15 @@ h6 {
 
 .left>.flex-component:first-child .page-title a,
 .left>.desktop-only:first-child .page-title a {
-  font-size: 4rem !important;
-  line-height: 4rem !important;
+  font-size: 5.5rem !important;
+  line-height: 5.5rem !important;
   transition: font-size 0.3s ease, line-height 0.3s ease, filter 0.3s ease-out !important;
 }
 
 .left>.desktop-only:first-child.is-shrunk .page-title a,
 .left>.flex-component:first-child.is-shrunk .page-title a {
-  font-size: 2rem !important;
-  line-height: 2rem !important;
+  font-size: 3rem !important;
+  line-height: 3rem !important;
 }
 
 /* COMPRESSION DE LA RECHERCHE ET SUPPRESSION BORDURES */
