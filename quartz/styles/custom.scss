@@ -45,8 +45,13 @@ table a:hover {
 
 /* 15. OPTIMISATION DU GRAPHIQUE (LEFT SIDEBAR) */
 .sidebar.left .graph {
-  max-height: 250px;
-  overflow: hidden;
+  /* On supprime max-height et overflow: hidden ici. 
+     C'est .graph-content-container qui gère la hauteur dynamiquement.
+     Si on coupe à 250px ici, le conteneur ne peut jamais pousser le reste vers le bas ! */
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin-top: 0 !important;
 }
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
@@ -337,9 +342,11 @@ h6 {
   z-index: 9999 !important;
 
   /* CONTENEUR FANTÔME (Stabilité absolue du layout DOM) */
-  height: 160px !important;
+  height: 200px !important;
+  /* Agrandissement pour accueillir le 4rem et protéger la Vue Graphique */
   background-color: transparent !important;
-  padding: 2rem 0.5rem 1.5rem 0.5rem !important;
+  padding: 2rem 0.5rem 1.5rem 0 !important;
+  /* RÈGLE V2 : Alignement fixe 16px (0 ici pour s'aligner sur la sidebar globale) */
   margin-top: 0 !important;
   border-bottom: none !important;
   transition: none !important;
@@ -348,39 +355,118 @@ h6 {
   /* Laisse passer les clics dans la zone vide */
 }
 
+/* FORCE ALIGNEMENT ABSOLU GRILLE DES DEUX BLOCS (TITRE ET BOUTONS) */
+.left>.flex-component:first-child>div,
+.left>.desktop-only:first-child>div {
+  align-self: flex-start !important;
+  /* Override justify-self/align-self center */
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
 /* Rendre interactif uniquement le contenu réel */
 .left>.flex-component:first-child>*,
 .left>.desktop-only:first-child>* {
   pointer-events: auto;
 }
 
-/* BOUCLIER VISUEL (S'ajuste dynamiquement via var(--scroll-ratio)) */
+/* ==========================================================================
+   HEADER BINAIRE & GRAVITÉ NATURELLE
+   ========================================================================== */
+
+/* FORCE ALIGNEMENT VERTICAL STRICT VERS LE BAS POUR TOUTE LA SIDEBAR */
+.sidebar.left {
+  justify-content: flex-start !important;
+}
+
+/* Modification du header principal pour gérer la transition de hauteur */
+.left>.flex-component:first-child,
+.left>.desktop-only:first-child {
+  transition: height 0.3s ease !important;
+  margin-bottom: 1rem !important;
+  /* Force l'écart constant avec VUE GRAPHIQUE */
+}
+
+/* Réduction effective du conteneur en mode shrunk pour éliminer le gap fantôme */
+.left>.desktop-only:first-child.is-shrunk,
+.left>.flex-component:first-child.is-shrunk {
+  height: 115px !important;
+}
+
+/* GRAPHE TOUJOURS VISIBLE — Défilement naturel avec la sidebar */
+.left>.desktop-only:nth-child(2) {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+/* Masquer le bouton de graphe global */
+.global-graph-icon {
+  display: none !important;
+}
+
+.global-graph-outer {
+  display: none !important;
+}
+
+/* Le titre VUE GRAPHIQUE n'est plus sticky, il défile normalement */
+.left>.desktop-only:nth-child(2) .graph-header {
+  position: relative !important;
+  cursor: default !important;
+  /* Plus de clic : pas de pointer */
+  padding-bottom: 0.5rem !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Marge de sécurité de la rangée d'icônes (Reader unclipped) */
+.left>.desktop-only:first-child>.row,
+.left>.flex-component:first-child>.row {
+  padding-right: 1.5rem !important;
+  box-sizing: border-box !important;
+}
+
+/* Le "Bouclier" (fond du header) */
 .left>.flex-component:first-child::before,
 .left>.desktop-only:first-child::before {
   content: "";
   position: absolute;
   top: 0;
-  left: -1rem;
-  right: -1rem;
-  /* Couvre les bords de la sidebar */
-  height: calc(160px - (var(--scroll-ratio, 0) * 80px));
+  left: 0;
+  right: 0;
+  height: 155px;
   background-color: var(--light);
   z-index: -1;
-  border-bottom: solid 1px rgba(0, 0, 0, calc(var(--scroll-ratio, 0) * 0.08));
+  border-bottom: solid 1px transparent;
+  transition: height 0.3s ease, border-color 0.3s ease;
 }
 
-/* DÉGRADÉ INFÉRIEUR FLUIDE */
+.left>.desktop-only:first-child.is-shrunk::before,
+.left>.flex-component:first-child.is-shrunk::before {
+  height: 115px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.08);
+  /* Légère délimitation en mode réduit */
+}
+
+/* Le "Dégradé" (sous le bouclier) */
 .left>.flex-component:first-child::after,
 .left>.desktop-only:first-child::after {
   content: "";
   position: absolute;
-  top: calc(160px - (var(--scroll-ratio, 0) * 80px));
-  left: -1rem;
-  right: -1rem;
+  top: 155px;
+  left: 0;
+  right: 0;
   height: 1.5rem;
   background: linear-gradient(to bottom, var(--light) 10%, transparent 100%);
   pointer-events: none;
   z-index: -1;
+  transition: top 0.3s ease;
+}
+
+.left>.desktop-only:first-child.is-shrunk::after,
+.left>.flex-component:first-child.is-shrunk::after {
+  top: 115px;
 }
 
 /* INTERPOLATION DU TITRE NODE */
@@ -388,28 +474,75 @@ h6 {
 .left>.desktop-only:first-child .page-title {
   display: flex;
   align-items: flex-start;
-  transition: none !important;
 }
 
 .left>.flex-component:first-child .page-title a,
 .left>.desktop-only:first-child .page-title a {
-  /* De 2.2rem à 1.5rem selon le ratio */
-  font-size: calc(2.2rem - (var(--scroll-ratio, 0) * 0.7rem)) !important;
-  transition: filter 0.3s ease-out !important;
-  /* Seulement le halo */
+  font-size: 4rem !important;
+  line-height: 4rem !important;
+  transition: font-size 0.3s ease, line-height 0.3s ease, filter 0.3s ease-out !important;
 }
 
-/* REMONTÉE INTERNE (Recherche, Boutons) */
-.left>.flex-component:first-child>div:nth-child(2),
-.left>.desktop-only:first-child>div:nth-child(2) {
-  transform: translateY(calc(var(--scroll-ratio, 0) * -30px));
-  transition: none !important;
+.left>.desktop-only:first-child.is-shrunk .page-title a,
+.left>.flex-component:first-child.is-shrunk .page-title a {
+  font-size: 2rem !important;
+  line-height: 2rem !important;
 }
 
-/* REMONTÉE DU CONTENU DE LA SIDEBAR (Pour combler le vide du conteneur fantôme) */
-.left>*:not(:first-child) {
-  transform: translateY(calc(var(--scroll-ratio, 0) * -80px));
-  transition: none !important;
+/* COMPRESSION DE LA RECHERCHE ET SUPPRESSION BORDURES */
+.left>.desktop-only:first-child .search,
+.left>.desktop-only:first-child .search-button {
+  max-width: 180px !important;
+  min-width: 180px !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-right: 0 !important;
+  transition: max-width 0.3s ease, min-width 0.3s ease !important;
+}
+
+.left>.desktop-only:first-child.is-shrunk .search,
+.left>.desktop-only:first-child.is-shrunk .search-button {
+  max-width: 40px !important;
+  min-width: 40px !important;
+}
+
+.left>.desktop-only:first-child .search p,
+.left>.desktop-only:first-child .search-button p {
+  opacity: 1 !important;
+  max-width: 150px !important;
+  transition: opacity 0.3s ease, max-width 0.3s ease !important;
+  overflow: hidden !important;
+  white-space: nowrap;
+}
+
+.left>.desktop-only:first-child.is-shrunk .search p,
+.left>.desktop-only:first-child.is-shrunk .search-button p {
+  opacity: 0 !important;
+  max-width: 0 !important;
+}
+
+/* REMONTÉE ET FUSION SINGLE-LINE (Recherche, Boutons) */
+.left>.flex-component:first-child>.row,
+.left>.desktop-only:first-child>.page-title+div,
+.left>.desktop-only:first-child>.row {
+  transform: translateY(0) !important;
+  transition: transform 0.3s ease !important;
+}
+
+.left>.desktop-only:first-child.is-shrunk>.row,
+.left>.desktop-only:first-child.is-shrunk>.page-title+div {
+  /* Glisse vers le haut pour coller à NODE 2rem */
+  transform: translateY(-38px) !important;
+}
+
+/* HARMONISATION DES LARGEURS D'ICÔNES ET RYTHME (SHRINK) */
+.left>.desktop-only:first-child .darkmode,
+.left>.desktop-only:first-child .readermode {
+  width: 40px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 23. STRICT LEFT SEARCH ALIGNMENT */
@@ -432,7 +565,13 @@ h6 {
 }
 
 .toc-content.collapsed {
-  display: none !important;
+  /* Utilise max-height:0 au lieu de display:none pour éviter le saut
+     de layout quand la TOC se replie (la hauteur se réduit sans
+     retirer l'élément du flux DOM). */
+  max-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  transition: max-height 0.3s ease, opacity 0.2s ease !important;
 }
 
 /* 22. FILTRE INDEX & FIX GRAPH OVERLAP */
@@ -446,8 +585,12 @@ h6 {
 .left .recent-notes,
 .left .toc {
   flex-shrink: 0;
-  position: relative;
-  z-index: 10 !important;
+  /* Correction d'urgence: z-index avec relative causait des chevauchements. 
+     On s'assure qu'ils sont des blocs de flux normaux. */
+  position: static !important;
+  z-index: auto !important;
+  margin-top: 0 !important;
+  transform: none !important;
 }
 
 /* 19. FORCER LA TAILLE DU GRAPHE DÉPLOYÉ (EVITER LE CANVAS 0px) */

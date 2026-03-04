@@ -56,18 +56,26 @@ PageTitle.afterDOMLoaded = `
   const leftSidebar = document.querySelector('.left');
   
   if (leftSidebar && dashboard) {
-    leftSidebar.addEventListener('scroll', () => {
-      /* INTERPOLATION FLUIDE : 
-         Calcul d'un ratio t entre 0 et 1 sur les premiers 100px de scroll.
-         En injectant cette variable, le CSS gère anatomiquement la réduction sans layout shift.
+    const handleScroll = () => {
+      /* ÉTAT BINAIRE :
+         Au-delà de 60px de défilement, le header adopte la classe 'is-shrunk'.
+         Fini l'interpolation fluide continue. 
       */
-      const maxScroll = 100;
-      let ratio = leftSidebar.scrollTop / maxScroll;
-      if (ratio > 1) ratio = 1;
-      if (ratio < 0) ratio = 0;
+      const threshold = 60;
+      const currentScroll = Math.max(window.scrollY, leftSidebar.scrollTop);
       
-      dashboard.style.setProperty('--scroll-ratio', ratio.toString());
-    });
+      if (currentScroll > threshold) {
+        dashboard.classList.add('is-shrunk');
+      } else {
+        dashboard.classList.remove('is-shrunk');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    leftSidebar.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial call just in case
+    handleScroll();
   }
 `
 

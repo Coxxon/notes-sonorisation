@@ -38,6 +38,7 @@ export const defaultContentPageLayout: PageLayout = {
           {
             Component: Component.Flex({
               direction: "row",
+              gap: "1.2rem",
               components: [
                 { Component: Component.Search(), grow: true, align: "center", justify: "start" },
                 { Component: Component.Darkmode(), align: "center" },
