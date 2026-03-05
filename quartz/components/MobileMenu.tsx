@@ -284,8 +284,8 @@ export default ((userOpts?: Partial<Options>) => {
       position: fixed;
       top: 0;
       left: 0;
-      width: 85vw; /* This is fine since it's an inner partial width */
-      max-width: 400px;
+      width: 280px; /* Restauration de la largeur originale */
+      max-width: 85vw; /* Failsafe responsive */
       height: 100%;
       background-color: var(--light);
       z-index: 9999;
@@ -360,6 +360,14 @@ export default ((userOpts?: Partial<Options>) => {
       color: var(--dark);
       text-decoration: none;
       transition: color 0.2s ease;
+      
+      /* FIX TEXT WRAPPING OVERRIDING FLEXBOX MIN-WIDTH */
+      flex: 1;
+      min-width: 0;
+      display: inline-block;
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.3;
     }
 
     .mobile-menu-recent-link:hover {
@@ -382,6 +390,12 @@ export default ((userOpts?: Partial<Options>) => {
       color: var(--dark);
       text-decoration: none;
       transition: color 0.2s ease;
+      
+      /* FIX TEXT WRAPPING */
+      display: inline-block;
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.3;
     }
 
     .mobile-explorer-ul a:hover {
