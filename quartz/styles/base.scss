@@ -7,11 +7,19 @@
 html {
   scroll-behavior: smooth;
   text-size-adjust: none;
-  overflow-x: hidden;
-  width: 100vw;
+  width: 100%;
 
   @media all and ($mobile) {
     scroll-padding-top: 4rem;
+  }
+
+  &.menu-open {
+    overflow: hidden !important;
+
+    body {
+      overflow: hidden !important;
+      touch-action: none;
+    }
   }
 }
 
@@ -276,6 +284,13 @@ a {
 
     & .center>article {
       grid-area: grid-center;
+
+      /* FIX POUR MOBILE : Empêcher absolument tout élément enfant de forcer une largeur > 100% */
+      &>* {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        max-width: 100%;
+      }
     }
 
     & footer {
@@ -293,7 +308,8 @@ a {
       }
 
       @media all and (max-width: 768px) {
-        padding: 0 1rem; // Marge de sécurité sur smartphone
+        padding: 0 1rem;
+        box-sizing: border-box;
       }
     }
 
@@ -459,6 +475,11 @@ pre {
     display: grid;
     padding: 0.5rem 0;
     overflow-x: auto;
+
+    /* FIX: Prevent inline code from breaking mobile width */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
 
     & [data-highlighted-chars] {
       background-color: var(--highlight);

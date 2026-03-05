@@ -170,7 +170,7 @@ export default ((userOpts?: Partial<Options>) => {
       border: none;
       padding: 0; /* Fully naked button padding */
       margin: 0;
-      margin-left: -1rem; /* Pull the icon leftward by exactly 1rem to offset the header's redundant 1rem padding */
+      margin-left: -1rem; /* Symmetric with darkmode button position */
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -183,6 +183,7 @@ export default ((userOpts?: Partial<Options>) => {
       font-weight: 500;
       color: var(--dark);
       white-space: nowrap;
+      touch-action: manipulation;
     }
 
     .mobile-menu-toggle:hover {
@@ -233,12 +234,18 @@ export default ((userOpts?: Partial<Options>) => {
       background-color: var(--light) !important;
       border: 1px solid var(--lightgray) !important;
       border-radius: 6px !important;
+      font-size: 16px !important;
     }
 
     .mobile-menu-search .search-button p {
       display: inline !important;
       margin-left: 8px !important;
       color: var(--gray) !important;
+      font-size: 16px !important;
+    }
+
+    .mobile-menu-search input {
+      font-size: 16px !important;
     }
 
     /* Correction pour éviter d'afficher d'autres éléments Search dans le header */
@@ -258,8 +265,8 @@ export default ((userOpts?: Partial<Options>) => {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       background: rgba(0, 0, 0, 0.5);
       z-index: 999;
       display: none;
@@ -277,15 +284,17 @@ export default ((userOpts?: Partial<Options>) => {
       top: 0;
       left: -300px; /* Commence hors de l'écran à gauche */
       width: 280px;
-      height: 100vh;
+      height: 100%;
       z-index: 1000;
       background: var(--light);
       border-right: 1px solid var(--lightgray);
       box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
       overflow-y: auto;
+      overflow-x: hidden;
       transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       display: flex;
       flex-direction: column;
+      touch-action: manipulation;
     }
 
     .mobile-menu-content[aria-expanded="true"] {
@@ -420,6 +429,18 @@ export default ((userOpts?: Partial<Options>) => {
   MobileMenu.afterDOMLoaded = concatenateResources(
     `
     // Script pour gérer l'ouverture/fermeture du menu mobile
+    let savedScrollY = 0;
+    
+    function lockBody() {
+      savedScrollY = window.scrollY;
+      document.documentElement.classList.add('menu-open');
+    }
+    
+    function unlockBody() {
+      document.documentElement.classList.remove('menu-open');
+      window.scrollTo(0, savedScrollY);
+    }
+    
     document.addEventListener('click', function(e) {
       const toggle = e.target.closest('.mobile-menu-toggle');
       const content = e.target.closest('.mobile-menu-content');
@@ -437,13 +458,12 @@ export default ((userOpts?: Partial<Options>) => {
         menuContent.setAttribute('aria-expanded', newExpanded);
         
         // Gérer l'overlay en appliquant la transition CSS fluide
-        const isMobile = window.innerWidth <= 1024;
         if (newExpanded) {
           menuOverlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
+          lockBody();
         } else {
           menuOverlay.classList.remove('active');
-          document.body.style.overflow = '';
+          unlockBody();
         }
         
         // Fermer les autres menus
@@ -476,7 +496,7 @@ export default ((userOpts?: Partial<Options>) => {
           }
         });
         // Réactiver le scroll du body
-        document.body.style.overflow = '';
+        unlockBody();
       }
     });
 
@@ -496,7 +516,7 @@ export default ((userOpts?: Partial<Options>) => {
           }
         });
         // Réactiver le scroll du body
-        document.body.style.overflow = '';
+        unlockBody();
       }
     });
 
@@ -521,7 +541,7 @@ export default ((userOpts?: Partial<Options>) => {
               menuOverlay.classList.remove('active');
             }
           });
-          document.body.style.overflow = '';
+          unlockBody();
         }
       }, 150);
     });
@@ -541,7 +561,7 @@ export default ((userOpts?: Partial<Options>) => {
             menuOverlay.classList.remove('active');
           }
         });
-        document.body.style.overflow = '';
+        unlockBody();
       }
     });
 
@@ -582,7 +602,7 @@ export default ((userOpts?: Partial<Options>) => {
           toggle.setAttribute('aria-expanded', 'true');
           menuContent.setAttribute('aria-expanded', 'true');
           if (menuOverlay) menuOverlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
+          lockBody();
         }
       }
       
@@ -591,7 +611,7 @@ export default ((userOpts?: Partial<Options>) => {
         toggle.setAttribute('aria-expanded', 'false');
         menuContent.setAttribute('aria-expanded', 'false');
         if (menuOverlay) menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        unlockBody();
       }
     }
     `,

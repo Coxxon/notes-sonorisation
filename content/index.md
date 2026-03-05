@@ -1,24 +1,24 @@
 ---
-title: "Node"
-description: "Site de documentation technique"
+title: Accueil
 ---
 
-# Bienvenue sur Node
+Bienvenue sur **NODE**.
 
-Ce site contient de la documentation technique sur les réseaux, les protocoles et les technologies.
+Ceci est une base de connaissances interconnectée, pensée comme un système nerveux numérique. 
+Ici, l'information n'est pas figée dans des dossiers rigides : elle évolue, se croise et s'enrichit organiquement.
 
-## Navigation
-
-Utilisez le menu à gauche pour explorer :
-- **Fondamentaux** : Concepts de base
-- **Explorateur** : Navigation complète du site
-
-## Sections principales
-
-- **Réseau** : Documentation sur les réseaux
-- **PTP** : Protocole de transfert de fichiers
-- **RSTP** : Protocole de configuration réseau
+> [!tip] Naviguez via la **Vue Graphique**, utilisez la **Recherche**, ou commencez directement par explorer les concepts piliers du système.
 
 ---
 
-*Page d'accueil temporaire - Le contenu sera restauré*
+### 📚 Sommaire des Fondamentaux
+
+Voici les points d'entrée principaux pour appréhender l'architecture réseau :
+
+* 🌐 **[[Modèle OSI]]** *Le socle théorique : compréhension de l'architecture standardisée des communications en 7 couches.*
+
+* ⏱️ **[[PTP]]** *(Precision Time Protocol)* *Le maître du temps : principes de synchronisation d'horloge de très haute précision à travers le réseau.*
+
+* 🔄 **[[RSTP]]** *(Rapid Spanning Tree Protocol)* *La résilience : gestion de la redondance, topologie active et prévention des boucles de niveau 2.*
+
+*(Si vous êtes perdu, cliquez simplement sur le titre NODE pour revenir ici).*

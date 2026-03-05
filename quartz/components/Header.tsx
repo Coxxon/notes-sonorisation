@@ -19,4 +19,9 @@ header h1 {
 }
 `
 
+// @ts-ignore
+import script from "./scripts/header.inline"
+
+Header.beforeDOMLoaded = script
+
 export default (() => Header) satisfies QuartzComponentConstructor
