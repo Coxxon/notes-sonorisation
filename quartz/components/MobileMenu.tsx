@@ -454,7 +454,6 @@ export default ((userOpts?: Partial<Options>) => {
     
     function unlockBody() {
       document.documentElement.classList.remove('menu-open');
-      window.scrollTo(0, savedScrollY);
     }
     
     // Fonction de portail pour sortir le menu du header (évite d'être décalé avec lui)
