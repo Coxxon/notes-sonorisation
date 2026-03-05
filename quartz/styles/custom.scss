@@ -1,4 +1,6 @@
 @use "./base.scss";
+@use "./variables.scss" as *;
+
 
 /* 1. RÉGLAGES IMAGES (IPAD/PC) - FILTRES SVG SUPPRIMÉS */
 /* Les filtres précédents causaient des problèmes d'affichage des SVG */
@@ -68,23 +70,45 @@ table a:hover {
 }
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
-table {
+.table-container {
+  overflow-x: visible !important;
   width: 100%;
+  margin: 0;
+  padding: 0;
+
+  @media all and ($mobile) {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+table {
+  width: 100% !important;
   max-width: 100%;
   margin: 1.5rem 0;
   border-collapse: collapse;
-  border: 1px solid var(--lightgray);
+  table-layout: auto;
+  /* Permettre aux colonnes de respirer */
 
-  /* Fix pour éviter l'étirement sur mobile */
-  display: block;
-  overflow-x: auto;
-  white-space: normal;
-  -webkit-overflow-scrolling: touch;
-
-  /* FORCER le respect de la largeur max pour les longues strings */
-  table-layout: fixed;
+  /* Sécurité pour les longues chaînes de caractères */
   word-break: break-word;
   overflow-wrap: anywhere;
+
+  /* Rétablir le comportement de tableau par défaut sur Desktop */
+  display: table !important;
+
+  @media all and ($mobile) {
+    /* Forcer le comportement bloc pour le scroll horizontal sur mobile */
+    display: block !important;
+    white-space: nowrap;
+    /* Empêche les colonnes de trop se tasser sur mobile */
+
+    td,
+    th {
+      white-space: normal;
+      /* Mais autorise le wrap à l'intérieur des cellules */
+    }
+  }
 }
 
 th,

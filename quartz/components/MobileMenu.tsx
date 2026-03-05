@@ -317,12 +317,43 @@ export default ((userOpts?: Partial<Options>) => {
 
     .mobile-menu-section-title {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      font-size: 1.1rem;
       font-weight: 500;
       color: var(--dark);
-      margin: 0 0 0.75rem 0;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-left: 3px solid var(--lightgray);
+      padding-left: 10px;
+      cursor: pointer; /* Indiquer que c'est cliquable */
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .mobile-menu-section-title:hover {
+      color: var(--tertiary);
+      border-left-color: var(--tertiary);
+    }
+
+    /* Styles pour l'animation de repliement */
+    .mobile-menu-section ul {
+      transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+      max-height: 2000px; /* Valeur arbitraire haute pour l'animation */
+      overflow: hidden;
+      opacity: 1;
+    }
+
+    .mobile-menu-section.collapsed ul {
+      max-height: 0;
+      opacity: 0;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .mobile-menu-section.collapsed .mobile-menu-section-title {
+      margin-bottom: 0;
+      border-left-color: var(--gray);
+      color: var(--gray);
     }
 
     .mobile-menu-recent-notes {
@@ -464,6 +495,24 @@ export default ((userOpts?: Partial<Options>) => {
     
     // Initialisation du portail
     portalMenu();
+
+    // Gestion des sections repliables
+    function setupCollapsibleSections() {
+      document.querySelectorAll('.mobile-menu-section-title').forEach(title => {
+        // Éviter les doublons d'écouteurs si le script est ré-exécuté
+        if (title.getAttribute('data-has-toggle') === 'true') return;
+        
+        title.addEventListener('click', function() {
+          const section = this.closest('.mobile-menu-section');
+          if (section) {
+            section.classList.toggle('collapsed');
+          }
+        });
+        title.setAttribute('data-has-toggle', 'true');
+      });
+    }
+
+    setupCollapsibleSections();
     
     document.addEventListener('click', function(e) {
       const toggle = e.target.closest('.mobile-menu-toggle');
@@ -598,6 +647,8 @@ export default ((userOpts?: Partial<Options>) => {
       });
       // Replacer le menu dans le body au cas où il aurait été re-rendu dans le header
       portalMenu();
+      // Ré-initialiser les écouteurs sur les titres de section
+      setupCollapsibleSections();
     });
 
     // --- Ajout de la navigation tactile (Swipe Left / Swipe Right) ---
