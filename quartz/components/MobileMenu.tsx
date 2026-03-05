@@ -581,6 +581,15 @@ export default ((userOpts?: Partial<Options>) => {
       }
     });
 
+    // Nettoyer l'état du menu lors d'une navigation interne (SPA)
+    document.addEventListener('nav', function() {
+      // S'assurer de toujours réactiver le scroll
+      document.documentElement.classList.remove('menu-open');
+      document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
     // --- Ajout de la navigation tactile (Swipe Left / Swipe Right) ---
     let touchstartX = 0;
     let touchendX = 0;
