@@ -5,6 +5,19 @@
 /* .is-mobile.theme-dark img[src*=".svg"] { filter: invert(1) hue-rotate(180deg) brightness(1.2) !important; } */
 /* .is-desktop.theme-dark img[src*=".svg"] { filter: none !important; } */
 
+/* 1.5 RESPONSIVE IMAGES & EMBEDS (FIX MOBILE ZOOM) */
+/* Obsidian/Quartz wraps resized images like ![[img|700]] in spans that may have inline widths. 
+   We must force ALL wrappers and media to respect the screen size. */
+img,
+svg,
+video,
+span.internal-embed,
+div.internal-embed,
+.popover-inner {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 /* 2. LIENS GÉNÉRAUX & TABLEAUX (ÉTAT AU REPOS : FURTIF) */
 article a.internal,
 article a,
@@ -56,11 +69,22 @@ table a:hover {
 
 /* 4. TABLEAUX (GRILLE ET ADAPTATION) */
 table {
-  width: auto;
+  width: 100%;
   max-width: 100%;
   margin: 1.5rem 0;
   border-collapse: collapse;
   border: 1px solid var(--lightgray);
+
+  /* Fix pour éviter l'étirement sur mobile */
+  display: block;
+  overflow-x: auto;
+  white-space: normal;
+  -webkit-overflow-scrolling: touch;
+
+  /* FORCER le respect de la largeur max pour les longues strings */
+  table-layout: fixed;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 th,

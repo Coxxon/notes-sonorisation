@@ -9,14 +9,23 @@
   overflow-y: hidden;
   box-sizing: border-box;
 
-  & > .callout-content {
+  &>.callout-content {
     display: grid;
     transition: grid-template-rows 0.1s cubic-bezier(0.02, 0.01, 0.47, 1);
     overflow: hidden;
     /* Utiliser les variables de thème au lieu de forcer les couleurs */
-    color: var(--text-color, var(--dark)); 
+    color: var(--text-color, var(--dark));
 
-    & > :first-child {
+    /* FIX: Empêcher le "Grid blowout" sur mobile causé par de larges SVGs */
+    min-width: 0;
+    max-width: 100%;
+
+    &>* {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    &> :first-child {
       margin-top: 0;
     }
   }
@@ -101,8 +110,13 @@
     --callout-icon: var(--callout-icon-failure);
   }
 
-  &[data-callout="bug"] { --callout-icon: var(--callout-icon-bug); }
-  &[data-callout="danger"] { --callout-icon: var(--callout-icon-danger); }
+  &[data-callout="bug"] {
+    --callout-icon: var(--callout-icon-bug);
+  }
+
+  &[data-callout="danger"] {
+    --callout-icon: var(--callout-icon-danger);
+  }
 
   &[data-callout="example"] {
     --color: #7a43b5;
@@ -133,12 +147,12 @@
   }
 
   &.is-collapsed {
-    & > .callout-title > .fold-callout-icon {
+    &>.callout-title>.fold-callout-icon {
       transform: rotateZ(-90deg);
     }
 
     .callout-content {
-      & > * {
+      &>* {
         transition:
           height 0.1s cubic-bezier(0.02, 0.01, 0.47, 1),
           margin 0.1s cubic-bezier(0.02, 0.01, 0.47, 1),
@@ -150,7 +164,8 @@
         padding-bottom: 0;
         padding-top: 0;
       }
-      & > :first-child {
+
+      &> :first-child {
         margin-top: -1rem;
       }
     }
@@ -163,7 +178,8 @@
   align-items: flex-start;
   gap: 5px;
   padding: 1rem 0;
-  color: var(--color); /* Utiliser la variable de couleur du callout */
+  color: var(--color);
+  /* Utiliser la variable de couleur du callout */
 
   --icon-size: 18px;
 
@@ -172,8 +188,9 @@
   & .callout-title-inner p,
   & .callout-title-inner p strong,
   & .callout-title-inner p b,
-  & > .callout-title-inner > p {
-    color: var(--color); /* Couleur du callout, pas de !important */
+  &>.callout-title-inner>p {
+    color: var(--color);
+    /* Couleur du callout, pas de !important */
     margin: 0;
   }
 
@@ -192,7 +209,8 @@
     flex: 0 0 var(--icon-size);
     background-size: var(--icon-size) var(--icon-size);
     background-position: center;
-    background-color: var(--color); /* Utiliser la couleur du callout */
+    background-color: var(--color);
+    /* Utiliser la couleur du callout */
     mask-image: var(--callout-icon);
     mask-size: var(--icon-size) var(--icon-size);
     mask-position: center;
