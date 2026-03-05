@@ -267,38 +267,40 @@ export default ((userOpts?: Partial<Options>) => {
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
       opacity: 0;
-      transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      touch-action: none;
     }
 
     .mobile-menu-overlay.active {
-      display: block;
       opacity: 1;
+      visibility: visible;
     }
 
     .mobile-menu-content {
       position: fixed;
       top: 0;
-      left: -300px; /* Commence hors de l'écran à gauche */
-      width: 280px;
+      left: 0;
+      width: 85vw; /* This is fine since it's an inner partial width */
+      max-width: 400px;
       height: 100%;
-      z-index: 1000;
-      background: var(--light);
-      border-right: 1px solid var(--lightgray);
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+      background-color: var(--light);
+      z-index: 9999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
       overflow-y: auto;
       overflow-x: hidden;
-      transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       touch-action: manipulation;
     }
 
     .mobile-menu-content[aria-expanded="true"] {
-      left: 0; /* Glisse vers la droite */
+      transform: translateX(0); /* Glisse vers la droite */
     }
 
     .mobile-menu-section {
