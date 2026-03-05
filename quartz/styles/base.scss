@@ -9,6 +9,9 @@ html {
   text-size-adjust: none;
   width: 100%;
 
+  /* FIX: Empêche l'élargissement de l'écran par les SVGs/SPA sans casser le position: sticky du header */
+  overflow-x: clip;
+
   @media all and ($mobile) {
     scroll-padding-top: 4rem;
   }
@@ -301,6 +304,8 @@ a {
     & footer {
       max-width: 850px;
       width: 100%;
+      min-width: 0;
+      /* FIX GRID BLOWOUT: Empêche la colonne de s'étirer à cause du contenu interne */
       margin: 0 auto;
 
       @media all and (max-width: 1024px) {
