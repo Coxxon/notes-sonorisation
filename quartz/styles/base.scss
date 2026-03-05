@@ -14,10 +14,10 @@ html {
   }
 
   &.menu-open {
-    overflow: hidden !important;
+    overflow: clip !important;
 
     body {
-      overflow: hidden !important;
+      overflow: clip !important;
       touch-action: none;
     }
   }
