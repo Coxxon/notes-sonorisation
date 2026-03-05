@@ -251,14 +251,12 @@ h6 {
     z-index: 1000;
     /* On assure que la couleur de fond recouvre le texte qui passe dessous au scroll */
     background-color: var(--light);
-    transition: top 0.3s ease-in-out !important;
-    /* Changer la transition sur 'top' pour ne pas casser le 'position: fixed' */
+    transition: transform 0.3s ease-in-out !important;
     margin-top: 0 !important;
   }
 
   .page-header.header-hidden {
-    /* Utiliser 'top' au lieu de 'transform' pour cacher le header sans emprisonner le menu enfant. */
-    top: -150px !important;
+    transform: translateY(-100%) !important;
   }
 
   header {
