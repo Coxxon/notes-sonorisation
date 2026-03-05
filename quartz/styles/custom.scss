@@ -202,8 +202,8 @@ h6 {
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
-    height: 60px !important;
-    padding: 0 1rem !important;
+    padding: 1rem !important;
+    /* Symétrique: haut, droite, bas, gauche */
     background-color: var(--light);
     z-index: 1000;
   }
@@ -244,6 +244,26 @@ h6 {
 
 /* Forcer l'affichage 3 éléments alignés sur mobile vertical */
 @media (max-width: 1024px) {
+  .page-header {
+    /* SMART STICKY HEADER (Apparaît au scroll up, disparaît au scroll down) */
+    position: sticky !important;
+    top: 0;
+    z-index: 1000;
+    /* On assure que la couleur de fond recouvre le texte qui passe dessous au scroll */
+    background-color: var(--light);
+    transition: transform 0.3s ease-in-out !important;
+    margin-top: 0 !important;
+  }
+
+  .page-header.header-hidden {
+    transform: translateY(-100%) !important;
+  }
+
+  /* FORCER le header à rester affiché quand le menu est ouvert, même si la classe hidden est présente */
+  html.menu-open .page-header {
+    transform: none !important;
+  }
+
   header {
     display: flex !important;
     align-items: center !important;
@@ -265,8 +285,12 @@ h6 {
     flex: 1 !important;
     text-align: center !important;
     margin: 0 !important;
+    /* Neutralise toutes les marges asymétriques H1 natives */
+    padding: 0 !important;
     position: static !important;
     transform: none !important;
+    line-height: 1 !important;
+    /* Retire l'espacement invisible sous le texte */
   }
 
   header .darkmode {
