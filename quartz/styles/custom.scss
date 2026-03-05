@@ -259,11 +259,6 @@ h6 {
     transform: translateY(-100%) !important;
   }
 
-  /* FORCER le header à rester affiché quand le menu est ouvert, même si la classe hidden est présente */
-  html.menu-open .page-header {
-    transform: none !important;
-  }
-
   header {
     display: flex !important;
     align-items: center !important;

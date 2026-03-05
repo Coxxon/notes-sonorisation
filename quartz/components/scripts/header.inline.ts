@@ -10,9 +10,14 @@ document.addEventListener("nav", () => {
     lastScrollY = window.scrollY
 
     const handleScroll = () => {
-        // Obey mobile threshold and ignore scroll events if the mobile menu is currently open
-        if (window.innerWidth > 1024 || document.documentElement.classList.contains("menu-open")) {
+        // Ignorer complètement le script si on n'est pas sur mobile
+        if (window.innerWidth > 1024) {
             header.classList.remove("header-hidden")
+            return
+        }
+
+        // Figer l'état actuel du header si le menu est ouvert
+        if (document.documentElement.classList.contains("menu-open")) {
             return
         }
 
