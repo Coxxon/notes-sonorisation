@@ -445,10 +445,7 @@ export default ((userOpts?: Partial<Options>) => {
   MobileMenu.afterDOMLoaded = concatenateResources(
     `
     // Script pour gérer l'ouverture/fermeture du menu mobile
-    let savedScrollY = 0;
-    
     function lockBody() {
-      savedScrollY = window.scrollY;
       document.documentElement.classList.add('menu-open');
     }
     

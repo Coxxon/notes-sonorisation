@@ -13,6 +13,8 @@ html {
   overflow-x: clip;
 
   @media all and ($mobile) {
+    scroll-behavior: auto !important;
+    /* Désactiver le smooth scroll natif qui cause les sauts de page */
     scroll-padding-top: 4rem;
   }
 
