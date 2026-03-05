@@ -592,15 +592,19 @@ export default ((userOpts?: Partial<Options>) => {
 
     // --- Ajout de la navigation tactile (Swipe Left / Swipe Right) ---
     let touchstartX = 0;
+    let touchstartY = 0;
     let touchendX = 0;
-    const swipeThreshold = 30; // Distance minimum pour considérer un swipe plus réactive
+    let touchendY = 0;
+    const swipeThreshold = 50; // Distance horizontale minimum augmentée pour l'intention
 
     document.addEventListener('touchstart', e => {
       touchstartX = e.changedTouches[0].screenX;
-    });
+      touchstartY = e.changedTouches[0].screenY;
+    }, { passive: true });
 
     document.addEventListener('touchend', e => {
       touchendX = e.changedTouches[0].screenX;
+      touchendY = e.changedTouches[0].screenY;
       handleSwipeGesture();
     });
 
@@ -618,10 +622,15 @@ export default ((userOpts?: Partial<Options>) => {
       if (!menuContent) return;
       
       const isExpanded = menuContent.getAttribute('aria-expanded') === 'true';
-      const distance = touchendX - touchstartX;
+      const distanceX = touchendX - touchstartX;
+      const distanceY = Math.abs(touchendY - touchstartY);
       
+      // Sécurité anti-scroll: Le mouvement doit être principalement horizontal
+      // et la distance horizontale doit dépasser le seuil
+      if (Math.abs(distanceX) < distanceY) return;
+
       // Swipe vers la droite (Menu Ouvrir)
-      if (distance > swipeThreshold && !isExpanded) {
+      if (distanceX > swipeThreshold && !isExpanded) {
         // Initier depuis le bord gauche de l'écran (ex: maximum 100px depuis le bord pour être plus permissif)
         if (touchstartX < 150) { 
           toggle.setAttribute('aria-expanded', 'true');
@@ -632,7 +641,7 @@ export default ((userOpts?: Partial<Options>) => {
       }
       
       // Swipe vers la gauche (Menu Fermer)
-      if (distance < -swipeThreshold && isExpanded) {
+      if (distanceX < -swipeThreshold && isExpanded) {
         toggle.setAttribute('aria-expanded', 'false');
         menuContent.setAttribute('aria-expanded', 'false');
         if (menuOverlay) menuOverlay.classList.remove('active');
