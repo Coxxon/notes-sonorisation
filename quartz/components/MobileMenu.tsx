@@ -641,10 +641,13 @@ export default ((userOpts?: Partial<Options>) => {
 
       // Swipe vers la droite (Menu Ouvrir)
       if (distanceX > swipeThreshold && !isExpanded) {
-        toggle.setAttribute('aria-expanded', 'true');
-        menuContent.setAttribute('aria-expanded', 'true');
-        if (menuOverlay) menuOverlay.classList.add('active');
-        lockBody();
+        // Zone d'activation élargie aux deux tiers gauches de l'écran
+        if (touchstartX < window.innerWidth * 0.66) {
+          toggle.setAttribute('aria-expanded', 'true');
+          menuContent.setAttribute('aria-expanded', 'true');
+          if (menuOverlay) menuOverlay.classList.add('active');
+          lockBody();
+        }
       }
       
       // Swipe vers la gauche (Menu Fermer)
