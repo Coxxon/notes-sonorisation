@@ -457,6 +457,18 @@ export default ((userOpts?: Partial<Options>) => {
       window.scrollTo(0, savedScrollY);
     }
     
+    // Fonction de portail pour sortir le menu du header (évite d'être décalé avec lui)
+    function portalMenu() {
+      document.querySelectorAll('.mobile-menu-content, .mobile-menu-overlay').forEach(el => {
+        if (el.parentElement !== document.body) {
+          document.body.appendChild(el);
+        }
+      });
+    }
+    
+    // Initialisation du portail
+    portalMenu();
+    
     document.addEventListener('click', function(e) {
       const toggle = e.target.closest('.mobile-menu-toggle');
       const content = e.target.closest('.mobile-menu-content');
@@ -588,6 +600,8 @@ export default ((userOpts?: Partial<Options>) => {
       document.querySelectorAll('.mobile-menu-toggle').forEach(toggle => {
         toggle.setAttribute('aria-expanded', 'false');
       });
+      // Replacer le menu dans le body au cas où il aurait été re-rendu dans le header
+      portalMenu();
     });
 
     // --- Ajout de la navigation tactile (Swipe Left / Swipe Right) ---
