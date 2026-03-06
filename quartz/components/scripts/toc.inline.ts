@@ -29,16 +29,13 @@ const observer = new IntersectionObserver((entries) => {
     a.removeAttribute('style')
   })
 
-  // .in-view contains all headings we've scrolled past + the current one
-  const inViewLinks = Array.from(document.querySelectorAll('.toc-content a.in-view'))
+  // .in-view contains all headings we've scrolled past (legacy Quartz logic)
+  const inViewLinks = Array.from(document.querySelectorAll(".toc-content a.in-view"))
 
   if (inViewLinks.length === 0) {
-    allLinks.forEach(link => link.classList.add('is-future'))
+    allLinks.forEach((link) => link.classList.add("is-future"))
     return
   }
-
-  const activeIndex = inViewLinks.length - 1
-  const currentActiveLink = inViewLinks[activeIndex]
 
   // Filter true visible links from the order of DOM
   const visibleLinkElements = allLinks.filter(link => {
@@ -46,43 +43,50 @@ const observer = new IntersectionObserver((entries) => {
     return slug && visibleHeaders.has(slug)
   })
 
+  // Get the slug of the focal header
+  // Priority 1: The first header visible at the top of the screen
+  // Priority 2: The last header passed (if we are in the middle of a section)
+  let activeSlug = ""
+  if (visibleLinkElements.length > 0) {
+    activeSlug = visibleLinkElements[0].getAttribute("data-for") ?? ""
+  } else if (inViewLinks.length > 0) {
+    activeSlug = inViewLinks[inViewLinks.length - 1].getAttribute("data-for") ?? ""
+  }
+
   // Apply Triple State
   allLinks.forEach((link) => {
-    const isVisible = visibleLinkElements.includes(link)
-    const idxInView = inViewLinks.indexOf(link)
+    const slug = link.getAttribute('data-for')
+    const isVisible = slug && visibleHeaders.has(slug)
+    const isInView = link.classList.contains("in-view")
+    const isExactlyActive = slug === activeSlug
 
-    if (isVisible) {
+    if (isExactlyActive) {
+      link.classList.add("is-active", "active")
+    } else if (isVisible) {
       // EN COURS : visible à l'écran
-      link.classList.add('is-active')
-      const pos = visibleLinkElements.indexOf(link)
-      if (pos === 0) {
-        link.classList.add('active') // Le plus haut est pur blanc
-      } else {
-        // Blanc légèrement atténué, uniforme pour tous les titres visibles non-primaires
-        link.setAttribute('style', `opacity: 0.75 !important; font-weight: normal;`)
-      }
-    } else if (idxInView !== -1) {
+      link.classList.add("is-active")
+    } else if (isInView) {
       // LU / HORS ÉCRAN VERS LE HAUT
-      if (link === currentActiveLink && visibleLinkElements.length === 0) {
-        // En cours de lecture d'une longue section, aucun nouveau titre à l'écran
-        link.classList.add('is-active', 'active')
-      } else {
-        // Vraiment passé
-        link.classList.add('is-past')
-      }
+      link.classList.add('is-past')
     } else {
       // À LIRE : en dessous
       link.classList.add('is-future')
     }
   })
 
-  // Scrolling the TOC container
-  const targetScrollLink = visibleLinkElements.length > 0 ? visibleLinkElements[0] : currentActiveLink
-  const container = targetScrollLink.closest('.toc-content') as HTMLElement
-  if (container) {
-    const offsetTop = (targetScrollLink as HTMLElement).offsetTop
-    container.scrollTo({ top: offsetTop - container.clientHeight / 2, behavior: 'smooth' })
-  }
+  // Scrolling the TOC containers (desktop and mobile can have different containers)
+  const containers = new Set<HTMLElement>()
+  document.querySelectorAll(`a[data-for="${activeSlug}"]`).forEach(link => {
+    const container = link.closest('.toc-content') as HTMLElement
+    if (container) containers.add(container)
+  })
+
+  containers.forEach(container => {
+    const activeLink = container.querySelector(`a[data-for="${activeSlug}"]`) as HTMLElement
+    if (activeLink) {
+      container.scrollTo({ top: activeLink.offsetTop - container.clientHeight / 2, behavior: 'smooth' })
+    }
+  })
 }, {
   rootMargin: '-5% 0px -20% 0px',
   threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]

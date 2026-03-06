@@ -51,6 +51,12 @@ button.toc-header {
     color: var(--gray);
     opacity: 0.5;
     transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+    padding: 0.1rem 0.6rem;
+    border-left: 3px solid transparent;
+    line-height: inherit;
+    position: relative;
 
     &:hover {
       opacity: 0.8 !important;
@@ -59,27 +65,30 @@ button.toc-header {
 
     /* TRIPLE ÉTAT : PROGRESSION ORGANIQUE */
 
-    /* 1. Titres déjà lus (au-dessus) — gris clair, clairement lus */
+    /* 1. Titres déjà lus (au-dessus) — Calibré sur "Fondamentaux" */
     &.is-past {
-      opacity: 0.5;
+      opacity: 1;
       color: var(--dark);
     }
 
-    /* 2. Titres à venir (en-dessous) — grisés, pas encore lus */
+    /* 2. Titres à venir (en-dessous) — État secondaire */
     &.is-future {
-      opacity: 0.3;
+      opacity: 0.75;
       color: var(--gray);
     }
 
-    /* 3. Titres actuellement affichés à l'écran — blanc légèrement atténué */
+    /* 3. Titres actuellement affichés à l'écran — Zone de lecture active (Teinte Tertiaire Full) */
     &.is-active {
-      color: var(--dark);
-      opacity: 0.75;
+      color: var(--tertiary);
+      opacity: 1;
+      border-left-color: transparent;
     }
 
-    /* 4. Le titre EXACTEMENT lu (le plus haut du viewport) — blanc pur, sans glow */
+    /* 4. Le titre EXACTEMENT lu (le plus haut du viewport) — Focus Principal (Barre Gouttière 100%) */
     &.active {
       color: var(--dark) !important;
+      background-color: color-mix(in srgb, var(--tertiary) 9%, transparent);
+      border-left-color: var(--tertiary);
       opacity: 1 !important;
       font-weight: 600;
     }
@@ -87,7 +96,11 @@ button.toc-header {
 
   @for $i from 0 through 6 {
     & .depth-#{$i} {
-      padding-left: calc(1rem * #{$i});
+      padding-left: 0;
+
+      &>a {
+        padding-left: calc(0.6rem + (1rem * #{$i}));
+      }
     }
   }
 }
