@@ -144,7 +144,7 @@ export default ((userOpts?: Partial<Options>) => {
           {fileData.toc && fileData.toc.length > 0 && (
             <div class="mobile-menu-section">
               <h3 class="mobile-menu-section-title">{i18n(cfg.locale).components.tableOfContents.title}</h3>
-              <ul class="mobile-menu-toc mobile-explorer-ul">
+              <ul class="mobile-menu-toc mobile-explorer-ul toc-content">
                 {fileData.toc.map((tocEntry) => (
                   <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
                     <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
@@ -284,9 +284,9 @@ export default ((userOpts?: Partial<Options>) => {
       position: fixed;
       top: 0;
       left: 0;
-      width: 280px; /* Restauration de la largeur originale */
+      width: 280px; /* Resturation de la largeur originale */
       max-width: 85vw; /* Failsafe responsive */
-      height: 100%;
+      height: 100dvh; /* Utilise toute la hauteur dynamique du viewport */
       background-color: var(--light);
       z-index: 9999;
       transform: translateX(-100%);
@@ -433,6 +433,52 @@ export default ((userOpts?: Partial<Options>) => {
       color: var(--secondary);
     }
 
+    /* SCROLL SPY - TRIPLE ÉTAT SÉMANTIQUE (Gutter Glide Design) */
+    .mobile-menu-toc a {
+      transition: all 0.3s ease;
+      display: block;
+      width: 100%;
+      padding: 0.1rem 0.6rem;
+      border-left: 3px solid transparent;
+      line-height: inherit;
+      position: relative;
+    }
+
+    /* Indentations for Mobile TOC */
+    .mobile-menu-toc li { padding-left: 0 !important; }
+    .mobile-menu-toc li.depth-1 a { padding-left: calc(0.6rem + 1rem); }
+    .mobile-menu-toc li.depth-2 a { padding-left: calc(0.6rem + 2rem); }
+    .mobile-menu-toc li.depth-3 a { padding-left: calc(0.6rem + 3rem); }
+    .mobile-menu-toc li.depth-4 a { padding-left: calc(0.6rem + 4rem); }
+
+    /* 1. Titres déjà lus (au-dessus) */
+    .mobile-menu-toc a.is-past {
+      opacity: 1;
+      color: var(--dark);
+    }
+
+    /* 2. Titres à venir (en-dessous) */
+    .mobile-menu-toc a.is-future {
+      opacity: 0.75;
+      color: var(--gray);
+    }
+
+    /* 3. Titre actuellement visible / proche (Teinte Tertiaire Full) */
+    .mobile-menu-toc a.is-active {
+      color: var(--tertiary);
+      opacity: 1;
+      border-left-color: transparent;
+    }
+
+    /* 4. Le titre EXACTEMENT actif (Gutter 100% + Fluid Glass) */
+    .mobile-menu-toc a.active {
+      color: var(--dark) !important;
+      background-color: color-mix(in srgb, var(--tertiary) 9%, transparent);
+      border-left-color: var(--tertiary);
+      opacity: 1 !important;
+      font-weight: 600;
+    }
+
     .folder-container {
       display: flex;
       align-items: center;
@@ -463,13 +509,6 @@ export default ((userOpts?: Partial<Options>) => {
       }
 
       /* Ne plus afficher le texte "Search" en horizontal car la recherche n'est plus dans le header */
-    }
-
-    /* Amélioration pour mobile en mode paysage */
-    @media (orientation: landscape) and (max-height: 600px) {
-      .mobile-menu-content {
-        max-height: 60vh;
-      }
     }
   `
 
