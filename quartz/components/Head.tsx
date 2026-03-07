@@ -89,7 +89,7 @@ export default (() => {
             __html: `
           if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-              navigator.serviceWorker.register('./static/sw.js');
+              navigator.serviceWorker.register('${joinSegments(baseDir, "static/sw.js")}');
             });
           }
         `,

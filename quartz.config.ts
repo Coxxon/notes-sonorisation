@@ -17,7 +17,7 @@ const config: QuartzConfig = {
       websiteId: "allanlg",
     },
     locale: "fr-FR",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "coxxon.github.io/notes-sonorisation",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
