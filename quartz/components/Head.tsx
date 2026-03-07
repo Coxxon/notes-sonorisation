@@ -83,13 +83,13 @@ export default (() => {
 
         <link rel="icon" href={joinSegments(baseDir, "static/favicon.ico")} />
         <link rel="apple-touch-icon" href={joinSegments(baseDir, "static/icon.png")} />
-        <link rel="manifest" href={joinSegments(baseDir, "static/manifest.json")} />
+        <link rel="manifest" href="/notes-sonorisation/static/manifest.json" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
           if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-              navigator.serviceWorker.register('${joinSegments(baseDir, "static/sw.js")}');
+              navigator.serviceWorker.register('/notes-sonorisation/static/sw.js');
             });
           }
         `,
