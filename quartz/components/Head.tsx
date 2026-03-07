@@ -83,6 +83,18 @@ export default (() => {
 
         <link rel="icon" href={joinSegments(baseDir, "static/favicon.ico")} />
         <link rel="apple-touch-icon" href={joinSegments(baseDir, "static/icon.png")} />
+        <link rel="manifest" href={joinSegments(baseDir, "static/manifest.json")} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('./static/sw.js');
+            });
+          }
+        `,
+          }}
+        />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
 
