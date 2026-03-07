@@ -1,26 +1,29 @@
 {
     "name": "Node",
     "short_name": "Node",
+    "description": "Système de notes sur la sonorisation et l'architecture réseau.",
+    "id": "/notes-sonorisation/",
     "start_url": "/notes-sonorisation/",
     "scope": "/notes-sonorisation/",
     "display": "standalone",
     "background_color": "#161618",
     "theme_color": "#161618",
+    "orientation": "portrait",
     "icons": [
         {
-            "src": "icon.png",
+            "src": "/notes-sonorisation/static/icon.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "icon.png",
+            "src": "/notes-sonorisation/static/icon.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "icon.png",
+            "src": "/notes-sonorisation/static/icon.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
