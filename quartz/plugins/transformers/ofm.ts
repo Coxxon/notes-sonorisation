@@ -217,6 +217,20 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
           const replacements: [RegExp, string | ReplaceFunction][] = []
           const base = pathToRoot(file.data.slug!)
 
+
+          if (opts.highlight) {
+            replacements.push([
+              highlightRegex,
+              (_value: string, ...capture: string[]) => {
+                const [inner] = capture
+                return {
+                  type: "html",
+                  value: `<span class="text-highlight">${inner}</span>`,
+                }
+              },
+            ])
+          }
+
           if (opts.wikilinks) {
             replacements.push([
               wikilinkRegex,
@@ -268,9 +282,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                     return {
                       type: "html",
                       data: { hProperties: { transclude: true } },
-                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${
-                        url + anchor
-                      }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
+                      value: `<blockquote class="transclude" data-url="${url}" data-block="${block}" data-embed-alias="${alias}"><a href="${url + anchor
+                        }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
                     }
                   }
 
@@ -301,19 +314,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                       value: alias ?? fp,
                     },
                   ],
-                }
-              },
-            ])
-          }
-
-          if (opts.highlight) {
-            replacements.push([
-              highlightRegex,
-              (_value: string, ...capture: string[]) => {
-                const [inner] = capture
-                return {
-                  type: "html",
-                  value: `<span class="text-highlight">${inner}</span>`,
                 }
               },
             ])
@@ -367,6 +367,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
             ])
           }
 
+          mdastFindReplace(tree, replacements)
+
           if (opts.enableInHtmlEmbed) {
             visit(tree, "html", (node: Html) => {
               for (const [regex, replace] of replacements) {
@@ -389,7 +391,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
               }
             })
           }
-          mdastFindReplace(tree, replacements)
         }
       })
 

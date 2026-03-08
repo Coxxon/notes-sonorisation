@@ -85,7 +85,6 @@ let index = new FlexSearch.Document<Item>({
 
 const p = new DOMParser()
 const fetchContentCache: Map<FullSlug, Element[]> = new Map()
-const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5
 
@@ -101,33 +100,42 @@ const tokenizeTerm = (term: string) => {
   return tokens.sort((a, b) => b.length - a.length) // always highlight longest terms first
 }
 
-function highlight(searchTerm: string, text: string, trim?: boolean) {
+function highlight(searchTerm: string, text: string, trim?: boolean, skipTitle?: string) {
   const tokenizedTerms = tokenizeTerm(searchTerm)
-  let tokenizedText = text.split(/\s+/).filter((t) => t !== "")
 
-  let startIndex = 0
-  let endIndex = tokenizedText.length - 1
   if (trim) {
-    const includesCheck = (tok: string) =>
-      tokenizedTerms.some((term) => tok.toLowerCase().startsWith(term.toLowerCase()))
-    const occurrencesIndices = tokenizedText.map(includesCheck)
-
-    let bestSum = 0
-    let bestIndex = 0
-    for (let i = 0; i < Math.max(tokenizedText.length - contextWindowWords, 0); i++) {
-      const window = occurrencesIndices.slice(i, i + contextWindowWords)
-      const windowSum = window.reduce((total, cur) => total + (cur ? 1 : 0), 0)
-      if (windowSum >= bestSum) {
-        bestSum = windowSum
-        bestIndex = i
-      }
+    // Extract only the first line/phrase for the snippet, skipping titles/headers
+    const firstLine = text.split(/\r?\n/).find(line => {
+      const trimmed = line.trim()
+      if (trimmed.length === 0) return false
+      if (trimmed.startsWith("#")) return false
+      // If we have a title to skip, check for it (case insensitive)
+      if (skipTitle && trimmed.toLowerCase() === skipTitle.toLowerCase()) return false
+      return true
+    }) ?? ""
+    // Limit length to ~160 chars for a clean UI
+    let snippet = firstLine.trim()
+    if (snippet.length > 160) {
+      snippet = snippet.substring(0, 157) + "..."
     }
 
-    startIndex = Math.max(bestIndex - contextWindowWords, 0)
-    endIndex = Math.min(startIndex + 2 * contextWindowWords, tokenizedText.length - 1)
-    tokenizedText = tokenizedText.slice(startIndex, endIndex)
+    const tokenizedText = snippet.split(/\s+/).filter((t) => t !== "")
+    const slice = tokenizedText
+      .map((tok) => {
+        for (const searchTok of tokenizedTerms) {
+          if (tok.toLowerCase().includes(searchTok.toLowerCase())) {
+            const regex = new RegExp(searchTok.toLowerCase(), "gi")
+            return tok.replace(regex, `<span class="highlight">$&</span>`)
+          }
+        }
+        return tok
+      })
+      .join(" ")
+
+    return slice
   }
 
+  const tokenizedText = text.split(/\s+/).filter((t) => t !== "")
   const slice = tokenizedText
     .map((tok) => {
       // see if this tok is prefixed by any search terms
@@ -141,9 +149,7 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  return `${startIndex === 0 ? "" : "..."}${slice}${
-    endIndex === tokenizedText.length - 1 ? "" : "..."
-  }`
+  return slice
 }
 
 function highlightHTML(searchTerm: string, el: HTMLElement) {
@@ -309,11 +315,12 @@ async function setupSearch(searchElement: Element, currentSlug: FullSlug, data: 
 
   const formatForDisplay = (term: string, id: number) => {
     const slug = idDataMap[id]
+    const pageTitle = data[slug].title ?? ""
     return {
       id,
       slug,
-      title: searchType === "tags" ? data[slug].title : highlight(term, data[slug].title ?? ""),
-      content: highlight(term, data[slug].content ?? "", true),
+      title: searchType === "tags" ? pageTitle : highlight(term, pageTitle),
+      content: highlight(term, data[slug].content ?? "", true, pageTitle),
       tags: highlightTags(term.substring(1), data[slug].tags),
     }
   }
@@ -435,6 +442,22 @@ async function setupSearch(searchElement: Element, currentSlug: FullSlug, data: 
     highlights[0]?.scrollIntoView({ block: "start" })
   }
 
+  const calculateScore = (id: number, term: string): number => {
+    const slug = idDataMap[id]
+    const fileData = data[slug]
+    const title = (fileData.title ?? "").toLowerCase()
+    const query = term.toLowerCase()
+    const slugLower = slug.toLowerCase()
+
+    let score = 0
+    if (title === query) score += 1000
+    if (title.startsWith(query)) score += 500
+    if (title.includes(query)) score += 200
+    if (slugLower.includes(query)) score += 100
+
+    return score
+  }
+
   async function onType(e: HTMLElementEventMap["input"]) {
     if (!searchLayout || !index) return
     currentSearchTerm = (e.target as HTMLInputElement).value
@@ -489,7 +512,12 @@ async function setupSearch(searchElement: Element, currentSlug: FullSlug, data: 
       ...getByField("content"),
       ...getByField("tags"),
     ])
-    const finalResults = [...allIds].map((id) => formatForDisplay(currentSearchTerm, id))
+    const finalResults = [...allIds]
+      .map((id) => ({
+        ...formatForDisplay(currentSearchTerm, id),
+        score: calculateScore(id, currentSearchTerm),
+      }))
+      .sort((a, b) => b.score - a.score)
     await displayResults(finalResults)
   }
 

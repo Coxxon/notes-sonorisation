@@ -22,7 +22,7 @@ PageTitle.css = `
 .page-title a {
   color: var(--dark) !important;
   text-decoration: none !important;
-  font-weight: 500;
+  font-weight: 300;
   display: inline-block;
   letter-spacing: -1px;
   /* Aucune transition sur font-size ou transform liés au scroll ratio pour éviter le lag (1:1 direct mapping) */

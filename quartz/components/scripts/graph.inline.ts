@@ -170,6 +170,18 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     .force("center", forceCenter().strength(centerForce))
     .force("link", forceLink(graphData.links).distance(linkDistance))
     .force("collide", forceCollide<NodeData>((n) => nodeRadius(n)).iterations(3))
+    .force("bounding-box", () => {
+      const margin = 20
+      for (const n of graphData.nodes) {
+        const r = nodeRadius(n)
+        const halfWidth = width / 2 - r - margin
+        const halfHeight = height / 2 - r - margin
+
+        // Clamp positions to keep nodes inside the container
+        if (n.x && Math.abs(n.x) > halfWidth) n.x = Math.sign(n.x) * halfWidth
+        if (n.y && Math.abs(n.y) > halfHeight) n.y = Math.sign(n.y) * halfHeight
+      }
+    })
 
   const radius = (Math.min(width, height) / 2) * 0.8
   if (enableRadial) simulation.force("radial", forceRadial(radius).strength(0.2))

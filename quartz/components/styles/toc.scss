@@ -53,14 +53,14 @@ button.toc-header {
     transition: all 0.3s ease;
     display: block;
     width: 100%;
-    padding: 0.1rem 0.6rem;
+    padding: 0.25rem 0.6rem 0.15rem 0.6rem;
     border-left: 3px solid transparent;
     line-height: inherit;
     position: relative;
 
     &:hover {
       opacity: 0.8 !important;
-      color: var(--tertiary) !important;
+      color: var(--secondary) !important;
     }
 
     /* TRIPLE ÉTAT : PROGRESSION ORGANIQUE */
@@ -79,7 +79,7 @@ button.toc-header {
 
     /* 3. Titres actuellement affichés à l'écran — Zone de lecture active (Teinte Tertiaire Full) */
     &.is-active {
-      color: var(--tertiary);
+      color: var(--secondary);
       opacity: 1;
       border-left-color: transparent;
     }
@@ -87,8 +87,8 @@ button.toc-header {
     /* 4. Le titre EXACTEMENT lu (le plus haut du viewport) — Focus Principal (Barre Gouttière 100%) */
     &.active {
       color: var(--dark) !important;
-      background-color: color-mix(in srgb, var(--tertiary) 9%, transparent);
-      border-left-color: var(--tertiary);
+      background-color: color-mix(in srgb, var(--secondary) 9%, transparent);
+      border-left-color: var(--secondary);
       opacity: 1 !important;
       font-weight: 600;
     }

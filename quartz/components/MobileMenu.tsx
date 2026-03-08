@@ -6,6 +6,7 @@ import style from "./styles/explorer.scss"
 import { concatenateResources } from "../util/resources"
 
 import Search from "./Search"
+import ReaderMode from "./ReaderMode"
 
 // @ts-ignore
 import script from "./scripts/explorer.inline"
@@ -101,9 +102,12 @@ export default ((userOpts?: Partial<Options>) => {
         <div class="mobile-menu-overlay" id={`${id}-overlay`}></div>
 
         <div id={id} class="mobile-menu-content" aria-expanded={false} role="group">
-          {/* Section Recherche */}
+          {/* Section Recherche & Reader Mode */}
           <div class="mobile-menu-section mobile-menu-search">
-            {Search()({ ...props, displayClass: "mobile-only" })}
+            <div class="mobile-menu-search-wrapper">
+              {Search()({ ...props, displayClass: "mobile-only" })}
+              {ReaderMode()({ ...props, displayClass: "mobile-only" })}
+            </div>
           </div>
 
           {/* Section FONDAMENTAUX */}
@@ -147,8 +151,7 @@ export default ((userOpts?: Partial<Options>) => {
               <ul class="mobile-menu-toc mobile-explorer-ul toc-content">
                 {fileData.toc.map((tocEntry) => (
                   <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-                    <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-                      {tocEntry.text}
+                    <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug} dangerouslySetInnerHTML={{ __html: tocEntry.text }}>
                     </a>
                   </li>
                 ))}
@@ -217,13 +220,39 @@ export default ((userOpts?: Partial<Options>) => {
       border-bottom: 1px solid var(--lightgray);
     }
 
-    .mobile-menu-search .search {
-      display: flex !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      max-width: none !important;
-      min-width: 100% !important;
-      margin: 0 !important;
+    .mobile-menu-search-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .mobile-menu-search-wrapper .search {
+      flex: 1;
+    }
+
+    .mobile-menu-search-wrapper .readermode {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--dark);
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .mobile-menu-search-wrapper .readermode:hover {
+      color: var(--secondary);
+    }
+
+    .mobile-menu-search-wrapper .readermode svg {
+      width: 20px;
+      height: 20px;
+      position: static; /* Reset absolute positionning from readermode.scss */
     }
 
     .mobile-menu-search .search-button {
@@ -323,7 +352,7 @@ export default ((userOpts?: Partial<Options>) => {
       margin-bottom: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      border-left: 3px solid var(--lightgray);
+      border-left: 3px solid currentColor;
       padding-left: 10px;
       cursor: pointer; /* Indiquer que c'est cliquable */
       transition: all 0.2s ease;
@@ -331,8 +360,7 @@ export default ((userOpts?: Partial<Options>) => {
     }
 
     .mobile-menu-section-title:hover {
-      color: var(--tertiary);
-      border-left-color: var(--tertiary);
+      color: var(--secondary) !important;
     }
 
     /* Styles pour l'animation de repliement */
@@ -352,7 +380,6 @@ export default ((userOpts?: Partial<Options>) => {
 
     .mobile-menu-section.collapsed .mobile-menu-section-title {
       margin-bottom: 0;
-      border-left-color: var(--gray);
       color: var(--gray);
     }
 
@@ -444,6 +471,11 @@ export default ((userOpts?: Partial<Options>) => {
       position: relative;
     }
 
+    .mobile-menu-toc a:hover {
+      color: var(--secondary) !important;
+      opacity: 1 !important;
+    }
+
     /* Indentations for Mobile TOC */
     .mobile-menu-toc li { padding-left: 0 !important; }
     .mobile-menu-toc li.depth-1 a { padding-left: calc(0.6rem + 1rem); }
@@ -465,7 +497,7 @@ export default ((userOpts?: Partial<Options>) => {
 
     /* 3. Titre actuellement visible / proche (Teinte Tertiaire Full) */
     .mobile-menu-toc a.is-active {
-      color: var(--tertiary);
+      color: var(--secondary);
       opacity: 1;
       border-left-color: transparent;
     }
@@ -473,8 +505,8 @@ export default ((userOpts?: Partial<Options>) => {
     /* 4. Le titre EXACTEMENT actif (Gutter 100% + Fluid Glass) */
     .mobile-menu-toc a.active {
       color: var(--dark) !important;
-      background-color: color-mix(in srgb, var(--tertiary) 9%, transparent);
-      border-left-color: var(--tertiary);
+      background-color: color-mix(in srgb, var(--secondary) 9%, transparent);
+      border-left-color: var(--secondary);
       opacity: 1 !important;
       font-weight: 600;
     }
