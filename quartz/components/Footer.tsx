@@ -13,13 +13,12 @@ export default ((opts?: Options) => {
     return (
       <footer class={`${displayClass ?? ""}`}>
         <p>
-          Contenu rédigé par Allan Le Guyader © {year}
-          {linkEntries.length > 0 && <span class="footer-separator"> • </span>}
-          {linkEntries.map(([text, link], index) => (
-            <>
+          <span class="copyright">Contenu rédigé par Allan Le Guyader © {year}</span>
+          {linkEntries.map(([text, link]) => (
+            <span class="footer-link">
+              <span class="footer-separator"> • </span>
               <a href={link}>{text}</a>
-              {index < linkEntries.length - 1 && <span class="footer-separator"> • </span>}
-            </>
+            </span>
           ))}
         </p>
       </footer>

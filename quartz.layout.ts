@@ -19,7 +19,7 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      "Me contacter par Email": "mailto:allan.leguyader.pro@gmail.com",
+      "Me contacter par mail": "mailto:allan.leguyader.pro@gmail.com",
     },
   }),
 }

@@ -6,11 +6,35 @@ footer {
   & p {
     margin: 0;
     line-height: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0 0.2rem;
   }
 
   .footer-separator {
-    margin: 0 0.5rem;
     opacity: 0.5;
+    margin: 0 0.2rem;
+  }
+
+  // Mobile/Narrow : Empilement propre sans point de séparation
+  @media all and (max-width: 600px) {
+    & p {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+
+    .footer-separator {
+      display: none;
+    }
+
+    .copyright,
+    .footer-link {
+      display: block;
+      width: 100%;
+    }
   }
 
   & ul {

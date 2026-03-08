@@ -2,8 +2,8 @@
 @use "./variables.scss" as *;
 
 
-/* 1. RÃ‰GLAGES IMAGES (IPAD/PC) - FILTRES SVG SUPPRIMÃ‰S */
-/* Les filtres prÃ©cÃ©dents causaient des problÃ¨mes d'affichage des SVG */
+/* 1. RÉGLAGES IMAGES (IPAD/PC) - FILTRES SVG SUPPRIMÉS */
+/* Les filtres précédents causaient des problèmes d'affichage des SVG */
 /* .is-mobile.theme-dark img[src*=".svg"] { filter: invert(1) hue-rotate(180deg) brightness(1.2) !important; } */
 /* .is-desktop.theme-dark img[src*=".svg"] { filter: none !important; } */
 
@@ -20,12 +20,14 @@ div.internal-embed,
   height: auto !important;
 }
 
-/* 2. LIENS GÃ‰NÃ‰RAUX & TABLEAUX (Ã‰TAT AU REPOS : FURTIF) */
+/* 2. LIENS GÉNÉRAUX & TABLEAUX (ÉTAT AU REPOS : FURTIF) */
 article a.internal,
 article a,
 table a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  /* Masqué au repos, mais permet la transition */
   border-bottom: none;
   background-image: none;
   box-shadow: none;
@@ -33,23 +35,25 @@ table a {
   padding: 0 2px;
   border-radius: 3px;
   font-weight: normal;
-  transition: all 0.2s ease;
+  transition: color 0.35s ease, text-decoration-color 0.5s ease, background-color 0.35s ease;
 }
+
 
 table td a,
 table th a {
   font-weight: 600;
 }
 
-/* 3. SURVOL DES LIENS (Ã‰TAT ACTIF : BLEU + SOULIGNÃ‰) */
+/* 3. SURVOL DES LIENS (ÉTAT ACTIF : BLEU + SOULIGNÉ) */
 article a.internal:hover,
 article a:hover,
 table a:hover {
   color: #3f88c5;
   text-decoration: underline;
-  text-decoration-color: rgba(63, 136, 197, 0.3);
+  text-decoration-color: rgba(63, 136, 197, 0.4);
   background-color: rgba(150, 150, 150, 0.08);
 }
+
 
 /* 14. ESPACEMENT TITRE PRINCIPAL (MOBILE) */
 .page-title a h1 {
@@ -61,8 +65,8 @@ table a:hover {
 /* 15. OPTIMISATION DU GRAPHIQUE (LEFT SIDEBAR) */
 .sidebar.left .graph {
   /* On supprime max-height et overflow: hidden ici. 
-     C'est .graph-content-container qui gÃ¨re la hauteur dynamiquement.
-     Si on coupe Ã  250px ici, le conteneur ne peut jamais pousser le reste vers le bas ! */
+     C'est .graph-content-container qui gère la hauteur dynamiquement.
+     Si on coupe à 250px ici, le conteneur ne peut jamais pousser le reste vers le bas ! */
   height: auto !important;
   max-height: none !important;
   overflow: visible !important;
@@ -90,23 +94,23 @@ table {
   table-layout: auto;
   /* Permettre aux colonnes de respirer */
 
-  /* SÃ©curitÃ© pour les longues chaÃ®nes de caractÃ¨res */
+  /* Sécurité pour les longues chaînes de caractères */
   word-break: break-word;
   overflow-wrap: anywhere;
 
-  /* RÃ©tablir le comportement de tableau par dÃ©faut sur Desktop */
+  /* Rétablir le comportement de tableau par défaut sur Desktop */
   display: table !important;
 
   @media all and ($mobile) {
     /* Forcer le comportement bloc pour le scroll horizontal sur mobile */
     display: block !important;
     white-space: nowrap;
-    /* EmpÃªche les colonnes de trop se tasser sur mobile */
+    /* Empêche les colonnes de trop se tasser sur mobile */
 
     td,
     th {
       white-space: normal;
-      /* Mais autorise le wrap Ã  l'intÃ©rieur des cellules */
+      /* Mais autorise le wrap à l'intérieur des cellules */
     }
   }
 }
@@ -123,7 +127,7 @@ th {
   font-weight: 600;
 }
 
-/* 5. POPOVERS (FENÃŠTRES FLOTTANTES : TAILLES DÃ‰FINIES) */
+/* 5. POPOVERS (FENÃŠTRES FLOTTANTES : TAILLES DÉFINIES) */
 body .popover {
 
   .metadata-container,
@@ -170,17 +174,29 @@ h6 {
   scroll-margin-top: 5rem;
 }
 
-/* 7. TAILLES DES TITRES RÃ‰DACTION (HORS POPOVER) */
+/* 7. TAILLES DES TITRES RÉDACTION (HORS POPOVER) */
 .article-title {
   font-size: 2.6rem !important;
 }
 
-h1 {
+article h1 {
   font-size: 2.2rem !important;
+  background-color: color-mix(in srgb, var(--secondary) 18%, transparent);
+  padding: 0.5rem 1rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(4px);
+  border-radius: 0;
 }
 
-h2 {
+article h2 {
   font-size: 2rem !important;
+  background-color: color-mix(in srgb, var(--secondary) 10%, transparent);
+  padding: 0.4rem 0.8rem;
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  backdrop-filter: blur(4px);
+  border-radius: 0;
 }
 
 h3 {
@@ -223,14 +239,14 @@ h6 {
 
 @media screen and (max-width: 1300px) {
 
-  /* 1. Nettoyage du Header pour Ã©viter les superpositions */
+  /* 1. Nettoyage du Header pour éviter les superpositions */
   header {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
     padding: 1rem !important;
-    /* SymÃ©trique: haut, droite, bas, gauche */
+    /* Symétrique: haut, droite, bas, gauche */
     background-color: var(--light);
     z-index: 1000;
   }
@@ -252,7 +268,7 @@ h6 {
   }
 
   /* 2. Fix du menu coulissant (Sidebar mobile) */
-  /* On s'assure que tout est lisible Ã  l'intÃ©rieur */
+  /* On s'assure que tout est lisible à l'intérieur */
   .page>.left.open {
     display: flex !important;
     flex-direction: column !important;
@@ -266,13 +282,13 @@ h6 {
 }
 
 /* ==========================================================================
-   FIX HEADER 3-Ã‰LÃ‰MENTS MOBILE
+   FIX HEADER 3-ÉLÉMENTS MOBILE
    ========================================================================== */
 
-/* Forcer l'affichage 3 Ã©lÃ©ments alignÃ©s sur mobile vertical */
+/* Forcer l'affichage 3 éléments alignés sur mobile vertical */
 @media (max-width: 1024px) {
   .page-header {
-    /* SMART STICKY HEADER (ApparaÃ®t au scroll up, disparaÃ®t au scroll down) */
+    /* SMART STICKY HEADER (Apparaît au scroll up, disparaît au scroll down) */
     position: sticky !important;
     top: 0;
     z-index: 1000;
@@ -295,7 +311,7 @@ h6 {
 
   header .mobile-menu {
     order: 1;
-    /* Premier Ã©lÃ©ment (Logo/Hamburger) */
+    /* Premier élément (Logo/Hamburger) */
     flex: 1;
     display: flex;
     justify-content: flex-start;
@@ -303,11 +319,11 @@ h6 {
 
   header .page-title {
     order: 2;
-    /* DeuxiÃ¨me Ã©lÃ©ment (centre) */
+    /* Deuxième élément (centre) */
     flex: 1 !important;
     text-align: center !important;
     margin: 0 !important;
-    /* Neutralise toutes les marges asymÃ©triques H1 natives */
+    /* Neutralise toutes les marges asymétriques H1 natives */
     padding: 0 !important;
     position: static !important;
     transform: none !important;
@@ -317,7 +333,7 @@ h6 {
 
   header .darkmode {
     order: 3;
-    /* Dernier Ã©lÃ©ment */
+    /* Dernier élément */
     flex: 1;
     display: flex;
     justify-content: flex-end;
@@ -427,16 +443,16 @@ h6 {
   top: 0 !important;
   z-index: 9999 !important;
 
-  /* CONTENEUR FANTÃ”ME (StabilitÃ© absolue du layout DOM) */
-  height: 200px !important;
-  /* Agrandissement pour accueillir le 4rem et protÃ©ger la Vue Graphique */
+  /* CONTENEUR FANTÔME (Stabilité absolue du layout DOM) */
+  height: 170px !important;
+  /* Test à 170px pour l'espace menu */
   background-color: transparent !important;
-  padding: 2rem 0.5rem 1.5rem 0 !important;
-  /* RÃˆGLE V2 : Alignement fixe 16px (0 ici pour s'aligner sur la sidebar globale) */
+  padding: 1rem 0.5rem 1.5rem 0 !important;
+  /* Padding optimisé */
+  /* RÈGLE V2 : Alignement fixe 16px (0 ici pour s'aligner sur la sidebar globale) */
   margin-top: 0 !important;
   border-bottom: none !important;
-  transition: none !important;
-  /* PilotÃ© en temps rÃ©el par Javascript */
+  /* Piloté en temps réel par Javascript */
   pointer-events: none;
   /* Laisse passer les clics dans la zone vide */
 }
@@ -450,14 +466,14 @@ h6 {
   padding-left: 0 !important;
 }
 
-/* Rendre interactif uniquement le contenu rÃ©el */
+/* Rendre interactif uniquement le contenu réel */
 .left>.flex-component:first-child>*,
 .left>.desktop-only:first-child>* {
   pointer-events: auto;
 }
 
 /* ==========================================================================
-   HEADER BINAIRE & GRAVITÃ‰ NATURELLE
+   HEADER BINAIRE & GRAVITÉ NATURELLE
    ========================================================================== */
 
 /* FORCE ALIGNEMENT VERTICAL STRICT VERS LE BAS POUR TOUTE LA SIDEBAR */
@@ -465,30 +481,33 @@ h6 {
   justify-content: flex-start !important;
 }
 
-/* Modification du header principal pour gÃ©rer la transition de hauteur */
+/* Modification du header principal pour gérer la transition de hauteur */
 .left>.flex-component:first-child,
 .left>.desktop-only:first-child {
   transition: height 0.3s ease !important;
   margin-bottom: 1rem !important;
-  /* Force l'Ã©cart constant avec VUE GRAPHIQUE */
+  /* Force l'écart constant avec VUE GRAPHIQUE */
 }
 
-/* RÃ©duction effective du conteneur en mode shrunk pour Ã©liminer le gap fantÃ´me.
-   IMPORTANT : On ne change PAS la hauteur du conteneur pour Ã©viter le flickering
-   de la barre de dÃ©filement. La hauteur DOM reste constante ; seul le contenu
-   interne (titre, icÃ´nes) et le ::before (bouclier visuel) se rÃ©duisent. */
+/* Réduction effective du conteneur en mode shrunk pour éliminer le gap fantôme.
+   IMPORTANT : On ne change PAS la hauteur du conteneur pour éviter le flickering
+   de la barre de défilement. La hauteur DOM reste constante ; seul le contenu
+   interne (titre, icônes) et le ::before (bouclier visuel) se réduisent. */
 .left>.desktop-only:first-child.is-shrunk,
 .left>.flex-component:first-child.is-shrunk {
   overflow: visible !important;
-  /* Le contenu dÃ©passe visuellement mais la hauteur DOM reste constante */
+  /* Le contenu dépasse visuellement mais la hauteur DOM reste constante */
 }
 
-/* GRAPHE TOUJOURS VISIBLE â€” DÃ©filement naturel avec la sidebar */
+/* GRAPHE TOUJOURS VISIBLE — Défilement naturel avec la sidebar */
 .left>.desktop-only:nth-child(2) {
   position: relative !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
+
+  /* FIX INDEX : Disparition complète du bloc graphe pour l'alignement */
+  /* On laisse RecentNotes (Fondamentaux) s'afficher normalement */
 }
 
 /* Masquer le bouton de graphe global */
@@ -500,7 +519,7 @@ h6 {
   display: none !important;
 }
 
-/* Le titre VUE GRAPHIQUE n'est plus sticky, il dÃ©file normalement */
+/* Le titre VUE GRAPHIQUE n'est plus sticky, il défile normalement */
 .left>.desktop-only:nth-child(2) .graph-header {
   position: relative !important;
   cursor: default !important;
@@ -510,7 +529,7 @@ h6 {
   margin-top: 0 !important;
 }
 
-/* Marge de sÃ©curitÃ© de la rangÃ©e d'icÃ´nes (Reader unclipped) */
+/* Marge de sécurité de la rangée d'icônes (Reader unclipped) */
 .left>.desktop-only:first-child>.row,
 .left>.flex-component:first-child>.row {
   padding-right: 1.5rem !important;
@@ -523,30 +542,35 @@ h6 {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  /* Supprimé left/right ici pour override propre */
   height: 155px;
+  /* Test à 155px pour une bordure plus fine */
   background-color: var(--light);
   z-index: -1;
+  left: -1.5rem;
+  /* Élargi pour couvrir le padding sidebar et éviter l'effet "bave" */
+  right: -1.5rem;
   border-bottom: solid 1px transparent;
   transition: height 0.3s ease, border-color 0.3s ease;
 }
 
 .left>.desktop-only:first-child.is-shrunk::before,
 .left>.flex-component:first-child.is-shrunk::before {
-  height: 123px;
+  height: 110px;
+  /* Ajusté proportionnellement */
   border-bottom: solid 1px rgba(0, 0, 0, 0.08);
-  /* LÃ©gÃ¨re dÃ©limitation en mode rÃ©duit */
+  /* Légère délimitation en mode réduit */
 }
 
-/* Le "DÃ©gradÃ©" (sous le bouclier) */
+/* Le "Dégradé" (sous le bouclier) */
 .left>.flex-component:first-child::after,
 .left>.desktop-only:first-child::after {
   content: "";
   position: absolute;
   top: 155px;
-  left: 0;
-  right: 0;
+  /* Aligné sur le bouclier test 155px */
+  left: -1.5rem;
+  right: -1.5rem;
   height: 1.5rem;
   background: linear-gradient(to bottom, var(--light) 10%, transparent 100%);
   pointer-events: none;
@@ -556,7 +580,8 @@ h6 {
 
 .left>.desktop-only:first-child.is-shrunk::after,
 .left>.flex-component:first-child.is-shrunk::after {
-  top: 123px;
+  top: 110px;
+  /* Match avec le bouclier shrunk 110px */
 }
 
 /* INTERPOLATION DU TITRE NODE */
@@ -635,7 +660,7 @@ h6 {
   max-width: 0 !important;
 }
 
-/* REMONTÃ‰E ET FUSION SINGLE-LINE (Recherche, Boutons) */
+/* REMONTÉE ET FUSION SINGLE-LINE (Recherche, Boutons) */
 .left>.flex-component:first-child>.row,
 .left>.desktop-only:first-child>.page-title+div,
 .left>.desktop-only:first-child>.row {
@@ -645,18 +670,18 @@ h6 {
 
 .left>.desktop-only:first-child.is-shrunk>.row,
 .left>.desktop-only:first-child.is-shrunk>.page-title+div {
-  /* Glisse vers le haut pour coller Ã  NODE 3rem */
+  /* Glisse vers le haut pour coller à NODE 3rem */
   transform: translateY(-38px) !important;
 }
 
-/* En mode shrunk, la rangÃ©e d'icÃ´nes distribue les 3 boutons
-   avec un Ã©cart rÃ©gulier de 1.45rem */
+/* En mode shrunk, la rangée d'icônes distribue les 3 boutons
+   avec un écart régulier de 1.45rem */
 .left>.desktop-only:first-child.is-shrunk>.row {
   justify-content: flex-start !important;
   gap: 1.45rem !important;
 }
 
-/* HARMONISATION DES LARGEURS D'ICÃ”NES ET RYTHME (SHRINK) */
+/* HARMONISATION DES LARGEURS D'ICÔNES ET RYTHME (SHRINK) */
 .left>.desktop-only:first-child .darkmode,
 .left>.desktop-only:first-child .readermode {
   width: 40px !important;
@@ -665,7 +690,7 @@ h6 {
   align-items: center;
 }
 
-/* Transition et effet hover sur les 3 icÃ´nes : scale progressif */
+/* Transition et effet hover sur les 3 icônes : scale progressif */
 .left button.search-button,
 .left button.darkmode,
 .left button.readermode {
@@ -689,7 +714,7 @@ h6 {
   margin-left: 0 !important;
 }
 
-/* Ã‰radication dÃ©finitive du scroll au sein de la TOC (Single Scroll) */
+/* Éradication définitive du scroll au sein de la TOC (Single Scroll) */
 .toc:not(.collapsed),
 .toc-content:not(.collapsed),
 .toc-content:not(.collapsed)>ul {
@@ -698,9 +723,9 @@ h6 {
 }
 
 .toc-content.collapsed {
-  /* Utilise max-height:0 au lieu de display:none pour Ã©viter le saut
-     de layout quand la TOC se replie (la hauteur se rÃ©duit sans
-     retirer l'Ã©lÃ©ment du flux DOM). */
+  /* Utilise max-height:0 au lieu de display:none pour éviter le saut
+     de layout quand la TOC se replie (la hauteur se réduit sans
+     retirer l'élément du flux DOM). */
   max-height: 0 !important;
   overflow: hidden !important;
   opacity: 0 !important;
@@ -712,7 +737,7 @@ h6 {
   display: none !important;
 }
 
-/* EmpÃªche le graphique repliÃ© de recouvrir les Ã©lÃ©ments en-dessous */
+/* Empêche le graphique replié de recouvrir les éléments en-dessous */
 /* Handled by .graph-content-container in Graph.tsx */
 .left .graph,
 .left .recent-notes,
@@ -726,7 +751,7 @@ h6 {
   transform: none !important;
 }
 
-/* 19. FORCER LA TAILLE DU GRAPHE DÃ‰PLOYÃ‰ (EVITER LE CANVAS 0px) */
+/* 19. FORCER LA TAILLE DU GRAPHE DÉPLOYÉ (EVITER LE CANVAS 0px) */
 .graph-outer {
   min-height: 250px;
   min-width: 100%;
@@ -836,16 +861,15 @@ article h3 .lucide-inline {
   opacity: 0.75 !important;
 }
 
-/* 30. Style "Mis-en-avant" (Repurposed Highlight) - Static Minimalist */
+/* 30. Style "Mis-en-avant" (Highlight) - Glow Paper Style */
 .text-highlight,
 mark {
-  background-color: transparent !important;
-  color: var(--tertiary) !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  border-bottom: none !important;
-  font-weight: 650 !important;
-  /* Slightly bolder for emphasis */
+  background-color: color-mix(in srgb, var(--tertiary) 45%, transparent) !important;
+  color: var(--darkgray) !important;
+  /* Force use of standard text color */
+  padding: 0 4px !important;
+  border-radius: 3px !important;
+  font-weight: 600 !important;
   margin: 0 !important;
 }
 
