@@ -199,9 +199,9 @@ export default ((userOpts?: Partial<Options>) => {
 
   .recent-container:hover .cyber-bullet {
     transform: scale(1.15) rotate(15deg);
-    /* Couleur de l'icône au survol : utilise la variable tertiaire qui est adaptive */
-    color: var(--tertiary) !important; 
-    filter: drop-shadow(0 0 4px var(--tertiary));
+    /* Couleur de l'icône au survol : utilise la variable secondaire */
+    color: var(--secondary) !important; 
+    filter: drop-shadow(0 0 4px var(--secondary));
   }
 
   .recent-li .desc a {

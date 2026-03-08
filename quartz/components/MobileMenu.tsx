@@ -147,8 +147,7 @@ export default ((userOpts?: Partial<Options>) => {
               <ul class="mobile-menu-toc mobile-explorer-ul toc-content">
                 {fileData.toc.map((tocEntry) => (
                   <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-                    <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-                      {tocEntry.text}
+                    <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug} dangerouslySetInnerHTML={{ __html: tocEntry.text }}>
                     </a>
                   </li>
                 ))}
@@ -465,7 +464,7 @@ export default ((userOpts?: Partial<Options>) => {
 
     /* 3. Titre actuellement visible / proche (Teinte Tertiaire Full) */
     .mobile-menu-toc a.is-active {
-      color: var(--tertiary);
+      color: var(--secondary);
       opacity: 1;
       border-left-color: transparent;
     }
@@ -473,8 +472,8 @@ export default ((userOpts?: Partial<Options>) => {
     /* 4. Le titre EXACTEMENT actif (Gutter 100% + Fluid Glass) */
     .mobile-menu-toc a.active {
       color: var(--dark) !important;
-      background-color: color-mix(in srgb, var(--tertiary) 9%, transparent);
-      border-left-color: var(--tertiary);
+      background-color: color-mix(in srgb, var(--secondary) 9%, transparent);
+      border-left-color: var(--secondary);
       opacity: 1 !important;
       font-weight: 600;
     }

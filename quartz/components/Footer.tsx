@@ -1,28 +1,27 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import style from "./styles/footer.scss"
-import { version } from "../../package.json"
-import { i18n } from "../i18n"
-
 interface Options {
   links: Record<string, string>
 }
 
 export default ((opts?: Options) => {
-  const Footer: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
+  const Footer: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
     const year = new Date().getFullYear()
-    const links = opts?.links ?? []
+    const links = opts?.links ?? {}
+    const linkEntries = Object.entries(links)
+
     return (
       <footer class={`${displayClass ?? ""}`}>
         <p>
-          Créé par Allan Le Guyader © {year}
-        </p>
-        <ul>
-          {Object.entries(links).map(([text, link]) => (
-            <li>
+          Contenu rédigé par Allan Le Guyader © {year}
+          {linkEntries.length > 0 && <span class="footer-separator"> • </span>}
+          {linkEntries.map(([text, link], index) => (
+            <>
               <a href={link}>{text}</a>
-            </li>
+              {index < linkEntries.length - 1 && <span class="footer-separator"> • </span>}
+            </>
           ))}
-        </ul>
+        </p>
       </footer>
     )
   }

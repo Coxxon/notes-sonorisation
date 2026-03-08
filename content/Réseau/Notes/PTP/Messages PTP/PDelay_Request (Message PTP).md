@@ -4,6 +4,7 @@ tags:
 aliases:
   - message Pdelay_Req
   - Pdelay_Req
+  - messages Pdelay_Req
 ---
 # Pdelay_Request (Message PTP)
 

@@ -134,7 +134,7 @@ button.desktop-explorer {
 
       &.active {
         opacity: 1;
-        color: var(--tertiary);
+        color: var(--secondary);
       }
     }
   }
@@ -177,7 +177,7 @@ button.desktop-explorer {
   }
 
   & div>a:hover {
-    color: var(--tertiary);
+    color: var(--secondary);
   }
 
   & div>button {

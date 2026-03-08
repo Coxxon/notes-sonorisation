@@ -4,6 +4,8 @@ aliases:
   - ports alternatifs
   - alternate port
   - alternate ports
+  - Alternate Ports
+  - Alternate Port
 tags:
   - définition
 ---

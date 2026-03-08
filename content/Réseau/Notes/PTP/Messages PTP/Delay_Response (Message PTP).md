@@ -5,6 +5,7 @@ aliases:
   - Delay_Resp
   - message Delay_Resp
   - Delay_Response
+  - messages Delay_Resp
 ---
 # Delay_Response (Message PTP)
 

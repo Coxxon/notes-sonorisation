@@ -22,6 +22,7 @@
 }
 
 :root[reader-mode="on"] {
+
   & .sidebar.left,
   & .sidebar.right {
     opacity: 0;
@@ -30,5 +31,31 @@
     &:hover {
       opacity: 1;
     }
+  }
+
+  /* Neutralisation des liens pour la lecture fluide */
+  article a.internal,
+  article a.external,
+  article a {
+    background-color: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    font-weight: inherit !important;
+    transition: color 0.1s ease !important;
+  }
+
+  article a.internal:hover,
+  article a.external:hover,
+  article a:hover {
+    color: #3f88c5 !important;
+    /* Retour au bleu originel (#3f88c5) au survol */
+    text-decoration: underline !important;
+  }
+
+  /* On garde le style "Mis-en-avant" visible car il est sémantique */
+  article .text-highlight,
+  article mark {
+    color: var(--tertiary) !important;
   }
 }

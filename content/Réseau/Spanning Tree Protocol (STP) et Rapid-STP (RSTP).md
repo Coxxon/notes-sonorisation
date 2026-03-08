@@ -13,7 +13,7 @@ aliases:
 
 Le Spanning Tree Protocol permet de créer des [[Segment|liens]] de redondance dans un réseau Ethernet sans créer de boucles.  
 Le principe : mettre en "veille" des ports sur les [[Segment|liens]] de redondance créant ainsi des [[Segment|liens]] dormant, prêts à être réactivés en cas de défaillance du [[Segment|lien]] actif.  
-Tout est géré automatiquement par le protocole en interne des switches, mais il est possible de forcer cette organisation pour quelle soit adaptée à nos besoins.
+Tout est géré automatiquement par le protocole en interne des switches, mais il est possible de forcer cette organisation pour qu'elle soit adaptée à nos besoins.
 Le Spanning Tree Protocol est ce qui détermine la **[[Topologie|topologie logique]]** d'un réseau (comment les switches sont interconnectés logiciellement), qui n'est pas nécessairement calquée sur sa **[[Topologie|topologie physique]]** (comment les switches sont interconnectés physiquement).
 
 ---
@@ -101,7 +101,7 @@ Le [[Path Cost|Root Path Cost]] correspond aux [[Path Cost|Path costs]] cumulés
 > 
 > Pour SW2 : le chemin le plus court pour atteindre le [[Root Bridge]] a un coût de 2.000. Le [[Root Port (RP)|Root Port]] est donc le port 19.
 > 
-> Pour SW3 : le chemin le plus court pour atteindre le [[Root Bridge]] a un coût de 2.000. Deux chemins possibles ont ce même coût, on les départage donc en fonction du port ID le plus bas côté [[Root Bridge]], c'est donc le port 20 de SW3 qui devient [[Root Port (RP)|Root Port]], puisqu'il est connecté au port 19 de SW1 (Port ID inférieur au port 20 de la liaison voisine)
+> Pour SW3 : le chemin le plus court pour atteindre le [[Root Bridge]] a un coût de 2.000. Deux chemins possibles ont ce même coût, on les départage donc en fonction du port ID le plus bas côté [[Root Bridge]], c'est donc le port 20 de SW3 qui devient [[Root Port (RP)|Root Port]], puisqu'il est connecté au port 19 de SW1 (Port ID inférieur au port 20 de la liaison voisine).
 > 
 > Pour SW4 : le chemin le plus court pour atteindre le [[Root Bridge]] a un coût de 4.000. Le [[Root Port (RP)|Root Port]] est donc le port 20.
 
@@ -113,7 +113,7 @@ C'est par ce port qu'un switch transmet les données qui viennent du [[Root Brid
 
 - Il y a **un seul [[Designated Port (DP)|Designated Port]] par [[segment]]**
 - **Tous les ports actifs du [[Root Bridge]] sont des [[Designated Port (DP)|Designated Ports]]**
-- **Un port ne peux pas être à la fois [[Root Port (RP)|Root Port]] et [[Designated Port (DP)|Designated Port]]**
+- **Un port ne peut pas être à la fois [[Root Port (RP)|Root Port]] et [[Designated Port (DP)|Designated Port]]**
 - En cas d'égalité de coût, le switch utilise des critères de départage ([[Bridge ID (BID)|Bridge ID]] puis [[Port Priority]])
 
 > [!Exemple]
@@ -130,9 +130,9 @@ C'est par ce port qu'un switch transmet les données qui viennent du [[Root Brid
 ---
 ### Alternate Port (AP, en RSTP) ou Blocking Port (BP, en STP)
 
-Un [[Alternate Port (AP)|Alternate Port]] est un port qui n'a été élu été ni comme [[Root Port (RP)|Root Port]], ni comme [[Designated Port (DP)|Designated Port]].  
+Un [[Alternate Port (AP)|Alternate Port]] est un port qui n'a été élu ni comme [[Root Port (RP)|Root Port]], ni comme [[Designated Port (DP)|Designated Port]].  
 Pour éviter une boucle qui résulterait en une [[tempête de broadcast]], le switch bloque ce port. Un [[Alternate Port (AP)|port alternatif]] ne transmet aucune donnée utilisateur, cependant il continue de recevoir et d'analyser les messages de configuration émanant du [[Root Bridge]].  
-Si le [[Root Port (RP)|Root Port]] ne reçoit plus d'informations du [[Root Bridge]], le switch consulte la mémoire des informations reçues par l'[[Alternate Port (AP)|Alternate Port]], pour vérifier que le chemin est toujours valide. Il prend le relai (à condition d'être l'[[Alternate Port (AP)|Alternate Port]] prioritaire du switch) et devient à son tour [[Root Port (RP)|Root Port]].
+Si le [[Root Port (RP)|Root Port]] ne reçoit plus d'informations du [[Root Bridge]], le switch consulte la mémoire des informations reçues par l'[[Alternate Port (AP)|Alternate Port]], pour vérifier que le chemin est toujours valide. Il prend le relais (à condition d'être l'[[Alternate Port (AP)|Alternate Port]] prioritaire du switch) et devient à son tour [[Root Port (RP)|Root Port]].
 
 > [!Exemple]
 > 
@@ -148,28 +148,28 @@ Les [[BPDU (Bridge Protocol Data Unit)|BPDU]] sont des messages de configuration
 
 Il existe deux types de messages [[BPDU (Bridge Protocol Data Unit)|BPDU]] :
 
-1. **Configuration [[BPDU (Bridge Protocol Data Unit)|BPDU]]** : Le message qui est envoyé à la fréquence indiquée par le [[Hello Time]] (2 secondes par défaut). Il permet de maintenir la [[topologie]] en place.  
+1. **Configuration [[BPDU (Bridge Protocol Data Unit)|BPDU]]** : Message qui est envoyé à la fréquence indiquée par le [[Hello Time]] (2 secondes par défaut). Il permet de maintenir la [[topologie]] en place.  
 2. **[[BPDU (Bridge Protocol Data Unit)|Topology Change Notification]] ([[BPDU (Bridge Protocol Data Unit)|TCN]])** : Signal d'alarme envoyé par un switch lorsqu'il détecte qu'un port tombe ou s'allume. Un [[BPDU (Bridge Protocol Data Unit)|TCN]] est envoyé vers le [[Root Bridge]] pour prévenir de la nécessite de rafraîchir les [[Table d'adresses MAC|tables d'adresses MAC]].
 
 #### Tableau des octets d'une trame Configuration BPDU
 
-| **Champ**                                                     | **Taille** | **Description technique**                                                                                                             |
-| ------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **Protocol ID**                                               | 2 octets   | Identifie le protocole Spanning Tree.                                                                                                 |
-| **Version**                                                   | 1 octet    | Permet au switch de détecter le protocole utilisé en face.                                                                            |
-| **[[BPDU (Bridge Protocol Data Unit)\|BPDU]] Type**           | 1 octet    | En STP, [[BPDU (Bridge Protocol Data Unit)\|Config BPDU]] ou [[BPDU (Bridge Protocol Data Unit)\|TCN]].<br>En RSTP, un seul type.     |
-| **Flags**                                                     | 1 octet    | En STP, utilisé pour notifier des changements de [[topologie]].<br>En RSTP, utilisé pour la [[négociation active]] entre les switchs. |
-| **Root ID**                                                   | 8 octets   | Root [[Bridge ID (BID)]]                                                                                                              |
-| **[[Path Cost\|Root Path Cost]]**                              | 4 octets   | Distance totale vers le [[Root Bridge]].                                                                                              |
-| **[[Bridge ID (BID)\|BID]]**                                  | 8 octets   | [[Bridge ID (BID)\|BID]] de l'émetteur                                                                                                |
-| **[[Port ID]]**                                               | 2 octets   | Identité du port qui a envoyé la trame.                                                                                               |
-| **Message Age**                                               | 2 octets   | Nombre de sauts (hops) depuis la racine.                                                                                              |
-| **[[Max Age]]**                                               | 2 octets   | Seuil de péremption du [[BPDU (Bridge Protocol Data Unit)\|BPDU]]                                                                     |
-| **[[Hello Time]]**                                            | 2 octets   | Intervalle entre chaque envoi de [[BPDU (Bridge Protocol Data Unit)\|BPDU]]                                                           |
-| **[[Forward Delay]]**                                         | 2 octets   | Temps de transition (Listening/Learning).                                                                                             |
+| **Champ**                                                     | **Taille** | **Description technique**                                                                                                              |
+| --------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Protocol ID**                                               | 2 octets   | Identifie le protocole Spanning Tree.                                                                                                  |
+| **Version**                                                   | 1 octet    | Permet au switch de détecter le protocole utilisé en face.                                                                             |
+| **[[BPDU (Bridge Protocol Data Unit)\|BPDU]] Type**           | 1 octet    | En STP, [[BPDU (Bridge Protocol Data Unit)\|Config BPDU]] ou [[BPDU (Bridge Protocol Data Unit)\|TCN]].<br>En RSTP, un seul type.      |
+| **Flags**                                                     | 1 octet    | En STP, utilisé pour notifier des changements de [[topologie]].<br>En RSTP, utilisé pour la [[négociation active]] entre les switches. |
+| **Root ID**                                                   | 8 octets   | Root [[Bridge ID (BID)]]                                                                                                               |
+| **[[Path Cost\|Root Path Cost]]**                              | 4 octets   | Distance totale vers le [[Root Bridge]].                                                                                               |
+| **[[Bridge ID (BID)\|BID]]**                                  | 8 octets   | [[Bridge ID (BID)\|BID]] de l'émetteur                                                                                                 |
+| **[[Port ID]]**                                               | 2 octets   | Identité du port qui a envoyé la trame.                                                                                                |
+| **Message Age**                                               | 2 octets   | Nombre de sauts (hops) depuis la racine.                                                                                               |
+| **[[Max Age]]**                                               | 2 octets   | Seuil de péremption du [[BPDU (Bridge Protocol Data Unit)\|BPDU]]                                                                      |
+| **[[Hello Time]]**                                            | 2 octets   | Intervalle entre chaque envoi de [[BPDU (Bridge Protocol Data Unit)\|BPDU]]                                                            |
+| **[[Forward Delay]]**                                         | 2 octets   | Temps de transition (Listening/Learning).                                                                                              |
 
 ---
-### BPDU (STP)
+### Messages BPDU STP
 
 #### Configuration BPDU (STP)
 
@@ -195,7 +195,7 @@ Les messages [[BPDU (Bridge Protocol Data Unit)|TCN]] forcent les switches à ra
 4. C'est seulement après ces 15s que les anciennes adresses sont effacées et que les nouvelles routes sont apprises.
 
 ---
-### BPDU (Bridge Protocol Data Unit)
+### Messages BPDU RSTP
 
 #### Configuration BPDU (RSTP)
 
@@ -219,7 +219,7 @@ Les messages [[BPDU (Bridge Protocol Data Unit)|TCN]] forcent les switches à ra
 4. Le réseau apprend les nouvelles routes en quelques millisecondes.
 
 >[!WARNING] Il faut que les ports access soient configurés en mode Edge Port.
->Si ce n'est pas le cas, à chaque connexion ou déconnexion d'un appareil (comme un PC), un TCN est envoyé et tout le réseau doit passer par le processus de rafraichissement des tables d'adresses MAC, ce qui peut provoquer des instabilités.  
+>Si ce n'est pas le cas, à chaque connexion ou déconnexion d'un appareil (comme un PC), un TCN est envoyé et tout le réseau doit passer par le processus de rafraîchissement des tables d'adresses MAC, ce qui peut provoquer des instabilités.  
 >Les Edge Ports ont la particularité de ne pas générer de TCN.
 
 ---
@@ -228,27 +228,27 @@ Les messages [[BPDU (Bridge Protocol Data Unit)|TCN]] forcent les switches à ra
 Le [[Convergence Time|temps de convergence]] désigne le temps nécessaire pour que les switches mettent à jour leur [[BPDU (Bridge Protocol Data Unit)|BPDU]] et s'adaptent à des changements de [[topologie]].
 #### STP Convergence Time
 
-En cas de coupure d'un [[segment]] actif, les [[Blocking Port (BP)|Blocking Ports]] passent par plusieurs états avant la promotion de l'un d'entre-eux en [[Root Port (RP)|Root Port]] : 
+En cas de coupure d'un [[segment]] actif, les [[Blocking Port (BP)|Blocking Ports]] passent par plusieurs états avant la promotion de l'un d'entre eux en [[Root Port (RP)|Root Port]] : 
  
 1. [[Blocking]] : Au moment où le [[Segment|lien]] est coupé, il se passe 20 secondes qui correspondent au [[Max Age]]. Cette étape peut sauter si le switch détecte que le câble a été physiquement débranché.
-2. [[Listening (STP)]] : Pendant 15 secondes les ports en état [[blocking]] écoutent les [[BPDU (Bridge Protocol Data Unit)|BPDUs]] et en envoient dans le réseau pour annoncer leur priorité. À la fin de ce processus, le nouveau [[Root Port (RP)|Root Port]] est désigné.
+2. [[Listening (STP)|Listening]] : Pendant 15 secondes les ports en état [[blocking]] écoutent les [[BPDU (Bridge Protocol Data Unit)|BPDUs]] et en envoient dans le réseau pour annoncer leur priorité. À la fin de ce processus, le nouveau [[Root Port (RP)|Root Port]] est désigné.
 3. [[Learning]] : 15 secondes pendant lesquelles le nouveau [[Root Port (RP)|Root Port]] remplit sa [[table d'adresses MAC]].
 4. [[Forwarding]] : Le [[Root Port (RP)|Root Port]] commence à faire circuler les données.
 
 >Total : de 30 à 50 secondes.
 
 ---
-### RSTP Convergence Time
+#### RSTP Convergence Time
 
+Avec [[Spanning Tree Protocol (STP) et Rapid-STP (RSTP)|RSTP]], les états [[Blocking]], [[Listening (STP)|Listening]] et [[Disabled]] sont tous fusionnés en l'état [[Discarding]].
 En cas de coupure d'un [[segment]] actif, le switch réagit très rapidement afin de rétablir la communication via un [[Alternate Port (AP)|Alternate Port]] :
 
-1. Détection : Le switch attend 3 [[BPDU (Bridge Protocol Data Unit)|BPDU]] manquants (6 secondes) dans le cas d'une panne logique. En cas de panne physique, le port passe en état Link Down et cette étape est ignorée. les [[Alternate Port (AP)|Alternate Port]] restent en état [[Discarding]] (il n'écoute que les [[BPDU (Bridge Protocol Data Unit)|BPDU]])
+1. Détection : Le switch attend 3 [[BPDU (Bridge Protocol Data Unit)|BPDU]] manquants (6 secondes) dans le cas d'une panne logique. En cas de panne physique, le port passe en état Link Down et cette étape est ignorée. Les [[Alternate Port (AP)|Alternate Ports]] restent en état [[Discarding]] (il n'écoute que les [[BPDU (Bridge Protocol Data Unit)|BPDU]])
 2. [[Proposal]] : Le switch envoie un message depuis ses [[Alternate Port (AP)|Alternate Ports]] pour proposer de devenir [[Root Port (RP)|Root Port]].
 3. [[Agreement]] : Le switch voisin valide la proposition pour l'[[Alternate Port (AP)|Alternate Port]] avec meilleure priorité.
 4. [[Forwarding]] : Le nouveau [[Root Port (RP)|Root Port]] commence à faire circuler les données **dès la réception de l'[[Agreement]]**.
 
  >Total : de 10 millisecondes à 6 secondes.
-
 
 ---
 ## Sécurisation et optimisation
@@ -257,10 +257,10 @@ Le protocole Spanning Tree est basé sur la confiance : par défaut, n'importe q
 Pour garantir sa stabilité, des mécanismes existent pour protéger le réseau et accélérer la connexion des [[Appareil terminal|appareils terminaux]].
 
 ---
-### Edge Port|PortFast / Edge Port
+### Edge Port / PortFast
 
 **Passage instantané en [[Forwarding]].**  
-Permet de brancher des [[Appareil terminal|appareils terminaux]] sans attendre les délais de Listening/Learning.
+Permet de brancher des [[Appareil terminal|appareils terminaux]] sans attendre les délais de [[Listening (STP)|Listening]]/[[Learning]].
 
 >[!ERROR] Boucle immédiate si on y branche un switch.
 
@@ -285,7 +285,7 @@ Permet de faire passer des données utilisateur entre deux domaines de Spanning 
 
 **Empêche un switch branché sur le port de devenir [[Root Bridge]].**  
 Si un [[Superior BPDU|BPDU supérieur]] est reçu sur un port avec cette option activée, le port passe en état [[Root-Inconsistent]], arrêtant le trafic.  
-Il s'agit d'une protection descendante, on l'active sur les ports des switches en amont vers les switches en aval hiérarchiquement.
+Il s'agit d'une protection descendante : on l'active sur les ports des switches situés en amont, vers les switches en aval hiérarchiquement.
 
 >[!WARNING] À activer sur les ports Access mais à utiliser avec précaution sur les trunks. Root Guard pourrait bloquer des liens de secours légitimes.
 
@@ -307,5 +307,5 @@ Il existe différentes manières pour un switch de gérer le Spanning Tree. Cert
 - STP (CST : Common Spanning Tree) : Une seule instance pour tous les [[VLAN (Virtual Local Area Network)|VLANs]].
 - RSTP : Une seule instance pour tous les [[VLAN (Virtual Local Area Network)|VLANs]].
 - MSTP (Multiple STP) : Permet de grouper des [[VLAN (Virtual Local Area Network)|VLANs]] dans différentes instances.
-- PVST (Per [[VLAN (Virtual Local Area Network)]] ST) / Rapid-PVST : Une instance par [[VLAN (Virtual Local Area Network)]] (Propriétaire Cisco).
+- PVST (Per [[VLAN (Virtual Local Area Network)|VLAN]] ST) / Rapid-PVST : Une instance par [[VLAN (Virtual Local Area Network)|VLAN]](Propriétaire Cisco).
 

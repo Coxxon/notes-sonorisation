@@ -12,7 +12,7 @@ tags:
 ---
 # Pdelay_Response_Follow_Up (Message PTP)  
 
-**Message complémentaire au [[Pdelay_Response (Message PTP)|Pdelay_Resp]].
+**Message complémentaire au [[Pdelay_Response (Message PTP)|Pdelay_Resp]].**
 
 - Utilisé uniquement en mode [[Two-Step Method (PTP)|Two-Step]].  
 - Le message Follow_up contient l'horodatage du moment exact où le [[PDelay_Request (Message PTP)|message Pdelay_Req]] est sorti du port de la [[Master Clock]].  

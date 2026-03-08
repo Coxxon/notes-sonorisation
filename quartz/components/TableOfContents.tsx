@@ -60,8 +60,7 @@ export default ((opts?: Partial<Options>) => {
           <OverflowList>
             {fileData.toc.map((tocEntry) => (
               <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-                <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-                  {tocEntry.text}
+                <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug} dangerouslySetInnerHTML={{ __html: tocEntry.text }}>
                 </a>
               </li>
             ))}

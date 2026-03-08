@@ -159,7 +159,7 @@ export default ((userOpts?: Partial<Options>) => {
     )
   }
 
-Explorer.css = style + `
+  Explorer.css = style + `
   /* On force le conteneur global à laisser respirer le titre */
   .explorer {
     overflow: visible !important;

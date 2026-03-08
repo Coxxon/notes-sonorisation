@@ -11,8 +11,9 @@ aliases:
 ---
 # Precision Time Protocol (PTP)  
 
+Le Precision Time Protocol permet la [[Synchronisation|synchronisation]] des [[Horloge interne|horloges internes]] des appareils d'un réseau. 
 ## Hiérarchie PTP
-
+![[Réseau/Notes/PTP/Images/PTP Diagrams-Hiérarchie PTP.drawio.svg|516]]
 ### Grandmaster Clock (GMC)
 
 La [[Grandmaster Clock (GMC)]] est l'horloge de référence, au sommet de la hiérarchie PTP.  
@@ -42,7 +43,7 @@ Lorsqu'un appareil PTP est allumé, il commence par écouter les [[Announce (Mes
 - Si aucun message ne lui parvient, le port devient un [[Master Clock|port Master]], et commence à émettre périodiquement ses propres [[Announce (Message PTP)|messages Announce]].  
 - Si au contraire il reçoit des [[Announce (Message PTP)|messages Announce]], il utilise les informations qu'ils contiennent dans le [[Best Master Clock Algorithm (BMCA)]], afin de départager qui sera [[Master Clock|Master]] entre lui et l'émetteur du message.  
 
-Le [[Best Master Clock Algorithm (BMCA)|BMCA]] regarde 6 critères pour donner départager quelle horloge aura la priorité pour devenir [[Grandmaster Clock (GMC)|Grandmaster Clock]] :  
+Le [[Best Master Clock Algorithm (BMCA)|BMCA]] regarde 6 critères pour définir quelle horloge aura la priorité pour devenir [[Grandmaster Clock (GMC)|Grandmaster Clock]] :  
 
 1. **Priority 1** : Valeur configurable comprise en 0 et 255, plus la valeur est basse plus la priorité est haute.  
 2. **Clock Class** : Valeur comprise entre 0 et 255, plus la valeur est basse plus la priorité est haute. 
@@ -165,22 +166,80 @@ Avec la [[One-Step Method (PTP)|One-Step Method]] :
 ---
 ### Diffusion des messages Sync
 
+
+#### E2E Transparent Clocks  
+
+**Dans un réseau [[End-to-End (E2E)|End-to-End]] avec des [[Transparent Clock|Transparent Clocks]] :**  
+
+- La [[Grandmaster Clock (GMC)|GMC]] envoie à intervalles réguliers des [[Sync (Message PTP)|messages Sync]] suivis d'un [[Follow_Up (Message PTP)|message Follow_Up]].
+- Les [[Sync (Message PTP)|messages Sync]] traversent les [[Transparent Clock|Transparent Clocks]] qui indiquent leur [[Residence Time]] dans le [[Correction Field]].
+- Les [[Follower Clock|Follower Clocks]] reçoivent les messages et sont capables d'éliminer le [[Jitter]] en soustrayant le [[Residence Time]] de chaque [[Transparent Clock]].
 ![[PTP Diagrams-E2E TC SYNC.drawio.svg|850]]
 
 ---
+#### P2P Transparent Clocks  
+
+**Dans un Réseau [[Peer-to-Peer (P2P)|Peer-to-Peer]] avec des [[Transparent Clock|Transparent Clocks]] :**  
+
+- La [[Grandmaster Clock (GMC)|GMC]] envoie à intervalles réguliers des [[Sync (Message PTP)|messages Sync]] suivis d'un [[Follow_Up (Message PTP)|message Follow_Up]].
+- Les [[Sync (Message PTP)|messages Sync]] traversent les [[Transparent Clock|Transparent Clocks]] qui indiquent leur [[Residence Time]] ==ainsi que le [[Peer Delay]] de leur port [[Follower Clock|Follower]]== dans le [[Correction Field]].
+- Les [[Follower Clock|Follower Clocks]] reçoivent les messages et sont capables d'éliminer le [[Jitter]] en soustrayant le [[Residence Time]] **ainsi que le [[Peer Delay]]** de chaque [[Transparent Clock]].
+![[PTP Diagrams-P2P TC SYNC.drawio.svg|850]]
+
+---
+#### E2E ou P2P Boundary Clocks  
+
+**Dans un réseau [[End-to-End (E2E)|End-to-End]] ou [[Peer-to-Peer (P2P)|Peer-to-Peer]] avec des [[Boundary Clock|Boundary Clocks]]:**  
+
+- La [[Grandmaster Clock (GMC)|GMC]] ainsi que chaque [[Boundary Clock]] envoient à intervalles réguliers des [[Sync (Message PTP)|messages Sync]] suivis d'un [[Follow_Up (Message PTP)|message Follow_Up]].
+- Les [[Follower Clock|Follower Clocks]] (dont les ports [[Follower Clock|Follower]] des [[Boundary Clock|Boundary Clocks]]) reçoivent les messages sans [[Jitter]].
+
 ![[PTP Diagrams-P2P & E2E BC SYNC.drawio.svg|850]]
 
 ---
-![[PTP Diagrams-P2P TC SYNC.drawio.svg|850]]
 
 ### Échanges des messages de délai
+
+#### E2E Transparent Clocks  
+
+**Dans un réseau [[End-to-End (E2E)|End-to-End]] avec des [[Transparent Clock|Transparent Clocks]] :**  
+
+- La [[Follower Clock|Follower Clock]] envoie à sa [[Master Clock]] des [[Delay_Request (Message PTP)|Delay_Req]] à intervalles réguliers.
+- Les [[Delay_Request (Message PTP)|message Delay_Req]] traversent les [[Transparent Clock|Transparent Clocks]] qui indiquent leur [[Residence Time]] dans le [[Correction Field]].
+- La [[Master Clock]] reçoit les [[Delay_Request (Message PTP)|messages Delay_Req]] et répond avec des [[Delay_Response (Message PTP)|messages Delay_Resp]].
+- Les messages [[Delay_Response (Message PTP)|Delay_Resp]] traversent les [[Transparent Clock|Transparent Clocks]] qui indiquent leur [[Residence Time]].
+- La [[Follower Clock]] reçoit les [[Delay_Response (Message PTP)|messages Delay_Resp]] et est capable d'éliminer le [[Jitter]] en soustrayant le [[Residence Time]] de chaque [[Transparent Clock]].
 
 ![[PTP Diagrams-E2E TC DELAY.drawio.svg|850]]
 
 ---
+
+#### E2E Boundary Clocks
+
+**Dans un réseau [[End-to-End (E2E)|End-to-End]] avec des [[Boundary Clock|Boundary Clocks]] :**  
+
+- Les [[Follower Clock|Follower Clocks]] (incluant les ports [[Follower Clock|Follower]] des [[Boundary Clock|Boundary Clocks]]) envoient à leur [[Master Clock]] des [[Delay_Request (Message PTP)|Delay_Req]] à intervalles réguliers.
+- Les [[Master Clock|Master Clocks]] reçoivent les [[Delay_Request (Message PTP)|messages Delay_Req]] et répondent avec des [[Delay_Response (Message PTP)|messages Delay_Resp]].
+- Les [[Follower Clock|Follower Clocks]] reçoivent les [[Delay_Response (Message PTP)|messages Delay_Resp]] sans [[Jitter]].
+
 ![[PTP Diagrams-E2E BC DELAY.drawio.svg|850]]
 
 ---
+
+#### P2P Transparent Clocks ou Boundary Clocks
+
+**Dans un réseau [[Peer-to-Peer (P2P)|Peer-to-Peer]] avec des [[Transparent Clock|Transparent Clocks]] ou des [[Boundary Clock|Boundary Clocks]] :**  
+
+- Tous les ports [[Follower Clock|Follower]] comme les ports [[Master Clock|Master]] envoient à leur voisin direct des [[PDelay_Request (Message PTP)|messages Pdelay_Req]] à intervalles réguliers.
+- Chaque port recevant un [[PDelay_Request (Message PTP)|message Pdelay_Req]] répond avec un [[Pdelay_Response (Message PTP)|message Pdelay_Resp]] suivi d'un [[Pdelay_Response_Follow_Up (Message PTP)|message Pdelay_Resp_Follow_Up]].
+- Chaque port recevant cette réponse peut calculer le Path Delay pour chaque [[Segment|segment]] du réseau.
+
+> [!NOTE]
+> - Le message Pdelay_Resp_Follow_Up n'est envoyé qu'en mode Two-Step.
+> - Les Transparent Clocks utilisent le délai mesuré pour l'ajouter au Correction Field des messages Sync qui les traversent.
+> - Les Boundary Clocks utilisent le délai mesuré pour calculer leur propre décalage par rapport à leur Master et ajuster leur horloge interne.
+
+
 ![[PTP Diagrams-P2P TC DELAY.drawio.svg|850]]
 
 ---

@@ -9,7 +9,7 @@ aliases:
 ---
 # Trame Ethernet  
 
-**Unité de transport en couche 2 ([[Modèle OSI]]).**
+**Unité de transport en couche 2 ([[Protocole TCP-IP]]).**
 
 Enveloppe dans laquelle sont encapsulées les données.  
 Elle comporte une entête avec l'adresse MAC source et destination.  
