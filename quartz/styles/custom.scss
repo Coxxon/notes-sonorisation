@@ -181,21 +181,19 @@ h6 {
 
 article h1 {
   font-size: 2.2rem !important;
-  background-color: color-mix(in srgb, var(--secondary) 18%, transparent);
-  padding: 0.5rem 1rem;
+  border-bottom: 3px solid var(--secondary);
+  padding: 0 0 0.2rem 0;
   margin-top: 2.5rem;
   margin-bottom: 1.5rem;
-  backdrop-filter: blur(4px);
   border-radius: 0;
 }
 
 article h2 {
   font-size: 2rem !important;
-  background-color: color-mix(in srgb, var(--secondary) 10%, transparent);
-  padding: 0.4rem 0.8rem;
+  border-bottom: 2px solid var(--secondary);
+  padding: 0 0 0.1rem 0;
   margin-top: 2rem;
   margin-bottom: 1.2rem;
-  backdrop-filter: blur(4px);
   border-radius: 0;
 }
 
@@ -715,21 +713,54 @@ h6 {
 }
 
 /* Éradication définitive du scroll au sein de la TOC (Single Scroll) */
-.toc:not(.collapsed),
-.toc-content:not(.collapsed),
-.toc-content:not(.collapsed)>ul {
-  max-height: none !important;
-  overflow: visible !important;
+/* Transition fluide bidirectionnelle de la TOC (Grid trick) */
+.toc-content {
+  display: grid !important;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+  /* Masque de fondu doux : transparent sur les 10 premiers pixels pour l'effet magic fade au repli */
+  mask-image: linear-gradient(to bottom, transparent 0px, black 10px);
+}
+
+.toc-header,
+.recent-header {
+  transition: margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin-bottom: 0.3rem !important;
+  /* Ultra-tight spacing */
+}
+
+.toc-header.collapsed,
+.recent-header.collapsed {
+  margin-bottom: -0.2rem !important;
+  /* Move next title even closer when collapsed */
+}
+
+.toc-content>ul {
+  min-height: 0;
+  margin: 0 !important;
+  padding-top: 10px !important;
+  /* Safety Buffer for the mask */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: translateY(0);
 }
 
 .toc-content.collapsed {
-  /* Utilise max-height:0 au lieu de display:none pour éviter le saut
-     de layout quand la TOC se replie (la hauteur se réduit sans
-     retirer l'élément du flux DOM). */
-  max-height: 0 !important;
-  overflow: hidden !important;
+  grid-template-rows: 0fr !important;
   opacity: 0 !important;
-  transition: max-height 0.3s ease, opacity 0.2s ease !important;
+}
+
+.toc-content.collapsed>ul {
+  transform: translateY(-12px);
+  /* Plus subtil pour éviter l'effet de "passage sous" */
+}
+
+/* Reduced gap between Sidebar components */
+.left .recent-notes,
+.left .toc {
+  margin-bottom: 0.5rem !important;
+  /* Maximum density */
 }
 
 /* 22. FILTRE INDEX & FIX GRAPH OVERLAP */
@@ -824,6 +855,10 @@ article h3 .lucide-inline {
 .explorer ul li>a,
 .toc-content ul li>a {
   transition: all 0.2s ease !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  display: block !important;
+  width: 100% !important;
 }
 
 /* 1. Survol (Hover) commun */

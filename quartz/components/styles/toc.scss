@@ -4,12 +4,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  min-height: 1.4rem;
   flex: 0 0.5 auto;
-
-  &:has(button.toc-header.collapsed) {
-    flex: 0 1 1.4rem;
-  }
 }
 
 button.toc-header {
@@ -44,7 +39,6 @@ button.toc-header {
   position: relative;
   margin: 0.5rem 0;
   padding: 0;
-  max-height: calc(100% - 2rem);
   overscroll-behavior: contain;
 
   &>li>a {
@@ -52,11 +46,11 @@ button.toc-header {
     opacity: 0.5;
     transition: all 0.3s ease;
     display: block;
-    width: 100%;
     padding: 0.25rem 0.6rem 0.15rem 0.6rem;
     border-left: 3px solid transparent;
     line-height: inherit;
     position: relative;
+    word-break: break-word;
 
     &:hover {
       opacity: 0.8 !important;

@@ -142,8 +142,13 @@ export default ((userOpts?: Partial<Options>) => {
     padding: 0;
     cursor: pointer;
     color: var(--dark);
-    margin-bottom: 0.75rem;
-  }
+    margin-bottom: 0.3rem;
+    transition: color 0.2s ease, margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.recent-header.collapsed {
+    margin-bottom: -0.2rem;
+}
   
   .recent-header h3 {
     font-family: 'Rajdhani', sans-serif !important;
@@ -164,8 +169,30 @@ export default ((userOpts?: Partial<Options>) => {
     transform: rotate(-90deg);
   }
 
+  .recent-content-container {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    overflow: hidden;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    mask-image: linear-gradient(to bottom, transparent 0px, black 10px);
+  }
+
+  .recent-content-container .recent-ul {
+    min-height: 0;
+    margin: 0 !important;
+    padding-top: 10px !important; /* Safety buffer */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+  }
+
   .recent-content-container.collapsed {
-    display: none;
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  .recent-content-container.collapsed .recent-ul {
+    transform: translateY(-12px);
   }
 
   .recent-ul {
