@@ -79,7 +79,12 @@ export default ((opts?: Partial<Options>) => {
     align-items: center !important;
     cursor: pointer !important;
     width: 100% !important;
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 0.3rem !important;
+    transition: margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .toc-header.collapsed {
+    margin-bottom: -0.2rem !important;
   }
 
   .toc-header h3 {

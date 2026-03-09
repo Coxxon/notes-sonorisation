@@ -1,7 +1,6 @@
 ---
 title: Accueil
 ---
-
 # Bienvenue sur **NODE**
 
 
