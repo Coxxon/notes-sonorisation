@@ -93,7 +93,7 @@ export default ((opts?: Partial<Options>) => {
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
     font-weight: 500 !important;
-    color: #ffffff !important;
+    color: var(--dark) !important;
     margin: 0 !important;
   }
 

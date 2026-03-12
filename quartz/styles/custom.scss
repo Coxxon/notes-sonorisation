@@ -1,4 +1,4 @@
-﻿@use "./base.scss";
+@use "./base.scss";
 @use "./variables.scss" as *;
 
 
@@ -722,6 +722,7 @@ h6 {
   overflow: hidden !important;
   /* Masque de fondu doux : transparent sur les 10 premiers pixels pour l'effet magic fade au repli */
   mask-image: linear-gradient(to bottom, transparent 0px, black 10px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 10px);
 }
 
 .toc-header,
@@ -729,6 +730,32 @@ h6 {
   transition: margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   margin-bottom: 0.3rem !important;
   /* Ultra-tight spacing */
+
+  & svg {
+    color: var(--dark) !important;
+    fill: var(--dark) !important;
+    stroke: var(--dark) !important;
+  }
+}
+
+/* Fix for Search icon (outline) */
+.search-button svg {
+  fill: none !important;
+  stroke: var(--darkgray) !important;
+  & * {
+    fill: none !important;
+    stroke: var(--darkgray) !important;
+  }
+}
+
+/* Fix for RecentNotes diamonds (outline) */
+.cyber-bullet {
+  fill: none !important;
+  stroke: var(--darkgray) !important;
+  & * {
+    fill: none !important;
+    stroke: var(--darkgray) !important;
+  }
 }
 
 .toc-header.collapsed,
