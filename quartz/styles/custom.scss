@@ -733,28 +733,30 @@ h6 {
 
   & svg {
     color: var(--dark) !important;
-    fill: var(--dark) !important;
-    stroke: var(--dark) !important;
+    fill: currentColor !important;
+    stroke: currentColor !important;
   }
 }
 
 /* Fix for Search icon (outline) */
 .search-button svg {
+  color: var(--darkgray) !important;
   fill: none !important;
-  stroke: var(--darkgray) !important;
+  stroke: currentColor !important;
   & * {
     fill: none !important;
-    stroke: var(--darkgray) !important;
+    stroke: currentColor !important;
   }
 }
 
 /* Fix for RecentNotes diamonds (outline) */
 .cyber-bullet {
+  color: var(--darkgray) !important;
   fill: none !important;
-  stroke: var(--darkgray) !important;
+  stroke: currentColor !important;
   & * {
     fill: none !important;
-    stroke: var(--darkgray) !important;
+    stroke: currentColor !important;
   }
 }
 

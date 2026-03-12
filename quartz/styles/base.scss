@@ -75,12 +75,14 @@ g[class~="typst-text"] {
 /* SVG Theme Sync (Surgical for Apple/WebKit compatibility) */
 svg {
   color: var(--darkgray);
-  transition: color 0.2s ease;
+  fill: currentColor;
+  stroke: currentColor;
+  transition: color 0.2s ease, fill 0.2s ease, stroke 0.2s ease;
 }
 
-/* Only transition fill/stroke where they are used */
+/* Only transition children where they are used */
 path, circle, polyline, rect, ellipse {
-  transition: fill 0.2s ease, stroke 0.2s ease;
+  transition: inherit;
 }
 
 path[class~="typst-shape"] {
